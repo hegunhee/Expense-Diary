@@ -9,10 +9,10 @@ class AmountInputField extends StatelessWidget {
     required this.controller,
     this.validator,
   });
-  
+
   /// 텍스트 컨트롤러
   final TextEditingController controller;
-  
+
   /// 유효성 검사 함수
   final String? Function(String?)? validator;
 
@@ -87,8 +87,8 @@ class _ThousandsSeparatorInputFormatter extends TextInputFormatter {
 
   String _formatNumber(int number) {
     return number.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]},',
-        );
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    );
   }
 }

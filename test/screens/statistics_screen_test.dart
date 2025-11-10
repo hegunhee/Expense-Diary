@@ -35,14 +35,16 @@ void main() {
 
     testWidgets('전체 요약 카드가 표시된다', (tester) async {
       // 샘플 데이터 추가
-      await mockService.addExpense(Expense(
-        id: '1',
-        title: '점심',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
+      await mockService.addExpense(
+        Expense(
+          id: '1',
+          title: '점심',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -63,14 +65,16 @@ void main() {
 
     testWidgets('감정별 분석이 표시된다', (tester) async {
       // 샘플 데이터 추가
-      await mockService.addExpense(Expense(
-        id: '1',
-        title: '점심',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
+      await mockService.addExpense(
+        Expense(
+          id: '1',
+          title: '점심',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -93,38 +97,46 @@ void main() {
 
     testWidgets('퍼센테이지가 올바르게 계산된다', (tester) async {
       // 샘플 데이터 추가 (총 4건)
-      await mockService.addExpense(Expense(
-        id: '1',
-        title: '점심1',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
-      await mockService.addExpense(Expense(
-        id: '2',
-        title: '점심2',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
-      await mockService.addExpense(Expense(
-        id: '3',
-        title: '커피',
-        amount: 5000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.normal,
-        date: DateTime.now(),
-      ));
-      await mockService.addExpense(Expense(
-        id: '4',
-        title: '택시',
-        amount: 15000,
-        category: ExpenseCategory.transport,
-        status: ExpenseStatus.regret,
-        date: DateTime.now(),
-      ));
+      await mockService.addExpense(
+        Expense(
+          id: '1',
+          title: '점심1',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
+      await mockService.addExpense(
+        Expense(
+          id: '2',
+          title: '점심2',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
+      await mockService.addExpense(
+        Expense(
+          id: '3',
+          title: '커피',
+          amount: 5000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.normal,
+          date: DateTime.now(),
+        ),
+      );
+      await mockService.addExpense(
+        Expense(
+          id: '4',
+          title: '택시',
+          amount: 15000,
+          category: ExpenseCategory.transport,
+          status: ExpenseStatus.regret,
+          date: DateTime.now(),
+        ),
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -145,14 +157,16 @@ void main() {
 
     testWidgets('감정 카드를 클릭하면 상세 화면으로 이동한다', (tester) async {
       // 샘플 데이터 추가
-      await mockService.addExpense(Expense(
-        id: '1',
-        title: '점심',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
+      await mockService.addExpense(
+        Expense(
+          id: '1',
+          title: '점심',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -181,14 +195,16 @@ void main() {
 
     testWidgets('건수가 0인 감정 카드는 클릭할 수 없다', (tester) async {
       // 잘 쓴 돈만 추가
-      await mockService.addExpense(Expense(
-        id: '1',
-        title: '점심',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
+      await mockService.addExpense(
+        Expense(
+          id: '1',
+          title: '점심',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -217,14 +233,16 @@ void main() {
 
     testWidgets('프로그레스 바가 표시된다', (tester) async {
       // 샘플 데이터 추가
-      await mockService.addExpense(Expense(
-        id: '1',
-        title: '점심',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
+      await mockService.addExpense(
+        Expense(
+          id: '1',
+          title: '점심',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -263,22 +281,26 @@ void main() {
 
     testWidgets('해당 감정의 지출만 표시된다', (tester) async {
       // 다양한 감정의 지출 추가
-      await mockService.addExpense(Expense(
-        id: '1',
-        title: '좋은 점심',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
-      await mockService.addExpense(Expense(
-        id: '2',
-        title: '아까운 커피',
-        amount: 5000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.regret,
-        date: DateTime.now(),
-      ));
+      await mockService.addExpense(
+        Expense(
+          id: '1',
+          title: '좋은 점심',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
+      await mockService.addExpense(
+        Expense(
+          id: '2',
+          title: '아까운 커피',
+          amount: 5000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.regret,
+          date: DateTime.now(),
+        ),
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -300,22 +322,26 @@ void main() {
 
     testWidgets('요약 카드가 표시된다', (tester) async {
       // 샘플 데이터 추가
-      await mockService.addExpense(Expense(
-        id: '1',
-        title: '점심',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
-      await mockService.addExpense(Expense(
-        id: '2',
-        title: '저녁',
-        amount: 15000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
+      await mockService.addExpense(
+        Expense(
+          id: '1',
+          title: '점심',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
+      await mockService.addExpense(
+        Expense(
+          id: '2',
+          title: '저녁',
+          amount: 15000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -355,14 +381,16 @@ void main() {
 
     testWidgets('지출 카드를 클릭하면 수정 화면으로 이동한다', (tester) async {
       // 샘플 데이터 추가
-      await mockService.addExpense(Expense(
-        id: '1',
-        title: '점심',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
-        date: DateTime.now(),
-      ));
+      await mockService.addExpense(
+        Expense(
+          id: '1',
+          title: '점심',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.good,
+          date: DateTime.now(),
+        ),
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -387,16 +415,18 @@ void main() {
 
     testWidgets('감정 변경 이력이 표시된다', (tester) async {
       // 감정 변경 이력이 있는 지출 추가
-      await mockService.addExpense(Expense(
-        id: '1',
-        title: '점심',
-        amount: 10000,
-        category: ExpenseCategory.food,
-        status: ExpenseStatus.regret,
-        date: DateTime.now(),
-        previousStatus: ExpenseStatus.good,
-        statusChangeReason: '생각보다 별로였음',
-      ));
+      await mockService.addExpense(
+        Expense(
+          id: '1',
+          title: '점심',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          status: ExpenseStatus.regret,
+          date: DateTime.now(),
+          previousStatus: ExpenseStatus.good,
+          statusChangeReason: '생각보다 별로였음',
+        ),
+      );
 
       await tester.pumpWidget(
         ProviderScope(

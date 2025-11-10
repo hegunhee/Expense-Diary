@@ -7,7 +7,7 @@ class NoResultsState extends StatelessWidget {
     super.key,
     required this.searchQuery,
   });
-  
+
   /// 검색어
   final String searchQuery;
 

@@ -8,7 +8,7 @@ class EmptyEmotionState extends StatelessWidget {
     super.key,
     required this.status,
   });
-  
+
   /// 표시할 감정 상태
   final ExpenseStatus status;
 

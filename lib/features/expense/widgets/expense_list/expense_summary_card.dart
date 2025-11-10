@@ -13,6 +13,7 @@ class ExpenseSummaryCard extends StatelessWidget {
 
   /// 총 금액
   final int totalAmount;
+
   /// 선택된 필터
   final ExpenseStatus? selectedFilter;
 

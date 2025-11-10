@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class EmotionDetailScreen extends ConsumerWidget {
   /// 감정별 상세 화면 생성자
   const EmotionDetailScreen({super.key, required this.status});
-  
+
   /// 표시할 감정 상태
   final ExpenseStatus status;
 
@@ -50,14 +50,18 @@ class EmotionDetailScreen extends ConsumerWidget {
       body: expensesAsync.when(
         data: (expenses) {
           // 해당 감정의 지출만 필터링
-          final filteredExpenses = expenses.where((e) => e.status == status).toList()
-            ..sort((a, b) => b.date.compareTo(a.date));
+          final filteredExpenses =
+              expenses.where((e) => e.status == status).toList()
+                ..sort((a, b) => b.date.compareTo(a.date));
 
           if (filteredExpenses.isEmpty) {
             return EmptyEmotionState(status: status);
           }
 
-          final totalAmount = filteredExpenses.fold(0, (sum, e) => sum + e.amount);
+          final totalAmount = filteredExpenses.fold(
+            0,
+            (sum, e) => sum + e.amount,
+          );
 
           return Column(
             children: [

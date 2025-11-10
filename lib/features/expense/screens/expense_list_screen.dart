@@ -83,31 +83,41 @@ class ExpenseListScreen extends ConsumerWidget {
                   FilterChipWidget(
                     label: '전체',
                     isSelected: selectedFilter == null,
-                    onTap: () => ref.read(filterControllerProvider.notifier).setFilter(null),
+                    onTap: () => ref
+                        .read(filterControllerProvider.notifier)
+                        .setFilter(null),
                   ),
                   const SizedBox(width: 8),
                   FilterChipWidget(
                     label: '잘 쓴 돈',
                     isSelected: selectedFilter == ExpenseStatus.good,
-                    onTap: () => ref.read(filterControllerProvider.notifier).setFilter(ExpenseStatus.good),
+                    onTap: () => ref
+                        .read(filterControllerProvider.notifier)
+                        .setFilter(ExpenseStatus.good),
                   ),
                   const SizedBox(width: 8),
                   FilterChipWidget(
                     label: '그저 그런 돈',
                     isSelected: selectedFilter == ExpenseStatus.normal,
-                    onTap: () => ref.read(filterControllerProvider.notifier).setFilter(ExpenseStatus.normal),
+                    onTap: () => ref
+                        .read(filterControllerProvider.notifier)
+                        .setFilter(ExpenseStatus.normal),
                   ),
                   const SizedBox(width: 8),
                   FilterChipWidget(
                     label: '아까운 돈',
                     isSelected: selectedFilter == ExpenseStatus.regret,
-                    onTap: () => ref.read(filterControllerProvider.notifier).setFilter(ExpenseStatus.regret),
+                    onTap: () => ref
+                        .read(filterControllerProvider.notifier)
+                        .setFilter(ExpenseStatus.regret),
                   ),
                   const SizedBox(width: 8),
                   FilterChipWidget(
                     label: '후회한 돈',
                     isSelected: selectedFilter == ExpenseStatus.bad,
-                    onTap: () => ref.read(filterControllerProvider.notifier).setFilter(ExpenseStatus.bad),
+                    onTap: () => ref
+                        .read(filterControllerProvider.notifier)
+                        .setFilter(ExpenseStatus.bad),
                   ),
                 ],
               ),
@@ -131,7 +141,8 @@ class ExpenseListScreen extends ConsumerWidget {
                     itemCount: expenses.length,
                     itemBuilder: (context, index) {
                       final expense = expenses[index];
-                      final showDate = index == 0 ||
+                      final showDate =
+                          index == 0 ||
                           !_isSameDay(expense.date, expenses[index - 1].date);
 
                       return Column(

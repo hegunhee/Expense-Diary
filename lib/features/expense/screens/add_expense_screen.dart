@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class AddExpenseScreen extends ConsumerStatefulWidget {
   /// 지출 추가/수정 화면 생성자
   const AddExpenseScreen({super.key, this.expense});
-  
+
   /// 수정할 지출 (null이면 추가 모드)
   final Expense? expense;
 
@@ -27,25 +27,28 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   ExpenseCategory? _selectedCategory = ExpenseCategory.food;
   ExpenseStatus? _selectedStatus = ExpenseStatus.good;
   ExpenseStatus? _originalStatus; // 원래 감정 상태 저장
-  
+
   bool get _isEditMode => widget.expense != null;
-  bool get _isStatusChanged => _isEditMode && _originalStatus != null && _originalStatus != _selectedStatus;
-  
+  bool get _isStatusChanged =>
+      _isEditMode &&
+      _originalStatus != null &&
+      _originalStatus != _selectedStatus;
+
   @override
   void initState() {
     super.initState();
-    
+
     // 금액 입력 제한 리스너
     _amountController.addListener(() {
       final text = _amountController.text.replaceAll(',', '');
       final amount = int.tryParse(text) ?? 0;
-      
+
       if (amount > 1000000) {
         _amountController.text = '1,000,000';
         _amountController.selection = TextSelection.fromPosition(
           TextPosition(offset: _amountController.text.length),
         );
-        
+
         // 토스트 메시지 표시
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -56,14 +59,16 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
         );
       }
     });
-    
+
     // 수정 모드인 경우 기존 데이터로 초기화
     if (_isEditMode) {
       _titleController.text = widget.expense!.title;
-      _amountController.text = widget.expense!.amount.toString().replaceAllMapped(
-        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-        (Match m) => '${m[1]},',
-      );
+      _amountController.text = widget.expense!.amount
+          .toString()
+          .replaceAllMapped(
+            RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+            (Match m) => '${m[1]},',
+          );
       _memoController.text = widget.expense!.memo ?? '';
       _selectedCategory = widget.expense!.category;
       _selectedStatus = widget.expense!.status;
@@ -120,22 +125,31 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       return;
     }
 
-    final amount = int.tryParse(_amountController.text.replaceAll(',', '')) ?? 0;
+    final amount =
+        int.tryParse(_amountController.text.replaceAll(',', '')) ?? 0;
 
     final expense = Expense(
-      id: _isEditMode ? widget.expense!.id : DateTime.now().millisecondsSinceEpoch.toString(),
+      id: _isEditMode
+          ? widget.expense!.id
+          : DateTime.now().millisecondsSinceEpoch.toString(),
       title: _titleController.text,
       amount: amount,
       category: _selectedCategory!,
       status: _selectedStatus!,
       date: _isEditMode ? widget.expense!.date : DateTime.now(),
       memo: _memoController.text.isEmpty ? null : _memoController.text,
-      previousStatus: _isStatusChanged ? _originalStatus : widget.expense?.previousStatus,
-      statusChangeReason: _isStatusChanged ? _statusChangeReasonController.text.trim() : widget.expense?.statusChangeReason,
+      previousStatus: _isStatusChanged
+          ? _originalStatus
+          : widget.expense?.previousStatus,
+      statusChangeReason: _isStatusChanged
+          ? _statusChangeReasonController.text.trim()
+          : widget.expense?.statusChangeReason,
     );
 
     if (_isEditMode) {
-      ref.read(expenseControllerProvider.notifier).updateExpense(expense.id, expense);
+      ref
+          .read(expenseControllerProvider.notifier)
+          .updateExpense(expense.id, expense);
     } else {
       ref.read(expenseControllerProvider.notifier).addExpense(expense);
     }
@@ -172,7 +186,10 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                 Navigator.of(dialogContext).pop();
               },
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
               ),
               child: const Text(
                 '취소',
@@ -185,7 +202,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                ref.read(expenseControllerProvider.notifier).deleteExpense(widget.expense!.id);
+                ref
+                    .read(expenseControllerProvider.notifier)
+                    .deleteExpense(widget.expense!.id);
                 Navigator.of(dialogContext).pop(); // 다이얼로그 닫기
                 Navigator.of(context).pop(); // 수정 화면 닫기
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -197,7 +216,10 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF4CAF50),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -340,15 +362,24 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                   fillColor: const Color(0xFFFFF9E6),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFFFFB74D), width: 2),
+                    borderSide: const BorderSide(
+                      color: Color(0xFFFFB74D),
+                      width: 2,
+                    ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFFFFB74D), width: 2),
+                    borderSide: const BorderSide(
+                      color: Color(0xFFFFB74D),
+                      width: 2,
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFFFF9800), width: 2),
+                    borderSide: const BorderSide(
+                      color: Color(0xFFFF9800),
+                      width: 2,
+                    ),
                   ),
                   contentPadding: const EdgeInsets.all(16),
                 ),

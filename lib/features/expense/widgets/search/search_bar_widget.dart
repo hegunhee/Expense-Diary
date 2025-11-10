@@ -9,13 +9,13 @@ class SearchBarWidget extends StatelessWidget {
     required this.onChanged,
     this.onClear,
   });
-  
+
   /// 텍스트 컨트롤러
   final TextEditingController controller;
-  
+
   /// 텍스트 변경 콜백
   final ValueChanged<String> onChanged;
-  
+
   /// 초기화 콜백
   final VoidCallback? onClear;
 

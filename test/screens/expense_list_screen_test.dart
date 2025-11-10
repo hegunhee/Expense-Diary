@@ -20,7 +20,7 @@ void main() {
 
       // 화면이 렌더링되는지 확인
       expect(find.byType(ExpenseListScreen), findsOneWidget);
-      
+
       // 앱바 타이틀 확인
       expect(find.text('지출 목록'), findsOneWidget);
     });
@@ -42,7 +42,7 @@ void main() {
       expect(find.text('잘 쓴 돈'), findsWidgets);
       expect(find.text('그저 그런 돈'), findsWidgets);
       expect(find.text('아까운 돈'), findsWidgets);
-      
+
       // 후회한 돈은 스크롤 필요
       final scrollView = find.byType(SingleChildScrollView);
       await tester.drag(scrollView.first, const Offset(-200, 0));

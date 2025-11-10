@@ -13,6 +13,7 @@ class SearchResultItem extends StatelessWidget {
 
   /// 지출 데이터
   final Expense expense;
+
   /// 탭 콜백
   final VoidCallback onTap;
 
@@ -79,7 +80,8 @@ class SearchResultItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   // 감정 상태 (변경 이력 포함)
-                  if (expense.previousStatus != null && expense.statusChangeReason != null)
+                  if (expense.previousStatus != null &&
+                      expense.statusChangeReason != null)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -23,17 +23,20 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
   /// 지출 추가
   Future<void> addExpense(Expense expense) async {
     await _service.addExpense(expense);
-    state = AsyncValue.data([...state.value ?? [], expense]
-      ..sort((a, b) => b.date.compareTo(a.date)));
+    state = AsyncValue.data(
+      [...state.value ?? [], expense]..sort((a, b) => b.date.compareTo(a.date)),
+    );
   }
 
   /// 지출 수정
   Future<void> updateExpense(String id, Expense expense) async {
     await _service.updateExpense(expense);
-    state = AsyncValue.data([
-      for (final item in state.value ?? [])
-        if (item.id == id) expense else item,
-    ]..sort((a, b) => b.date.compareTo(a.date)));
+    state = AsyncValue.data(
+      [
+        for (final item in state.value ?? [])
+          if (item.id == id) expense else item,
+      ]..sort((a, b) => b.date.compareTo(a.date)),
+    );
   }
 
   /// 지출 삭제
@@ -54,9 +57,10 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
 }
 
 /// 지출 컨트롤러 Provider
-final expenseControllerProvider = AsyncNotifierProvider<ExpenseController, List<Expense>>(
-  ExpenseController.new,
-);
+final expenseControllerProvider =
+    AsyncNotifierProvider<ExpenseController, List<Expense>>(
+      ExpenseController.new,
+    );
 
 /// 필터 컨트롤러
 class FilterController extends Notifier<ExpenseStatus?> {
@@ -70,9 +74,10 @@ class FilterController extends Notifier<ExpenseStatus?> {
 }
 
 /// 필터 컨트롤러 Provider
-final filterControllerProvider = NotifierProvider<FilterController, ExpenseStatus?>(
-  FilterController.new,
-);
+final filterControllerProvider =
+    NotifierProvider<FilterController, ExpenseStatus?>(
+      FilterController.new,
+    );
 
 /// 필터링된 지출 목록
 final filteredExpenseProvider = Provider<List<Expense>>((ref) {

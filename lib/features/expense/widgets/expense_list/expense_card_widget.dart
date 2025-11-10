@@ -84,7 +84,8 @@ class ExpenseCardWidget extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   // 감정 변경이 있는 경우
-                  if (expense.previousStatus != null && expense.statusChangeReason != null)
+                  if (expense.previousStatus != null &&
+                      expense.statusChangeReason != null)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -208,7 +209,9 @@ class ExpenseCardWidget extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () {
-                ref.read(expenseControllerProvider.notifier).deleteExpense(expense.id);
+                ref
+                    .read(expenseControllerProvider.notifier)
+                    .deleteExpense(expense.id);
                 Navigator.pop(dialogContext);
               },
               child: const Text(
