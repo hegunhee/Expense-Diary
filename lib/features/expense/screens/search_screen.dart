@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
-import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
-import 'package:expense_tracker/features/expense/widgets/search/search_bar_widget.dart';
 import 'package:expense_tracker/features/expense/widgets/search/empty_search_state.dart';
 import 'package:expense_tracker/features/expense/widgets/search/no_results_state.dart';
+import 'package:expense_tracker/features/expense/widgets/search/search_bar_widget.dart';
 import 'package:expense_tracker/features/expense/widgets/search/search_result_item.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 검색 화면
 class SearchScreen extends ConsumerStatefulWidget {
+  /// 검색 화면 생성자
   const SearchScreen({super.key});
 
   @override
@@ -17,8 +17,8 @@ class SearchScreen extends ConsumerStatefulWidget {
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
+  final _searchController = TextEditingController();
+  var _searchQuery = '';
 
   @override
   void dispose() {
@@ -54,7 +54,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         children: [
           // 검색 입력 필드 (위젯으로 분리)
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: SearchBarWidget(
               controller: _searchController,
               onChanged: (value) {
@@ -75,8 +75,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           if (_searchQuery.isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
+                horizontal: 16,
+                vertical: 8,
               ),
               child: Text(
                 '검색 결과',

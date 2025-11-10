@@ -1,6 +1,6 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/services/expense_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// ExpenseService Provider
 final expenseServiceProvider = Provider<ExpenseService>((ref) {
@@ -63,6 +63,7 @@ class FilterController extends Notifier<ExpenseStatus?> {
   @override
   ExpenseStatus? build() => null;
 
+  /// 필터 상태 설정
   void setFilter(ExpenseStatus? status) {
     state = status;
   }
@@ -86,7 +87,7 @@ final filteredExpenseProvider = Provider<List<Expense>>((ref) {
       return expenses.where((expense) => expense.status == filter).toList();
     },
     loading: () => [],
-    error: (_, __) => [],
+    error: (error, stackTrace) => [],
   );
 });
 

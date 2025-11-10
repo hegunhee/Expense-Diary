@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/screens/emotion_detail_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 /// 통계 화면
 class StatisticsScreen extends ConsumerWidget {
+  /// 통계 화면 생성자
   const StatisticsScreen({super.key});
 
   @override
@@ -79,7 +80,7 @@ class StatisticsScreen extends ConsumerWidget {
             final amount = stat['amount'] as int;
             final percentage = totalCount > 0 ? (count / totalCount * 100) : 0.0;
             return _buildStatCard(status: status, count: count, amount: amount, percentage: percentage, context: context);
-          }).toList(),
+          }),
         ],
       ),
     );
@@ -87,10 +88,10 @@ class StatisticsScreen extends ConsumerWidget {
 
   Map<ExpenseStatus, Map<String, dynamic>> _calculateStatistics(List<Expense> expenses) {
     final stats = <ExpenseStatus, Map<String, dynamic>>{};
-    for (var status in ExpenseStatus.values) {
+    for (final status in ExpenseStatus.values) {
       stats[status] = {'count': 0, 'amount': 0};
     }
-    for (var expense in expenses) {
+    for (final expense in expenses) {
       stats[expense.status]!['count'] = (stats[expense.status]!['count'] as int) + 1;
       stats[expense.status]!['amount'] = (stats[expense.status]!['amount'] as int) + expense.amount;
     }
@@ -103,7 +104,7 @@ class StatisticsScreen extends ConsumerWidget {
       decoration: BoxDecoration(
         gradient: const LinearGradient(colors: [Color(0xFF4CAF50), Color(0xFF66BB6A)], begin: Alignment.topLeft, end: Alignment.bottomRight),
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Color(0xFF4CAF50).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
+        boxShadow: [BoxShadow(color: const Color(0xFF4CAF50).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

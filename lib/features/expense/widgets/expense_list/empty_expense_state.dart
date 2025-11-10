@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 /// 지출 내역 없음 상태 위젯
 class EmptyExpenseState extends StatelessWidget {
+  /// 지출 내역 없음 상태 위젯 생성자
   const EmptyExpenseState({super.key});
 
   @override

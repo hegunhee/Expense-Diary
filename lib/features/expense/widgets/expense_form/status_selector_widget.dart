@@ -1,16 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:flutter/material.dart';
 
 /// 감정 상태 선택 위젯
 class StatusSelectorWidget extends StatelessWidget {
-  final ExpenseStatus? selectedStatus;
-  final ValueChanged<ExpenseStatus?> onChanged;
-
+  /// 감정 상태 선택 위젯 생성자
   const StatusSelectorWidget({
     super.key,
     required this.selectedStatus,
     required this.onChanged,
   });
+  
+  /// 선택된 감정 상태
+  final ExpenseStatus? selectedStatus;
+  
+  /// 감정 상태 변경 콜백
+  final ValueChanged<ExpenseStatus?> onChanged;
 
   @override
   Widget build(BuildContext context) {

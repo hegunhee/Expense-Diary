@@ -1,18 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/amount_input_field.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/category_selector_widget.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/status_selector_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 지출 추가/수정 화면
 class AddExpenseScreen extends ConsumerStatefulWidget {
-  final Expense? expense; // 수정할 지출 (null이면 추가 모드)
-  
+  /// 지출 추가/수정 화면 생성자
   const AddExpenseScreen({super.key, this.expense});
+  
+  /// 수정할 지출 (null이면 추가 모드)
+  final Expense? expense;
 
   @override
   ConsumerState<AddExpenseScreen> createState() => _AddExpenseScreenState();

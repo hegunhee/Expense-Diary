@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/widgets/emotion_detail/emotion_summary_card.dart';
 import 'package:expense_tracker/features/expense/widgets/emotion_detail/empty_emotion_state.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_list/expense_card_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 감정별 상세 화면
 class EmotionDetailScreen extends ConsumerWidget {
-  final ExpenseStatus status;
-
+  /// 감정별 상세 화면 생성자
   const EmotionDetailScreen({super.key, required this.status});
+  
+  /// 표시할 감정 상태
+  final ExpenseStatus status;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

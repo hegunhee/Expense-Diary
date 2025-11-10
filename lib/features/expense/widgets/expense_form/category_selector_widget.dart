@@ -1,16 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:flutter/material.dart';
 
 /// 카테고리 선택 위젯
 class CategorySelectorWidget extends StatelessWidget {
-  final ExpenseCategory? selectedCategory;
-  final ValueChanged<ExpenseCategory?> onChanged;
-
+  /// 카테고리 선택 위젯 생성자
   const CategorySelectorWidget({
     super.key,
     required this.selectedCategory,
     required this.onChanged,
   });
+  
+  /// 선택된 카테고리
+  final ExpenseCategory? selectedCategory;
+  
+  /// 카테고리 변경 콜백
+  final ValueChanged<ExpenseCategory?> onChanged;
 
   @override
   Widget build(BuildContext context) {

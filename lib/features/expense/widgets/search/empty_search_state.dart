@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 /// 검색 전 빈 상태 위젯
 class EmptySearchState extends StatelessWidget {
+  /// 검색 전 빈 상태 위젯 생성자
   const EmptySearchState({super.key});
 
   @override
