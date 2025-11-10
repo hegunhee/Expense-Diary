@@ -9,13 +9,13 @@ class FilterChipWidget extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
   });
-  
+
   /// 필터 라벨
   final String label;
-  
+
   /// 선택 여부
   final bool isSelected;
-  
+
   /// 탭 콜백
   final VoidCallback onTap;
 
@@ -29,7 +29,9 @@ class FilterChipWidget extends StatelessWidget {
           color: isSelected ? const Color(0xFF4CAF50) : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? const Color(0xFF4CAF50) : const Color(0xFFE0E0E0),
+            color: isSelected
+                ? const Color(0xFF4CAF50)
+                : const Color(0xFFE0E0E0),
           ),
         ),
         child: Text(

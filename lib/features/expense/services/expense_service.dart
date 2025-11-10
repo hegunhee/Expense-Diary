@@ -40,9 +40,12 @@ class ExpenseService {
     if (_box == null || query.isEmpty) {
       return getAllExpenses();
     }
-    
+
     return _box!.values
-        .where((expense) => expense.title.toLowerCase().contains(query.toLowerCase()))
+        .where(
+          (expense) =>
+              expense.title.toLowerCase().contains(query.toLowerCase()),
+        )
         .toList()
       ..sort((a, b) => b.date.compareTo(a.date));
   }
@@ -52,7 +55,7 @@ class ExpenseService {
     if (_box == null) {
       return [];
     }
-    
+
     return _box!.values
         .where((expense) => expense.category == category)
         .toList()
@@ -64,10 +67,8 @@ class ExpenseService {
     if (_box == null) {
       return [];
     }
-    
-    return _box!.values
-        .where((expense) => expense.status == status)
-        .toList()
+
+    return _box!.values.where((expense) => expense.status == status).toList()
       ..sort((a, b) => b.date.compareTo(a.date));
   }
 }

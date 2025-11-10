@@ -38,26 +38,25 @@ class MockExpenseService implements ExpenseService {
     if (query.isEmpty) {
       return getAllExpenses();
     }
-    
+
     return _expenses
-        .where((expense) => expense.title.toLowerCase().contains(query.toLowerCase()))
+        .where(
+          (expense) =>
+              expense.title.toLowerCase().contains(query.toLowerCase()),
+        )
         .toList()
       ..sort((a, b) => b.date.compareTo(a.date));
   }
 
   @override
   List<Expense> filterByCategory(ExpenseCategory category) {
-    return _expenses
-        .where((expense) => expense.category == category)
-        .toList()
+    return _expenses.where((expense) => expense.category == category).toList()
       ..sort((a, b) => b.date.compareTo(a.date));
   }
 
   @override
   List<Expense> filterByStatus(ExpenseStatus status) {
-    return _expenses
-        .where((expense) => expense.status == status)
-        .toList()
+    return _expenses.where((expense) => expense.status == status).toList()
       ..sort((a, b) => b.date.compareTo(a.date));
   }
 }

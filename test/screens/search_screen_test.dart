@@ -29,10 +29,10 @@ void main() {
 
       // 화면이 렌더링되는지 확인
       expect(find.byType(SearchScreen), findsOneWidget);
-      
+
       // 앱바 타이틀 확인
       expect(find.text('검색'), findsOneWidget);
-      
+
       // 검색 필드 확인
       expect(find.byType(TextField), findsOneWidget);
       expect(find.text('지출 이름으로 검색'), findsOneWidget);
@@ -280,7 +280,7 @@ void main() {
 /// 테스트용 샘플 데이터 추가 헬퍼 함수
 Future<void> _addSampleData(MockExpenseService service) async {
   final now = DateTime.now();
-  
+
   final sampleExpenses = [
     Expense(
       id: '1',
@@ -325,7 +325,7 @@ Future<void> _addSampleData(MockExpenseService service) async {
       date: now.subtract(const Duration(days: 4)),
     ),
   ];
-  
+
   for (final expense in sampleExpenses) {
     await service.addExpense(expense);
   }

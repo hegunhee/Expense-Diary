@@ -19,7 +19,7 @@ void main() {
 
       // Hive 초기화
       await Hive.initFlutter();
-      
+
       // Hive 어댑터 등록
       Hive.registerAdapter(ExpenseCategoryAdapter());
       Hive.registerAdapter(ExpenseStatusAdapter());

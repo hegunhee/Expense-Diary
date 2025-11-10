@@ -23,7 +23,7 @@ void main() {
 
       // 화면이 렌더링되는지 확인
       expect(find.byType(AddExpenseScreen), findsOneWidget);
-      
+
       // 앱바 타이틀 확인
       expect(find.text('새로운 지출 추가'), findsOneWidget);
     });
@@ -46,7 +46,7 @@ void main() {
       expect(find.text('카테고리'), findsOneWidget);
       expect(find.text('감정'), findsOneWidget);
       expect(find.text('메모 (선택 사항)'), findsOneWidget);
-      
+
       // 저장 버튼 확인
       expect(find.text('저장'), findsOneWidget);
     });

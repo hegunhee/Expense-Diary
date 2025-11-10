@@ -9,10 +9,10 @@ class StatusSelectorWidget extends StatelessWidget {
     required this.selectedStatus,
     required this.onChanged,
   });
-  
+
   /// 선택된 감정 상태
   final ExpenseStatus? selectedStatus;
-  
+
   /// 감정 상태 변경 콜백
   final ValueChanged<ExpenseStatus?> onChanged;
 
@@ -38,7 +38,10 @@ class StatusSelectorWidget extends StatelessWidget {
             return GestureDetector(
               onTap: () => onChanged(status),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   color: isSelected ? status.color : Colors.white,
                   borderRadius: BorderRadius.circular(12),

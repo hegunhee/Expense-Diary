@@ -14,8 +14,10 @@ class EmotionSummaryCard extends StatelessWidget {
 
   /// 감정 상태
   final ExpenseStatus status;
+
   /// 지출 건수
   final int count;
+
   /// 총 금액
   final int totalAmount;
 
