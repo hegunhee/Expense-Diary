@@ -1,10 +1,9 @@
-import 'package:hive_flutter/hive_flutter.dart';
-
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 /// 지출 데이터 처리 서비스
 class ExpenseService {
-  static const String _boxName = 'expenses';
+  static const _boxName = 'expenses';
   Box<Expense>? _box;
 
   /// Hive Box 초기화

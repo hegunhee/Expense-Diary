@@ -1,7 +1,6 @@
+import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import 'package:expense_tracker/features/expense/models/expense.dart';
 
 /// 검색 결과 아이템 위젯
 class SearchResultItem extends StatelessWidget {

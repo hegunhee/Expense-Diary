@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 /// 검색 결과 없음 상태 위젯
 class NoResultsState extends StatelessWidget {
-  final String searchQuery;
-
+  /// 검색 결과 없음 상태 위젯 생성자
   const NoResultsState({
     super.key,
     required this.searchQuery,
   });
+  
+  /// 검색어
+  final String searchQuery;
 
   @override
   Widget build(BuildContext context) {

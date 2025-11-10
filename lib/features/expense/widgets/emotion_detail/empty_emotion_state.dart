@@ -1,14 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:flutter/material.dart';
 
 /// 감정별 지출 없음 상태 위젯
 class EmptyEmotionState extends StatelessWidget {
-  final ExpenseStatus status;
-
+  /// 감정별 지출 없음 상태 위젯 생성자
   const EmptyEmotionState({
     super.key,
     required this.status,
   });
+  
+  /// 표시할 감정 상태
+  final ExpenseStatus status;
 
   @override
   Widget build(BuildContext context) {

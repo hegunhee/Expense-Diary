@@ -3,14 +3,18 @@ import 'package:flutter/services.dart';
 
 /// 금액 입력 필드 위젯
 class AmountInputField extends StatelessWidget {
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
-
+  /// 금액 입력 필드 위젯 생성자
   const AmountInputField({
     super.key,
     required this.controller,
     this.validator,
   });
+  
+  /// 텍스트 컨트롤러
+  final TextEditingController controller;
+  
+  /// 유효성 검사 함수
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {

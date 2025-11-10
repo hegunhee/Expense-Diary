@@ -2,16 +2,22 @@ import 'package:flutter/material.dart';
 
 /// 검색바 위젯
 class SearchBarWidget extends StatelessWidget {
-  final TextEditingController controller;
-  final ValueChanged<String> onChanged;
-  final VoidCallback? onClear;
-
+  /// 검색바 위젯 생성자
   const SearchBarWidget({
     super.key,
     required this.controller,
     required this.onChanged,
     this.onClear,
   });
+  
+  /// 텍스트 컨트롤러
+  final TextEditingController controller;
+  
+  /// 텍스트 변경 콜백
+  final ValueChanged<String> onChanged;
+  
+  /// 초기화 콜백
+  final VoidCallback? onClear;
 
   @override
   Widget build(BuildContext context) {

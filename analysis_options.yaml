@@ -46,3 +46,6 @@ linter:
 
     # Cascade 연산자 강제 안함
     cascade_invocations: false # cascade (..) 사용 강제 안함
+    
+    # Setter 관련 규칙 비활성화 (avoid_setters_without_getters와 충돌 방지)
+    use_setters_to_change_properties: false
