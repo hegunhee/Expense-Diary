@@ -1,4 +1,5 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_statistics.dart';
 import 'package:expense_tracker/features/expense/services/expense_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -100,4 +101,15 @@ final filteredExpenseProvider = Provider<List<Expense>>((ref) {
 final totalExpenseProvider = Provider<int>((ref) {
   final expenses = ref.watch(filteredExpenseProvider);
   return expenses.fold<int>(0, (sum, expense) => sum + expense.amount);
+});
+
+/// 통계 데이터 Provider (가공된 통계 정보 제공)
+final expenseStatisticsProvider = Provider<ExpenseStatistics>((ref) {
+  final expensesAsync = ref.watch(expenseControllerProvider);
+  
+  return expensesAsync.when(
+    data: ExpenseStatistics.fromExpenses,
+    loading: () => ExpenseStatistics.empty,
+    error: (_, stack) => ExpenseStatistics.empty,
+  );
 });
