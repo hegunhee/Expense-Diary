@@ -1,5 +1,6 @@
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_statistics.dart';
 import 'package:expense_tracker/features/expense/screens/emotion_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +13,8 @@ class StatisticsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expensesAsync = ref.watch(expenseControllerProvider);
+    // 가공된 통계 데이터를 직접 받음
+    final statistics = ref.watch(expenseStatisticsProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -33,32 +35,9 @@ class StatisticsScreen extends ConsumerWidget {
         elevation: 0,
         centerTitle: true,
       ),
-      body: expensesAsync.when(
-        data: (expenses) {
-          if (expenses.isEmpty) {
-            return _buildEmptyState();
-          }
-
-          final stats = _calculateStatistics(expenses);
-          final totalAmount = stats.values.fold(
-            0,
-            (sum, stat) => sum + (stat['amount'] as int),
-          );
-          final totalCount = stats.values.fold(
-            0,
-            (sum, stat) => sum + (stat['count'] as int),
-          );
-
-          return _buildStatisticsContent(
-            stats,
-            totalAmount,
-            totalCount,
-            context,
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('오류가 발생했습니다: $error')),
-      ),
+      body: statistics.totalCount == 0
+          ? _buildEmptyState()
+          : _buildStatisticsContent(statistics, context),
     );
   }
 
@@ -79,9 +58,7 @@ class StatisticsScreen extends ConsumerWidget {
   }
 
   Widget _buildStatisticsContent(
-    Map<ExpenseStatus, Map<String, dynamic>> stats,
-    int totalAmount,
-    int totalCount,
+    ExpenseStatistics statistics,
     BuildContext context,
   ) {
     return SingleChildScrollView(
@@ -89,7 +66,7 @@ class StatisticsScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSummaryCard(totalAmount, totalCount),
+          _buildSummaryCard(statistics.totalAmount, statistics.totalCount),
           const SizedBox(height: 24),
           const Text(
             '감정별 분석',
@@ -100,18 +77,10 @@ class StatisticsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ...ExpenseStatus.values.map((status) {
-            final stat = stats[status]!;
-            final count = stat['count'] as int;
-            final amount = stat['amount'] as int;
-            final percentage = totalCount > 0
-                ? (count / totalCount * 100)
-                : 0.0;
+          ...statistics.emotionStats.map((emotionStat) {
             return _buildStatCard(
-              status: status,
-              count: count,
-              amount: amount,
-              percentage: percentage,
+              emotionStat: emotionStat,
+              totalCount: statistics.totalCount,
               context: context,
             );
           }),
@@ -120,21 +89,6 @@ class StatisticsScreen extends ConsumerWidget {
     );
   }
 
-  Map<ExpenseStatus, Map<String, dynamic>> _calculateStatistics(
-    List<Expense> expenses,
-  ) {
-    final stats = <ExpenseStatus, Map<String, dynamic>>{};
-    for (final status in ExpenseStatus.values) {
-      stats[status] = {'count': 0, 'amount': 0};
-    }
-    for (final expense in expenses) {
-      stats[expense.status]!['count'] =
-          (stats[expense.status]!['count'] as int) + 1;
-      stats[expense.status]!['amount'] =
-          (stats[expense.status]!['amount'] as int) + expense.amount;
-    }
-    return stats;
-  }
 
   Widget _buildSummaryCard(int totalAmount, int totalCount) {
     return Container(
@@ -185,12 +139,15 @@ class StatisticsScreen extends ConsumerWidget {
   }
 
   Widget _buildStatCard({
-    required ExpenseStatus status,
-    required int count,
-    required int amount,
-    required double percentage,
+    required EmotionStatistics emotionStat,
+    required int totalCount,
     required BuildContext context,
   }) {
+    final percentage = emotionStat.getPercentage(totalCount);
+    final status = emotionStat.status;
+    final count = emotionStat.count;
+    final amount = emotionStat.amount;
+
     return GestureDetector(
       onTap: count > 0
           ? () {
