@@ -106,7 +106,7 @@ final totalExpenseProvider = Provider<int>((ref) {
 /// 통계 데이터 Provider (가공된 통계 정보 제공)
 final expenseStatisticsProvider = Provider<ExpenseStatistics>((ref) {
   final expensesAsync = ref.watch(expenseControllerProvider);
-  
+
   return expensesAsync.when(
     data: ExpenseStatistics.fromExpenses,
     loading: () => ExpenseStatistics.empty,

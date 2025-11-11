@@ -44,12 +44,14 @@ class ExpenseStatistics {
 
     // 감정별 통계 계산
     final statsMap = <ExpenseStatus, EmotionStatistics>{};
-    
+
     for (final status in ExpenseStatus.values) {
-      final filteredExpenses = expenses.where((e) => e.status == status).toList();
+      final filteredExpenses = expenses
+          .where((e) => e.status == status)
+          .toList();
       final count = filteredExpenses.length;
       final amount = filteredExpenses.fold<int>(0, (sum, e) => sum + e.amount);
-      
+
       statsMap[status] = EmotionStatistics(
         status: status,
         count: count,
@@ -63,7 +65,9 @@ class ExpenseStatistics {
     return ExpenseStatistics(
       totalAmount: totalAmount,
       totalCount: totalCount,
-      emotionStats: ExpenseStatus.values.map((status) => statsMap[status]!).toList(),
+      emotionStats: ExpenseStatus.values
+          .map((status) => statsMap[status]!)
+          .toList(),
     );
   }
 

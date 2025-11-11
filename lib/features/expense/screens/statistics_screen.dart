@@ -89,7 +89,6 @@ class StatisticsScreen extends ConsumerWidget {
     );
   }
 
-
   Widget _buildSummaryCard(int totalAmount, int totalCount) {
     return Container(
       padding: const EdgeInsets.all(20),
