@@ -28,18 +28,18 @@ class EmotionStatistics {
 }
 
 /// 전체 통계 데이터
-class ExpenseStatistics {
+class ExpenseAnalytics {
   /// 전체 통계 데이터 생성자
-  const ExpenseStatistics({
+  const ExpenseAnalytics({
     required this.totalAmount,
     required this.totalCount,
     required this.emotionStats,
   });
 
   /// 지출 목록으로부터 통계 계산
-  factory ExpenseStatistics.fromExpenses(List<Expense> expenses) {
+  factory ExpenseAnalytics.fromExpenses(List<Expense> expenses) {
     if (expenses.isEmpty) {
-      return ExpenseStatistics.empty;
+      return ExpenseAnalytics.empty;
     }
 
     // 감정별 통계 계산
@@ -62,7 +62,7 @@ class ExpenseStatistics {
     final totalAmount = expenses.fold<int>(0, (sum, e) => sum + e.amount);
     final totalCount = expenses.length;
 
-    return ExpenseStatistics(
+    return ExpenseAnalytics(
       totalAmount: totalAmount,
       totalCount: totalCount,
       emotionStats: ExpenseStatus.values
@@ -81,7 +81,7 @@ class ExpenseStatistics {
   final List<EmotionStatistics> emotionStats;
 
   /// 빈 통계 데이터
-  static const empty = ExpenseStatistics(
+  static const empty = ExpenseAnalytics(
     totalAmount: 0,
     totalCount: 0,
     emotionStats: [],

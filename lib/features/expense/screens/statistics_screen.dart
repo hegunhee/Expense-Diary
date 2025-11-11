@@ -58,7 +58,7 @@ class StatisticsScreen extends ConsumerWidget {
   }
 
   Widget _buildStatisticsContent(
-    ExpenseStatistics statistics,
+    ExpenseAnalytics statistics,
     BuildContext context,
   ) {
     return SingleChildScrollView(
