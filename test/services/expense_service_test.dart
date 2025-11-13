@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:expense_tracker/features/expense/models/expense.dart';
-import 'package:expense_tracker/features/expense/services/expense_service.dart';
+import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 
 void main() {
   group('ExpenseService CRUD 테스트', () {
-    late ExpenseService service;
+    late ExpenseRepository service;
     late Directory testDir;
 
     setUp(() async {
@@ -29,7 +29,7 @@ void main() {
       }
 
       // 서비스 초기화
-      service = ExpenseService();
+      service = ExpenseRepository();
       await service.init();
 
       // 테스트용 샘플 데이터 추가
@@ -213,7 +213,7 @@ void main() {
 }
 
 /// 테스트용 샘플 데이터 추가 헬퍼 함수
-Future<void> _addSampleData(ExpenseService service) async {
+Future<void> _addSampleData(ExpenseRepository service) async {
   final now = DateTime.now();
 
   final sampleExpenses = [
