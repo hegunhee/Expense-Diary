@@ -37,7 +37,6 @@ void main() {
   });
 
   group('EmotionDetailScreen 테스트', () {
-
     testWidgets('해당 감정의 지출만 표시된다', (tester) async {
       // 다양한 감정의 지출 추가
       await mockService.addExpense(

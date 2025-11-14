@@ -12,7 +12,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+            expenseRepositoryProvider.overrideWithValue(
+              MockExpenseRepository(),
+            ),
           ],
           child: const MaterialApp(home: ExpenseListScreen()),
         ),
@@ -29,7 +31,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+            expenseRepositoryProvider.overrideWithValue(
+              MockExpenseRepository(),
+            ),
           ],
           child: const MaterialApp(home: ExpenseListScreen()),
         ),
@@ -54,7 +58,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+            expenseRepositoryProvider.overrideWithValue(
+              MockExpenseRepository(),
+            ),
           ],
           child: const MaterialApp(home: ExpenseListScreen()),
         ),
@@ -74,7 +80,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+            expenseRepositoryProvider.overrideWithValue(
+              MockExpenseRepository(),
+            ),
           ],
           child: const MaterialApp(home: ExpenseListScreen()),
         ),
@@ -95,7 +103,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+            expenseRepositoryProvider.overrideWithValue(
+              MockExpenseRepository(),
+            ),
           ],
           child: const MaterialApp(home: ExpenseListScreen()),
         ),
@@ -116,7 +126,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+            expenseRepositoryProvider.overrideWithValue(
+              MockExpenseRepository(),
+            ),
           ],
           child: const MaterialApp(home: ExpenseListScreen()),
         ),
@@ -137,7 +149,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+            expenseRepositoryProvider.overrideWithValue(
+              MockExpenseRepository(),
+            ),
           ],
           child: const MaterialApp(home: ExpenseListScreen()),
         ),
@@ -163,7 +177,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+            expenseRepositoryProvider.overrideWithValue(
+              MockExpenseRepository(),
+            ),
           ],
           child: const MaterialApp(home: ExpenseListScreen()),
         ),
@@ -179,7 +195,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+            expenseRepositoryProvider.overrideWithValue(
+              MockExpenseRepository(),
+            ),
           ],
           child: const MaterialApp(home: ExpenseListScreen()),
         ),

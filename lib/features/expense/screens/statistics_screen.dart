@@ -14,7 +14,9 @@ class StatisticsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /// 가공된 통계 데이터를 직접 받음
-    final analytics = ref.read(expenseControllerProvider.notifier).getAnalytics();
+    final analytics = ref
+        .read(expenseControllerProvider.notifier)
+        .getAnalytics();
 
     return Scaffold(
       backgroundColor: Colors.white,
