@@ -1,5 +1,12 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+/// 지출 레포지토리 Provider
+final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
+  final repository = ExpenseRepository();
+  return repository;
+});
 
 /// 지출 데이터 처리 서비스
 class ExpenseRepository {
