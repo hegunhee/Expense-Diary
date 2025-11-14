@@ -17,6 +17,8 @@ void main() {
       // Hive 초기화
       Hive.init(testDir.path);
 
+      await Hive.openBox<Expense>('expenses');
+
       // 어댑터 등록
       if (!Hive.isAdapterRegistered(0)) {
         Hive.registerAdapter(ExpenseCategoryAdapter());
@@ -30,7 +32,7 @@ void main() {
 
       // 서비스 초기화
       service = ExpenseRepository();
-      await service.init();
+      service.init();
 
       // 테스트용 샘플 데이터 추가
       await _addSampleData(service);

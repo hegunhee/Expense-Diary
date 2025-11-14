@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 /// 지출 레포지토리 Provider
 final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
   final repository = ExpenseRepository();
+  repository.init();
   return repository;
 });
 
@@ -14,8 +15,8 @@ class ExpenseRepository {
   Box<Expense>? _box;
 
   /// Hive Box 초기화
-  Future<void> init() async {
-    _box = await Hive.openBox<Expense>(_boxName);
+  void init() {
+    _box = Hive.box<Expense>(_boxName);
   }
 
   /// 모든 지출 조회
