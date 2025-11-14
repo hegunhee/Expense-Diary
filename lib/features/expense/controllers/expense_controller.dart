@@ -53,6 +53,11 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
       return _repository.getAllExpenses();
     });
   }
+
+  /// 통계 정보
+  ExpenseAnalytics getAnalytics() {
+    return ExpenseAnalytics.fromExpenses(state.value ?? []);
+  }
 }
 
 /// 필터 컨트롤러
@@ -93,15 +98,4 @@ final filteredExpenseProvider = Provider<List<Expense>>((ref) {
 final totalExpenseProvider = Provider<int>((ref) {
   final expenses = ref.watch(filteredExpenseProvider);
   return expenses.fold<int>(0, (sum, expense) => sum + expense.amount);
-});
-
-/// 통계 데이터 Provider (가공된 통계 정보 제공)
-final expenseStatisticsProvider = Provider<ExpenseAnalytics>((ref) {
-  final expensesAsync = ref.watch(expenseControllerProvider);
-
-  return expensesAsync.when(
-    data: ExpenseAnalytics.fromExpenses,
-    loading: () => ExpenseAnalytics.empty,
-    error: (_, stack) => ExpenseAnalytics.empty,
-  );
 });

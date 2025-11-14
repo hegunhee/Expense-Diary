@@ -14,7 +14,7 @@ class StatisticsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 가공된 통계 데이터를 직접 받음
-    final statistics = ref.watch(expenseStatisticsProvider);
+    final analytics = ref.read(expenseControllerProvider.notifier).getAnalytics();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -35,9 +35,9 @@ class StatisticsScreen extends ConsumerWidget {
         elevation: 0,
         centerTitle: true,
       ),
-      body: statistics.totalCount == 0
+      body: analytics.totalCount == 0
           ? _buildEmptyState()
-          : _buildStatisticsContent(statistics, context),
+          : _buildStatisticsContent(analytics, context),
     );
   }
 
@@ -58,7 +58,7 @@ class StatisticsScreen extends ConsumerWidget {
   }
 
   Widget _buildStatisticsContent(
-    ExpenseAnalytics statistics,
+    ExpenseAnalytics analytics,
     BuildContext context,
   ) {
     return SingleChildScrollView(
@@ -66,7 +66,7 @@ class StatisticsScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSummaryCard(statistics.totalAmount, statistics.totalCount),
+          _buildSummaryCard(analytics.totalAmount, analytics.totalCount),
           const SizedBox(height: 24),
           const Text(
             '감정별 분석',
@@ -77,10 +77,10 @@ class StatisticsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ...statistics.emotionStats.map((emotionStat) {
+          ...analytics.emotionStats.map((emotionStat) {
             return _buildStatCard(
               emotionStat: emotionStat,
-              totalCount: statistics.totalCount,
+              totalCount: analytics.totalCount,
               context: context,
             );
           }),
