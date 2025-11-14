@@ -6,8 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 
 void main() {
-  group('ExpenseService CRUD 테스트', () {
-    late ExpenseRepository service;
+  group('ExpenseRepository CRUD 테스트', () {
+    late ExpenseRepository sut;
     late Directory testDir;
 
     setUp(() async {
@@ -31,11 +31,11 @@ void main() {
       }
 
       // 서비스 초기화
-      service = ExpenseRepository();
-      service.init();
+      sut = ExpenseRepository();
+      sut.init();
 
       // 테스트용 샘플 데이터 추가
-      await _addSampleData(service);
+      await _addSampleData(sut);
     });
 
     tearDown(() async {
@@ -47,7 +47,7 @@ void main() {
     });
 
     test('샘플 데이터가 정상적으로 조회된다', () {
-      final expenses = service.getAllExpenses();
+      final expenses = sut.getAllExpenses();
 
       expect(expenses.length, 5);
       // 최신순 정렬되므로 가장 최근 항목 확인
@@ -66,9 +66,9 @@ void main() {
         memo: '테스트 메모',
       );
 
-      await service.addExpense(newExpense);
+      await sut.addExpense(newExpense);
 
-      final expenses = service.getAllExpenses();
+      final expenses = sut.getAllExpenses();
       expect(expenses.length, 6);
       expect(expenses.any((e) => e.id == '100'), true);
       expect(expenses.firstWhere((e) => e.id == '100').title, '테스트 지출');
@@ -85,9 +85,9 @@ void main() {
         memo: '수정된 메모',
       );
 
-      await service.updateExpense(updatedExpense);
+      await sut.updateExpense(updatedExpense);
 
-      final expenses = service.getAllExpenses();
+      final expenses = sut.getAllExpenses();
       final updated = expenses.firstWhere((e) => e.id == '1');
 
       expect(updated.title, '수정된 제목');
@@ -97,22 +97,22 @@ void main() {
     });
 
     test('지출을 삭제할 수 있다', () async {
-      await service.deleteExpense('1');
+      await sut.deleteExpense('1');
 
-      final expenses = service.getAllExpenses();
+      final expenses = sut.getAllExpenses();
       expect(expenses.length, 4);
       expect(expenses.any((e) => e.id == '1'), false);
     });
 
     test('모든 지출을 조회할 수 있다', () {
-      final expenses = service.getAllExpenses();
+      final expenses = sut.getAllExpenses();
 
       expect(expenses.isNotEmpty, true);
       expect(expenses.length, 5);
     });
 
     test('지출이 최신순으로 정렬된다', () {
-      final expenses = service.getAllExpenses();
+      final expenses = sut.getAllExpenses();
 
       for (var i = 0; i < expenses.length - 1; i++) {
         expect(
@@ -124,26 +124,26 @@ void main() {
     });
 
     test('제목으로 검색할 수 있다', () {
-      final results = service.searchByTitle('점심');
+      final results = sut.searchByTitle('점심');
 
       expect(results.length, 1);
       expect(results[0].title, '친구랑 점심');
     });
 
     test('검색어가 비어있으면 모든 지출을 반환한다', () {
-      final results = service.searchByTitle('');
+      final results = sut.searchByTitle('');
 
       expect(results.length, 5);
     });
 
     test('검색은 대소문자를 구분하지 않는다', () {
-      final results = service.searchByTitle('점심');
+      final results = sut.searchByTitle('점심');
 
       expect(results.isNotEmpty, true);
     });
 
     test('카테고리별로 필터링할 수 있다', () {
-      final foodExpenses = service.filterByCategory(ExpenseCategory.food);
+      final foodExpenses = sut.filterByCategory(ExpenseCategory.food);
 
       expect(foodExpenses.length, 2);
       expect(
@@ -153,7 +153,7 @@ void main() {
     });
 
     test('상태별로 필터링할 수 있다', () {
-      final goodExpenses = service.filterByStatus(ExpenseStatus.good);
+      final goodExpenses = sut.filterByStatus(ExpenseStatus.good);
 
       expect(goodExpenses.length, 2);
       expect(goodExpenses.every((e) => e.status == ExpenseStatus.good), true);
@@ -178,17 +178,17 @@ void main() {
         date: DateTime.now(),
       );
 
-      await service.addExpense(expense1);
-      await service.addExpense(expense2);
+      await sut.addExpense(expense1);
+      await sut.addExpense(expense2);
 
-      final expenses = service.getAllExpenses();
+      final expenses = sut.getAllExpenses();
       expect(expenses.length, 7);
     });
 
     test('존재하지 않는 지출을 삭제해도 에러가 발생하지 않는다', () async {
-      await service.deleteExpense('999');
+      await sut.deleteExpense('999');
 
-      final expenses = service.getAllExpenses();
+      final expenses = sut.getAllExpenses();
       expect(expenses.length, 5);
     });
 
@@ -202,9 +202,9 @@ void main() {
         date: DateTime.now(),
       );
 
-      await service.addExpense(newExpense);
+      await sut.addExpense(newExpense);
 
-      final expenses = service.getAllExpenses();
+      final expenses = sut.getAllExpenses();
       final updated = expenses.firstWhere((e) => e.id == '1');
 
       expect(expenses.length, 5); // 개수는 그대로
