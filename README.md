@@ -76,7 +76,7 @@ lib/
 │       │   └── statistics_screen.dart
 │       │
 │       ├── repositories/        # 데이터 레이어
-│       │   └── expense_service.dart
+│       │   └── expense_repository.dart
 │       │
 │       └── widgets/         # 재사용 가능한 위젯 (13개)
 │           ├── expense_form/      # 지출 입력 폼 관련

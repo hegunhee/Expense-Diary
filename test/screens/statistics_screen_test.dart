@@ -1,18 +1,18 @@
-import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
 import 'package:expense_tracker/features/expense/screens/emotion_detail_screen.dart';
 import 'package:expense_tracker/features/expense/screens/statistics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../mocks/mock_expense_service.dart';
+import '../mocks/mock_expense_repository.dart';
 
 void main() {
-  late MockExpenseService mockService;
+  late MockExpenseRepository mockService;
 
   setUp(() {
-    mockService = MockExpenseService();
+    mockService = MockExpenseRepository();
   });
 
   group('StatisticsScreen 테스트', () {
@@ -20,7 +20,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: StatisticsScreen()),
         ),
@@ -49,7 +49,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: StatisticsScreen()),
         ),
@@ -79,7 +79,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: StatisticsScreen()),
         ),
@@ -141,7 +141,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: StatisticsScreen()),
         ),
@@ -171,7 +171,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: StatisticsScreen()),
         ),
@@ -209,7 +209,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: StatisticsScreen()),
         ),
@@ -247,7 +247,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: StatisticsScreen()),
         ),
@@ -265,7 +265,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
             home: EmotionDetailScreen(status: ExpenseStatus.good),
@@ -305,7 +305,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
             home: EmotionDetailScreen(status: ExpenseStatus.good),
@@ -346,7 +346,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
             home: EmotionDetailScreen(status: ExpenseStatus.good),
@@ -365,7 +365,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
             home: EmotionDetailScreen(status: ExpenseStatus.good),
@@ -395,7 +395,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
             home: EmotionDetailScreen(status: ExpenseStatus.good),
@@ -431,7 +431,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
             home: EmotionDetailScreen(status: ExpenseStatus.regret),

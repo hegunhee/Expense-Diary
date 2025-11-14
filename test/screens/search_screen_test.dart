@@ -1,25 +1,25 @@
-import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
 import 'package:expense_tracker/features/expense/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../mocks/mock_expense_service.dart';
+import '../mocks/mock_expense_repository.dart';
 
 void main() {
   group('SearchScreen 테스트', () {
-    late MockExpenseService mockService;
+    late MockExpenseRepository mockService;
 
     setUp(() {
-      mockService = MockExpenseService();
+      mockService = MockExpenseRepository();
     });
 
     testWidgets('검색 화면이 정상적으로 렌더링된다', (tester) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -42,7 +42,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -62,7 +62,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -87,7 +87,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -112,7 +112,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -135,7 +135,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -159,7 +159,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -183,7 +183,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -206,7 +206,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -229,7 +229,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -259,7 +259,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseServiceProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -278,7 +278,7 @@ void main() {
 }
 
 /// 테스트용 샘플 데이터 추가 헬퍼 함수
-Future<void> _addSampleData(MockExpenseService service) async {
+Future<void> _addSampleData(MockExpenseRepository service) async {
   final now = DateTime.now();
 
   final sampleExpenses = [
