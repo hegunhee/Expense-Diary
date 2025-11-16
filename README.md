@@ -75,8 +75,8 @@ lib/
 │       │   ├── emotion_detail_screen.dart
 │       │   └── statistics_screen.dart
 │       │
-│       ├── services/        # 데이터 레이어
-│       │   └── expense_service.dart
+│       ├── repositories/        # 데이터 레이어
+│       │   └── expense_repository.dart
 │       │
 │       └── widgets/         # 재사용 가능한 위젯 (13개)
 │           ├── expense_form/      # 지출 입력 폼 관련

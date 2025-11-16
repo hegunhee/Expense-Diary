@@ -1,17 +1,17 @@
-import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
+import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
 import 'package:expense_tracker/features/expense/screens/expense_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'mocks/mock_expense_service.dart';
+import 'mocks/mock_expense_repository.dart';
 
 void main() {
   testWidgets('지출 목록 화면이 정상적으로 렌더링된다', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          expenseServiceProvider.overrideWithValue(MockExpenseService()),
+          expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
         ],
         child: const MaterialApp(home: ExpenseListScreen()),
       ),

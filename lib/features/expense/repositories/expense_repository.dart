@@ -1,14 +1,22 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+/// 지출 레포지토리 Provider
+final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
+  final repository = ExpenseRepository();
+  repository.init();
+  return repository;
+});
+
 /// 지출 데이터 처리 서비스
-class ExpenseService {
+class ExpenseRepository {
   static const _boxName = 'expenses';
   Box<Expense>? _box;
 
   /// Hive Box 초기화
-  Future<void> init() async {
-    _box = await Hive.openBox<Expense>(_boxName);
+  void init() {
+    _box = Hive.box<Expense>(_boxName);
   }
 
   /// 모든 지출 조회

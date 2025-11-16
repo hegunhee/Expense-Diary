@@ -25,6 +25,8 @@ void main() {
       Hive.registerAdapter(ExpenseStatusAdapter());
       Hive.registerAdapter(ExpenseAdapter());
 
+      await Hive.openBox<Expense>('expenses');
+
       // Firebase 초기화 (iOS용 GoogleService-Info.plist 필요)
       // try {
       //   await Firebase.initializeApp(
