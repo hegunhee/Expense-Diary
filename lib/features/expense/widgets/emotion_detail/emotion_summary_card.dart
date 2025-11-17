@@ -40,7 +40,7 @@ class EmotionSummaryCard extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            _getStatusEmoji(emotion),
+            emotion.emoji,
             style: const TextStyle(fontSize: 48),
           ),
           const SizedBox(width: 16),
@@ -91,19 +91,6 @@ class EmotionSummaryCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _getStatusEmoji(ExpenseEmotions emotion) {
-    switch (emotion) {
-      case ExpenseEmotions.good:
-        return '😊';
-      case ExpenseEmotions.normal:
-        return '😐';
-      case ExpenseEmotions.regret:
-        return '😕';
-      case ExpenseEmotions.bad:
-        return '😩';
-    }
   }
 
   Color _getStatusColor(ExpenseEmotions emotion) {
