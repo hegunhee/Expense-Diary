@@ -29,7 +29,7 @@ class EmotionDetailScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              _getStatusEmoji(emotion),
+              emotion.emoji,
               style: const TextStyle(fontSize: 24),
             ),
             const SizedBox(width: 8),
@@ -88,18 +88,5 @@ class EmotionDetailScreen extends ConsumerWidget {
         error: (error, stack) => Center(child: Text('오류가 발생했습니다: $error')),
       ),
     );
-  }
-
-  String _getStatusEmoji(ExpenseEmotions emotion) {
-    switch (emotion) {
-      case ExpenseEmotions.good:
-        return '😊';
-      case ExpenseEmotions.normal:
-        return '😐';
-      case ExpenseEmotions.regret:
-        return '😕';
-      case ExpenseEmotions.bad:
-        return '😩';
-    }
   }
 }
