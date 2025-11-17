@@ -156,7 +156,10 @@ void main() {
       final goodExpenses = sut.filterByStatus(ExpenseEmotions.good);
 
       expect(goodExpenses.length, 2);
-      expect(goodExpenses.every((e) => e.emotion == ExpenseEmotions.good), true);
+      expect(
+        goodExpenses.every((e) => e.emotion == ExpenseEmotions.good),
+        true,
+      );
     });
 
     test('여러 지출을 추가하고 조회할 수 있다', () async {
