@@ -120,10 +120,10 @@ class Expense {
     String? title,
     int? amount,
     ExpenseCategory? category,
-    ExpenseEmotions? status,
+    ExpenseEmotions? emotion,
     DateTime? date,
     String? memo,
-    ExpenseEmotions? previousStatus,
+    ExpenseEmotions? previousEmotion,
     String? statusChangeReason,
   }) {
     return Expense(
@@ -131,10 +131,10 @@ class Expense {
       title: title ?? this.title,
       amount: amount ?? this.amount,
       category: category ?? this.category,
-      emotion: status ?? this.emotion,
+      emotion: emotion ?? this.emotion,
       date: date ?? this.date,
       memo: memo ?? this.memo,
-      previousEmotion: previousStatus ?? this.previousEmotion,
+      previousEmotion: previousEmotion ?? this.previousEmotion,
       statusChangeReason: statusChangeReason ?? this.statusChangeReason,
     );
   }
