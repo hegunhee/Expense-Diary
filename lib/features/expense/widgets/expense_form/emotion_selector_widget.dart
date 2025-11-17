@@ -33,20 +33,20 @@ class EmotionSelectorWidget extends StatelessWidget {
         Wrap(
           spacing: 12,
           runSpacing: 12,
-          children: ExpenseEmotions.values.map((emoji) {
-            final isSelected = selectEmotion == emoji;
+          children: ExpenseEmotions.values.map((emotion) {
+            final isSelected = selectEmotion == emotion;
             return GestureDetector(
-              onTap: () => onChanged(emoji),
+              onTap: () => onChanged(emotion),
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: isSelected ? emoji.color : Colors.white,
+                  color: isSelected ? emotion.color : Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: isSelected ? emoji.color : const Color(0xFFE0E0E0),
+                    color: isSelected ? emotion.color : const Color(0xFFE0E0E0),
                     width: 2,
                   ),
                 ),
@@ -54,12 +54,12 @@ class EmotionSelectorWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      emoji.emoji,
+                      emotion.emoji,
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      emoji.label,
+                      emotion.label,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
