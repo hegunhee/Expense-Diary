@@ -115,7 +115,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     }
 
     // 감정이 변경되었는데 변경 사유를 입력하지 않은 경우
-    if (_isEmotionChanged && _emotionChangeReasonController.text.trim().isEmpty) {
+    if (_isEmotionChanged &&
+        _emotionChangeReasonController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('감정 변경 사유를 입력해주세요'),
