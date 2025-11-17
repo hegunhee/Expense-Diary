@@ -33,7 +33,7 @@ enum ExpenseCategory {
 
 /// 지출 상태 (잘 쓴 돈, 그저 그런 돈, 아까운 돈, 후회한 돈)
 @HiveType(typeId: 1)
-enum ExpenseStatus {
+enum ExpenseEmotions {
   /// 잘 쓴 돈
   @HiveField(0)
   good('잘 쓴 돈', Color(0xFF4CAF50)),
@@ -50,7 +50,7 @@ enum ExpenseStatus {
   @HiveField(3)
   bad('후회한 돈', Color(0xFFF44336));
 
-  const ExpenseStatus(this.label, this.color);
+  const ExpenseEmotions(this.label, this.color);
 
   /// 상태 라벨
   final String label;
@@ -68,10 +68,10 @@ class Expense {
     required this.title,
     required this.amount,
     required this.category,
-    required this.status,
+    required this.emotion,
     required this.date,
     this.memo,
-    this.previousStatus,
+    this.previousEmotion,
     this.statusChangeReason,
   });
 
@@ -93,7 +93,7 @@ class Expense {
 
   /// 지출 감정 상태
   @HiveField(4)
-  final ExpenseStatus status;
+  final ExpenseEmotions emotion;
 
   /// 지출 날짜
   @HiveField(5)
@@ -105,7 +105,7 @@ class Expense {
 
   /// 이전 감정 상태 (변경된 경우)
   @HiveField(7)
-  final ExpenseStatus? previousStatus;
+  final ExpenseEmotions? previousEmotion;
 
   /// 감정 상태 변경 사유
   @HiveField(8)
@@ -117,10 +117,10 @@ class Expense {
     String? title,
     int? amount,
     ExpenseCategory? category,
-    ExpenseStatus? status,
+    ExpenseEmotions? status,
     DateTime? date,
     String? memo,
-    ExpenseStatus? previousStatus,
+    ExpenseEmotions? previousStatus,
     String? statusChangeReason,
   }) {
     return Expense(
@@ -128,10 +128,10 @@ class Expense {
       title: title ?? this.title,
       amount: amount ?? this.amount,
       category: category ?? this.category,
-      status: status ?? this.status,
+      emotion: status ?? this.emotion,
       date: date ?? this.date,
       memo: memo ?? this.memo,
-      previousStatus: previousStatus ?? this.previousStatus,
+      previousEmotion: previousStatus ?? this.previousEmotion,
       statusChangeReason: statusChangeReason ?? this.statusChangeReason,
     );
   }

@@ -11,10 +11,10 @@ class StatusSelectorWidget extends StatelessWidget {
   });
 
   /// 선택된 감정 상태
-  final ExpenseStatus? selectedStatus;
+  final ExpenseEmotions? selectedStatus;
 
   /// 감정 상태 변경 콜백
-  final ValueChanged<ExpenseStatus?> onChanged;
+  final ValueChanged<ExpenseEmotions?> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class StatusSelectorWidget extends StatelessWidget {
         Wrap(
           spacing: 12,
           runSpacing: 12,
-          children: ExpenseStatus.values.map((status) {
+          children: ExpenseEmotions.values.map((status) {
             final isSelected = selectedStatus == status;
             return GestureDetector(
               onTap: () => onChanged(status),

@@ -25,8 +25,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   final _statusChangeReasonController = TextEditingController();
 
   ExpenseCategory? _selectedCategory = ExpenseCategory.food;
-  ExpenseStatus? _selectedStatus = ExpenseStatus.good;
-  ExpenseStatus? _originalStatus; // 원래 감정 상태 저장
+  ExpenseEmotions? _selectedStatus = ExpenseEmotions.good;
+  ExpenseEmotions? _originalStatus; // 원래 감정 상태 저장
 
   bool get _isEditMode => widget.expense != null;
   bool get _isStatusChanged =>
@@ -71,8 +71,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
           );
       _memoController.text = widget.expense!.memo ?? '';
       _selectedCategory = widget.expense!.category;
-      _selectedStatus = widget.expense!.status;
-      _originalStatus = widget.expense!.status; // 원래 상태 저장
+      _selectedStatus = widget.expense!.emotion;
+      _originalStatus = widget.expense!.emotion; // 원래 상태 저장
     }
   }
 
@@ -135,12 +135,12 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       title: _titleController.text,
       amount: amount,
       category: _selectedCategory!,
-      status: _selectedStatus!,
+      emotion: _selectedStatus!,
       date: _isEditMode ? widget.expense!.date : DateTime.now(),
       memo: _memoController.text.isEmpty ? null : _memoController.text,
-      previousStatus: _isStatusChanged
+      previousEmotion: _isStatusChanged
           ? _originalStatus
-          : widget.expense?.previousStatus,
+          : widget.expense?.previousEmotion,
       statusChangeReason: _isStatusChanged
           ? _statusChangeReasonController.text.trim()
           : widget.expense?.statusChangeReason,

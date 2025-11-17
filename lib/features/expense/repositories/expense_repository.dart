@@ -71,12 +71,12 @@ class ExpenseRepository {
   }
 
   /// 상태별 필터링
-  List<Expense> filterByStatus(ExpenseStatus status) {
+  List<Expense> filterByStatus(ExpenseEmotions emotion) {
     if (_box == null) {
       return [];
     }
 
-    return _box!.values.where((expense) => expense.status == status).toList()
+    return _box!.values.where((expense) => expense.emotion == emotion).toList()
       ..sort((a, b) => b.date.compareTo(a.date));
   }
 }

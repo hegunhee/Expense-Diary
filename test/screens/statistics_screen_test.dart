@@ -45,7 +45,7 @@ void main() {
           title: '좋은 점심',
           amount: 10000,
           category: ExpenseCategory.food,
-          status: ExpenseStatus.good,
+          emotion: ExpenseEmotions.good,
           date: DateTime.now(),
         ),
       );
@@ -55,7 +55,7 @@ void main() {
           title: '아까운 커피',
           amount: 5000,
           category: ExpenseCategory.food,
-          status: ExpenseStatus.regret,
+          emotion: ExpenseEmotions.regret,
           date: DateTime.now(),
         ),
       );
@@ -66,7 +66,7 @@ void main() {
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
-            home: EmotionDetailScreen(status: ExpenseStatus.good),
+            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
           ),
         ),
       );
@@ -86,7 +86,7 @@ void main() {
           title: '점심',
           amount: 10000,
           category: ExpenseCategory.food,
-          status: ExpenseStatus.good,
+          emotion: ExpenseEmotions.good,
           date: DateTime.now(),
         ),
       );
@@ -96,7 +96,7 @@ void main() {
           title: '저녁',
           amount: 15000,
           category: ExpenseCategory.food,
-          status: ExpenseStatus.good,
+          emotion: ExpenseEmotions.good,
           date: DateTime.now(),
         ),
       );
@@ -107,7 +107,7 @@ void main() {
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
-            home: EmotionDetailScreen(status: ExpenseStatus.good),
+            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
           ),
         ),
       );
@@ -126,7 +126,7 @@ void main() {
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
-            home: EmotionDetailScreen(status: ExpenseStatus.good),
+            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
           ),
         ),
       );
@@ -145,7 +145,7 @@ void main() {
           title: '점심',
           amount: 10000,
           category: ExpenseCategory.food,
-          status: ExpenseStatus.good,
+          emotion: ExpenseEmotions.good,
           date: DateTime.now(),
         ),
       );
@@ -156,7 +156,7 @@ void main() {
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
-            home: EmotionDetailScreen(status: ExpenseStatus.good),
+            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
           ),
         ),
       );
@@ -179,9 +179,9 @@ void main() {
           title: '점심',
           amount: 10000,
           category: ExpenseCategory.food,
-          status: ExpenseStatus.regret,
+          emotion: ExpenseEmotions.regret,
           date: DateTime.now(),
-          previousStatus: ExpenseStatus.good,
+          previousEmotion: ExpenseEmotions.good,
           statusChangeReason: '생각보다 별로였음',
         ),
       );
@@ -192,7 +192,7 @@ void main() {
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
           child: const MaterialApp(
-            home: EmotionDetailScreen(status: ExpenseStatus.regret),
+            home: EmotionDetailScreen(emotion: ExpenseEmotions.regret),
           ),
         ),
       );

@@ -90,34 +90,34 @@ class ExpenseListScreen extends ConsumerWidget {
                   const SizedBox(width: 8),
                   FilterChipWidget(
                     label: '잘 쓴 돈',
-                    isSelected: selectedFilter == ExpenseStatus.good,
+                    isSelected: selectedFilter == ExpenseEmotions.good,
                     onTap: () => ref
                         .read(filterControllerProvider.notifier)
-                        .setFilter(ExpenseStatus.good),
+                        .setFilter(ExpenseEmotions.good),
                   ),
                   const SizedBox(width: 8),
                   FilterChipWidget(
                     label: '그저 그런 돈',
-                    isSelected: selectedFilter == ExpenseStatus.normal,
+                    isSelected: selectedFilter == ExpenseEmotions.normal,
                     onTap: () => ref
                         .read(filterControllerProvider.notifier)
-                        .setFilter(ExpenseStatus.normal),
+                        .setFilter(ExpenseEmotions.normal),
                   ),
                   const SizedBox(width: 8),
                   FilterChipWidget(
                     label: '아까운 돈',
-                    isSelected: selectedFilter == ExpenseStatus.regret,
+                    isSelected: selectedFilter == ExpenseEmotions.regret,
                     onTap: () => ref
                         .read(filterControllerProvider.notifier)
-                        .setFilter(ExpenseStatus.regret),
+                        .setFilter(ExpenseEmotions.regret),
                   ),
                   const SizedBox(width: 8),
                   FilterChipWidget(
                     label: '후회한 돈',
-                    isSelected: selectedFilter == ExpenseStatus.bad,
+                    isSelected: selectedFilter == ExpenseEmotions.bad,
                     onTap: () => ref
                         .read(filterControllerProvider.notifier)
-                        .setFilter(ExpenseStatus.bad),
+                        .setFilter(ExpenseEmotions.bad),
                   ),
                 ],
               ),

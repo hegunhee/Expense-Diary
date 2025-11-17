@@ -21,10 +21,10 @@ class ExpenseAdapter extends TypeAdapter<Expense> {
       title: fields[1] as String,
       amount: fields[2] as int,
       category: fields[3] as ExpenseCategory,
-      status: fields[4] as ExpenseStatus,
+      emotion: fields[4] as ExpenseEmotions,
       date: fields[5] as DateTime,
       memo: fields[6] as String?,
-      previousStatus: fields[7] as ExpenseStatus?,
+      previousEmotion: fields[7] as ExpenseEmotions?,
       statusChangeReason: fields[8] as String?,
     );
   }
@@ -42,13 +42,13 @@ class ExpenseAdapter extends TypeAdapter<Expense> {
       ..writeByte(3)
       ..write(obj.category)
       ..writeByte(4)
-      ..write(obj.status)
+      ..write(obj.emotion)
       ..writeByte(5)
       ..write(obj.date)
       ..writeByte(6)
       ..write(obj.memo)
       ..writeByte(7)
-      ..write(obj.previousStatus)
+      ..write(obj.previousEmotion)
       ..writeByte(8)
       ..write(obj.statusChangeReason);
   }
@@ -113,39 +113,39 @@ class ExpenseCategoryAdapter extends TypeAdapter<ExpenseCategory> {
           typeId == other.typeId;
 }
 
-class ExpenseStatusAdapter extends TypeAdapter<ExpenseStatus> {
+class ExpenseEmotionsAdapter extends TypeAdapter<ExpenseEmotions> {
   @override
   final int typeId = 1;
 
   @override
-  ExpenseStatus read(BinaryReader reader) {
+  ExpenseEmotions read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return ExpenseStatus.good;
+        return ExpenseEmotions.good;
       case 1:
-        return ExpenseStatus.normal;
+        return ExpenseEmotions.normal;
       case 2:
-        return ExpenseStatus.regret;
+        return ExpenseEmotions.regret;
       case 3:
-        return ExpenseStatus.bad;
+        return ExpenseEmotions.bad;
       default:
-        return ExpenseStatus.good;
+        return ExpenseEmotions.good;
     }
   }
 
   @override
-  void write(BinaryWriter writer, ExpenseStatus obj) {
+  void write(BinaryWriter writer, ExpenseEmotions obj) {
     switch (obj) {
-      case ExpenseStatus.good:
+      case ExpenseEmotions.good:
         writer.writeByte(0);
         break;
-      case ExpenseStatus.normal:
+      case ExpenseEmotions.normal:
         writer.writeByte(1);
         break;
-      case ExpenseStatus.regret:
+      case ExpenseEmotions.regret:
         writer.writeByte(2);
         break;
-      case ExpenseStatus.bad:
+      case ExpenseEmotions.bad:
         writer.writeByte(3);
         break;
     }
@@ -157,7 +157,7 @@ class ExpenseStatusAdapter extends TypeAdapter<ExpenseStatus> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExpenseStatusAdapter &&
+      other is ExpenseEmotionsAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

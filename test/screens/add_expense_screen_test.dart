@@ -409,7 +409,7 @@ void main() {
         title: '테스트 지출',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 
@@ -437,7 +437,7 @@ void main() {
         title: '점심 식사',
         amount: 15000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
         memo: '맛있었음',
       );
@@ -467,7 +467,7 @@ void main() {
         title: '테스트 지출',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 
@@ -503,7 +503,7 @@ void main() {
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 
@@ -535,7 +535,7 @@ void main() {
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 
@@ -567,7 +567,7 @@ void main() {
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 
@@ -598,7 +598,7 @@ void main() {
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 
@@ -629,7 +629,7 @@ void main() {
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
         memo: '맛있었음',
       );
@@ -664,7 +664,7 @@ void main() {
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 
@@ -706,7 +706,7 @@ void main() {
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 
@@ -755,7 +755,7 @@ void main() {
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 
@@ -809,7 +809,7 @@ void main() {
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 

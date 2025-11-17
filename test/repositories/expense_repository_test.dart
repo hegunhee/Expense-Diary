@@ -24,7 +24,7 @@ void main() {
         Hive.registerAdapter(ExpenseCategoryAdapter());
       }
       if (!Hive.isAdapterRegistered(1)) {
-        Hive.registerAdapter(ExpenseStatusAdapter());
+        Hive.registerAdapter(ExpenseEmotionsAdapter());
       }
       if (!Hive.isAdapterRegistered(2)) {
         Hive.registerAdapter(ExpenseAdapter());
@@ -61,7 +61,7 @@ void main() {
         title: '테스트 지출',
         amount: 10000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
         memo: '테스트 메모',
       );
@@ -80,7 +80,7 @@ void main() {
         title: '수정된 제목',
         amount: 20000,
         category: ExpenseCategory.shopping,
-        status: ExpenseStatus.regret,
+        emotion: ExpenseEmotions.regret,
         date: DateTime.now(),
         memo: '수정된 메모',
       );
@@ -93,7 +93,7 @@ void main() {
       expect(updated.title, '수정된 제목');
       expect(updated.amount, 20000);
       expect(updated.category, ExpenseCategory.shopping);
-      expect(updated.status, ExpenseStatus.regret);
+      expect(updated.emotion, ExpenseEmotions.regret);
     });
 
     test('지출을 삭제할 수 있다', () async {
@@ -153,10 +153,10 @@ void main() {
     });
 
     test('상태별로 필터링할 수 있다', () {
-      final goodExpenses = sut.filterByStatus(ExpenseStatus.good);
+      final goodExpenses = sut.filterByStatus(ExpenseEmotions.good);
 
       expect(goodExpenses.length, 2);
-      expect(goodExpenses.every((e) => e.status == ExpenseStatus.good), true);
+      expect(goodExpenses.every((e) => e.emotion == ExpenseEmotions.good), true);
     });
 
     test('여러 지출을 추가하고 조회할 수 있다', () async {
@@ -165,7 +165,7 @@ void main() {
         title: '지출1',
         amount: 1000,
         category: ExpenseCategory.food,
-        status: ExpenseStatus.good,
+        emotion: ExpenseEmotions.good,
         date: DateTime.now(),
       );
 
@@ -174,7 +174,7 @@ void main() {
         title: '지출2',
         amount: 2000,
         category: ExpenseCategory.transport,
-        status: ExpenseStatus.normal,
+        emotion: ExpenseEmotions.normal,
         date: DateTime.now(),
       );
 
@@ -198,7 +198,7 @@ void main() {
         title: '덮어쓰기 테스트',
         amount: 99999,
         category: ExpenseCategory.culture,
-        status: ExpenseStatus.bad,
+        emotion: ExpenseEmotions.bad,
         date: DateTime.now(),
       );
 
@@ -224,7 +224,7 @@ Future<void> _addSampleData(ExpenseRepository service) async {
       title: '친구랑 점심',
       amount: 15000,
       category: ExpenseCategory.food,
-      status: ExpenseStatus.good,
+      emotion: ExpenseEmotions.good,
       date: now,
       memo: '맛있었음',
     ),
@@ -233,7 +233,7 @@ Future<void> _addSampleData(ExpenseRepository service) async {
       title: '택시비',
       amount: 8000,
       category: ExpenseCategory.transport,
-      status: ExpenseStatus.normal,
+      emotion: ExpenseEmotions.normal,
       date: now.subtract(const Duration(days: 1)),
     ),
     Expense(
@@ -241,7 +241,7 @@ Future<void> _addSampleData(ExpenseRepository service) async {
       title: '영화 관람',
       amount: 14000,
       category: ExpenseCategory.culture,
-      status: ExpenseStatus.good,
+      emotion: ExpenseEmotions.good,
       date: now.subtract(const Duration(days: 2)),
     ),
     Expense(
@@ -249,7 +249,7 @@ Future<void> _addSampleData(ExpenseRepository service) async {
       title: '충동 구매한 옷',
       amount: 50000,
       category: ExpenseCategory.shopping,
-      status: ExpenseStatus.regret,
+      emotion: ExpenseEmotions.regret,
       date: now.subtract(const Duration(days: 3)),
       memo: '별로 안 입을 것 같음',
     ),
@@ -258,7 +258,7 @@ Future<void> _addSampleData(ExpenseRepository service) async {
       title: '비싼 커피',
       amount: 7000,
       category: ExpenseCategory.food,
-      status: ExpenseStatus.bad,
+      emotion: ExpenseEmotions.bad,
       date: now.subtract(const Duration(days: 4)),
     ),
   ];

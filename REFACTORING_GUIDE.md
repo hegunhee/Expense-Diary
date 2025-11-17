@@ -103,7 +103,7 @@ import 'package:expense_tracker/features/expense/widgets/amount_input_field.dart
 
 class _AddExpenseScreenState extends State<AddExpenseScreen> {
   ExpenseCategory? _selectedCategory;
-  ExpenseStatus? _selectedStatus;
+  ExpenseEmotions? _selectedEmotion;
   final _amountController = TextEditingController();
 
   @override
