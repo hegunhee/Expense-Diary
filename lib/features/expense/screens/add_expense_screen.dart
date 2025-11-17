@@ -2,7 +2,7 @@ import 'package:expense_tracker/features/expense/controllers/expense_controller.
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/amount_input_field.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/category_selector_widget.dart';
-import 'package:expense_tracker/features/expense/widgets/expense_form/status_selector_widget.dart';
+import 'package:expense_tracker/features/expense/widgets/expense_form/emotion_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,17 +22,17 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   final _memoController = TextEditingController();
-  final _statusChangeReasonController = TextEditingController();
+  final _emotionChangeReasonController = TextEditingController();
 
   ExpenseCategory? _selectedCategory = ExpenseCategory.food;
-  ExpenseEmotions? _selectedStatus = ExpenseEmotions.good;
-  ExpenseEmotions? _originalStatus; // 원래 감정 상태 저장
+  ExpenseEmotions? _selectedEmotion = ExpenseEmotions.good;
+  ExpenseEmotions? _originalEmotion; // 원래 감정 상태 저장
 
   bool get _isEditMode => widget.expense != null;
-  bool get _isStatusChanged =>
+  bool get _isEmotionChanged =>
       _isEditMode &&
-      _originalStatus != null &&
-      _originalStatus != _selectedStatus;
+      _originalEmotion != null &&
+      _originalEmotion != _selectedEmotion;
 
   @override
   void initState() {
@@ -71,8 +71,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
           );
       _memoController.text = widget.expense!.memo ?? '';
       _selectedCategory = widget.expense!.category;
-      _selectedStatus = widget.expense!.emotion;
-      _originalStatus = widget.expense!.emotion; // 원래 상태 저장
+      _selectedEmotion = widget.expense!.emotion;
+      _originalEmotion = widget.expense!.emotion; // 원래 상태 저장
     }
   }
 
@@ -81,7 +81,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     _titleController.dispose();
     _amountController.dispose();
     _memoController.dispose();
-    _statusChangeReasonController.dispose();
+    _emotionChangeReasonController.dispose();
     super.dispose();
   }
 
@@ -107,7 +107,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       return;
     }
 
-    if (_selectedStatus == null) {
+    if (_selectedEmotion == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('감정 카테고리를 선택해주세요')),
       );
@@ -115,7 +115,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     }
 
     // 감정이 변경되었는데 변경 사유를 입력하지 않은 경우
-    if (_isStatusChanged && _statusChangeReasonController.text.trim().isEmpty) {
+    if (_isEmotionChanged && _emotionChangeReasonController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('감정 변경 사유를 입력해주세요'),
@@ -135,14 +135,14 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       title: _titleController.text,
       amount: amount,
       category: _selectedCategory!,
-      emotion: _selectedStatus!,
+      emotion: _selectedEmotion!,
       date: _isEditMode ? widget.expense!.date : DateTime.now(),
       memo: _memoController.text.isEmpty ? null : _memoController.text,
-      previousEmotion: _isStatusChanged
-          ? _originalStatus
+      previousEmotion: _isEmotionChanged
+          ? _originalEmotion
           : widget.expense?.previousEmotion,
-      emotionChangeReason: _isStatusChanged
-          ? _statusChangeReasonController.text.trim()
+      emotionChangeReason: _isEmotionChanged
+          ? _emotionChangeReasonController.text.trim()
           : widget.expense?.emotionChangeReason,
     );
 
@@ -327,17 +327,17 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
             const SizedBox(height: 24),
 
             // 감정 카테고리 (위젯으로 분리)
-            StatusSelectorWidget(
-              selectEmoji: _selectedStatus,
-              onChanged: (status) {
+            EmotionSelectorWidget(
+              selectEmotion: _selectedEmotion,
+              onChanged: (emotion) {
                 setState(() {
-                  _selectedStatus = status;
+                  _selectedEmotion = emotion;
                 });
               },
             ),
 
             // 감정 변경 사유 (감정이 변경된 경우에만 표시)
-            if (_isStatusChanged) ...[
+            if (_isEmotionChanged) ...[
               const SizedBox(height: 24),
               const Text(
                 '변경 사유',
@@ -349,7 +349,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               ),
               const SizedBox(height: 12),
               TextField(
-                controller: _statusChangeReasonController,
+                controller: _emotionChangeReasonController,
                 maxLines: 2,
                 style: const TextStyle(
                   fontSize: 16,

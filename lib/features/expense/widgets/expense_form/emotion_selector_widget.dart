@@ -2,16 +2,16 @@ import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:flutter/material.dart';
 
 /// 감정 상태 선택 위젯
-class StatusSelectorWidget extends StatelessWidget {
+class EmotionSelectorWidget extends StatelessWidget {
   /// 감정 상태 선택 위젯 생성자
-  const StatusSelectorWidget({
+  const EmotionSelectorWidget({
     super.key,
-    required this.selectEmoji,
+    required this.selectEmotion,
     required this.onChanged,
   });
 
   /// 선택된 감정 상태
-  final ExpenseEmotions? selectEmoji;
+  final ExpenseEmotions? selectEmotion;
 
   /// 감정 상태 변경 콜백
   final ValueChanged<ExpenseEmotions?> onChanged;
@@ -34,7 +34,7 @@ class StatusSelectorWidget extends StatelessWidget {
           spacing: 12,
           runSpacing: 12,
           children: ExpenseEmotions.values.map((emoji) {
-            final isSelected = selectEmoji == emoji;
+            final isSelected = selectEmotion == emoji;
             return GestureDetector(
               onTap: () => onChanged(emoji),
               child: Container(
