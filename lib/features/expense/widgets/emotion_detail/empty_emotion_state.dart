@@ -19,7 +19,7 @@ class EmptyEmotionState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            _getStatusEmoji(emotion),
+            emotion.emoji,
             style: const TextStyle(fontSize: 80),
           ),
           const SizedBox(height: 16),
@@ -33,18 +33,5 @@ class EmptyEmotionState extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _getStatusEmoji(ExpenseEmotions emotion) {
-    switch (emotion) {
-      case ExpenseEmotions.good:
-        return '😊';
-      case ExpenseEmotions.normal:
-        return '😐';
-      case ExpenseEmotions.regret:
-        return '😕';
-      case ExpenseEmotions.bad:
-        return '😩';
-    }
   }
 }
