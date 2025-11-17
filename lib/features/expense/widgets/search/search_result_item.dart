@@ -86,7 +86,7 @@ class SearchResultItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${_getStatusEmoji(expense.previousEmotion!)} ${expense.previousEmotion!.label} → ${_getStatusEmoji(expense.emotion)} ${expense.emotion.label}',
+                          '${expense.previousEmotion!.emoji} ${expense.previousEmotion!.label} → ${expense.emotion.emoji} ${expense.emotion.label}',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -107,7 +107,7 @@ class SearchResultItem extends StatelessWidget {
                     )
                   else
                     Text(
-                      '${_getStatusEmoji(expense.emotion)} ${expense.emotion.label}',
+                      '${expense.emotion.emoji} ${expense.emotion.label}',
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
@@ -156,19 +156,6 @@ class SearchResultItem extends StatelessWidget {
         return '쇼핑';
       case ExpenseCategory.culture:
         return '문화생활';
-    }
-  }
-
-  String _getStatusEmoji(ExpenseEmotions emotion) {
-    switch (emotion) {
-      case ExpenseEmotions.good:
-        return '😊';
-      case ExpenseEmotions.normal:
-        return '😐';
-      case ExpenseEmotions.regret:
-        return '😕';
-      case ExpenseEmotions.bad:
-        return '😩';
     }
   }
 
