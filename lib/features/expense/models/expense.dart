@@ -36,27 +36,30 @@ enum ExpenseCategory {
 enum ExpenseEmotions {
   /// 잘 쓴 돈
   @HiveField(0)
-  good('잘 쓴 돈', Color(0xFF4CAF50)),
+  good('잘 쓴 돈', Color(0xFF4CAF50),'😊'),
 
   /// 그저 그런 돈
   @HiveField(1)
-  normal('그저 그런 돈', Color(0xFF9E9E9E)),
+  normal('그저 그런 돈', Color(0xFF9E9E9E),'😐'),
 
   /// 아까운 돈
   @HiveField(2)
-  regret('아까운 돈', Color(0xFFFF9800)),
+  regret('아까운 돈', Color(0xFFFF9800),'😕'),
 
   /// 후회한 돈
   @HiveField(3)
-  bad('후회한 돈', Color(0xFFF44336));
+  bad('후회한 돈', Color(0xFFF44336),'😩');
 
-  const ExpenseEmotions(this.label, this.color);
+  const ExpenseEmotions(this.label, this.color, this.emoji);
 
   /// 상태 라벨
   final String label;
 
   /// 상태 색상
   final Color color;
+
+  /// 상태 이모지
+  final String emoji;
 }
 
 /// 지출 데이터 모델
