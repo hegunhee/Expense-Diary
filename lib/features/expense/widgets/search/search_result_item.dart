@@ -81,7 +81,7 @@ class SearchResultItem extends StatelessWidget {
                   const SizedBox(height: 8),
                   // 감정 상태 (변경 이력 포함)
                   if (expense.previousEmotion != null &&
-                      expense.statusChangeReason != null)
+                      expense.emotionChangeReason != null)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -95,7 +95,7 @@ class SearchResultItem extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          expense.statusChangeReason!,
+                          expense.emotionChangeReason!,
                           style: TextStyle(
                             fontSize: 12,
                             color: _getStatusColor(expense.emotion),

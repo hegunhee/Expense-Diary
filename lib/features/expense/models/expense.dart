@@ -31,7 +31,7 @@ enum ExpenseCategory {
   final IconData icon;
 }
 
-/// 지출 상태 (잘 쓴 돈, 그저 그런 돈, 아까운 돈, 후회한 돈)
+/// 지출 감정 (잘 쓴 돈, 그저 그런 돈, 아까운 돈, 후회한 돈)
 @HiveType(typeId: 1)
 enum ExpenseEmotions {
   /// 잘 쓴 돈
@@ -75,7 +75,7 @@ class Expense {
     required this.date,
     this.memo,
     this.previousEmotion,
-    this.statusChangeReason,
+    this.emotionChangeReason,
   });
 
   /// 지출 고유 ID
@@ -112,7 +112,7 @@ class Expense {
 
   /// 감정 상태 변경 사유
   @HiveField(8)
-  final String? statusChangeReason;
+  final String? emotionChangeReason;
 
   /// 지출 복사 메서드
   Expense copyWith({
@@ -124,7 +124,7 @@ class Expense {
     DateTime? date,
     String? memo,
     ExpenseEmotions? previousEmotion,
-    String? statusChangeReason,
+    String? emotionChangeReason,
   }) {
     return Expense(
       id: id ?? this.id,
@@ -135,7 +135,7 @@ class Expense {
       date: date ?? this.date,
       memo: memo ?? this.memo,
       previousEmotion: previousEmotion ?? this.previousEmotion,
-      statusChangeReason: statusChangeReason ?? this.statusChangeReason,
+      emotionChangeReason: emotionChangeReason ?? this.emotionChangeReason,
     );
   }
 }

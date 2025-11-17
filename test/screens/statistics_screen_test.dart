@@ -182,7 +182,7 @@ void main() {
           emotion: ExpenseEmotions.regret,
           date: DateTime.now(),
           previousEmotion: ExpenseEmotions.good,
-          statusChangeReason: '생각보다 별로였음',
+          emotionChangeReason: '생각보다 별로였음',
         ),
       );
 

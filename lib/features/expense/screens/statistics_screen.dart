@@ -1,5 +1,4 @@
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
-import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/models/expense_statistics.dart';
 import 'package:expense_tracker/features/expense/screens/emotion_detail_screen.dart';
 import 'package:flutter/material.dart';

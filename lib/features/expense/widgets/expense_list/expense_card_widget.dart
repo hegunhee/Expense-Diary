@@ -85,7 +85,7 @@ class ExpenseCardWidget extends ConsumerWidget {
                   const SizedBox(height: 4),
                   // 감정 변경이 있는 경우
                   if (expense.previousEmotion != null &&
-                      expense.statusChangeReason != null)
+                      expense.emotionChangeReason != null)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -99,7 +99,7 @@ class ExpenseCardWidget extends ConsumerWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          expense.statusChangeReason!,
+                          expense.emotionChangeReason!,
                           style: TextStyle(
                             fontSize: 12,
                             color: _getStatusColor(expense.emotion),
