@@ -90,7 +90,7 @@ class ExpenseCardWidget extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${_getStatusEmoji(expense.previousEmotion!)} ${expense.previousEmotion!.label} → ${_getStatusEmoji(expense.emotion)} ${expense.emotion.label}',
+                          '${expense.previousEmotion!.emoji} ${expense.previousEmotion!.label} → ${expense.emotion.emoji} ${expense.emotion.label}',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -111,7 +111,7 @@ class ExpenseCardWidget extends ConsumerWidget {
                     )
                   else
                     Text(
-                      '${_getStatusEmoji(expense.emotion)} ${expense.emotion.label}',
+                      '${expense.emotion.emoji} ${expense.emotion.label}',
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
@@ -147,19 +147,6 @@ class ExpenseCardWidget extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  String _getStatusEmoji(ExpenseEmotions emotion) {
-    switch (emotion) {
-      case ExpenseEmotions.good:
-        return '😊';
-      case ExpenseEmotions.normal:
-        return '😐';
-      case ExpenseEmotions.regret:
-        return '😕';
-      case ExpenseEmotions.bad:
-        return '😩';
-    }
   }
 
   Color _getStatusColor(ExpenseEmotions emotion) {
