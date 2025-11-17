@@ -120,8 +120,8 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         
         // 감정 선택 (100줄 → 1줄)
         StatusSelectorWidget(
-          selectedStatus: _selectedStatus,
-          onChanged: (status) => setState(() => _selectedStatus = status),
+          selectedEmotion: _selectedEmotion,
+          onChanged: (emotion) => setState(() => _selectedEmotion = emotion),
         ),
         
         const SizedBox(height: 24),
