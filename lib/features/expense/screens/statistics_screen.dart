@@ -181,7 +181,7 @@ class StatisticsScreen extends ConsumerWidget {
             Row(
               children: [
                 Text(
-                  _getStatusEmoji(emotion),
+                  emotion.emoji,
                   style: const TextStyle(fontSize: 24),
                 ),
                 const SizedBox(width: 12),
@@ -232,18 +232,5 @@ class StatisticsScreen extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  String _getStatusEmoji(ExpenseEmotions emotion) {
-    switch (emotion) {
-      case ExpenseEmotions.good:
-        return '😊';
-      case ExpenseEmotions.normal:
-        return '😐';
-      case ExpenseEmotions.regret:
-        return '😕';
-      case ExpenseEmotions.bad:
-        return '😩';
-    }
   }
 }
