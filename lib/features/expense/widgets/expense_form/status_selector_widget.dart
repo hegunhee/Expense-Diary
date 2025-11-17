@@ -6,12 +6,12 @@ class StatusSelectorWidget extends StatelessWidget {
   /// 감정 상태 선택 위젯 생성자
   const StatusSelectorWidget({
     super.key,
-    required this.selectedStatus,
+    required this.selectEmoji,
     required this.onChanged,
   });
 
   /// 선택된 감정 상태
-  final ExpenseEmotions? selectedStatus;
+  final ExpenseEmotions? selectEmoji;
 
   /// 감정 상태 변경 콜백
   final ValueChanged<ExpenseEmotions?> onChanged;
@@ -33,20 +33,20 @@ class StatusSelectorWidget extends StatelessWidget {
         Wrap(
           spacing: 12,
           runSpacing: 12,
-          children: ExpenseEmotions.values.map((status) {
-            final isSelected = selectedStatus == status;
+          children: ExpenseEmotions.values.map((emoji) {
+            final isSelected = selectEmoji == emoji;
             return GestureDetector(
-              onTap: () => onChanged(status),
+              onTap: () => onChanged(emoji),
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: isSelected ? status.color : Colors.white,
+                  color: isSelected ? emoji.color : Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: isSelected ? status.color : const Color(0xFFE0E0E0),
+                    color: isSelected ? emoji.color : const Color(0xFFE0E0E0),
                     width: 2,
                   ),
                 ),
@@ -54,12 +54,12 @@ class StatusSelectorWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      _getEmoji(status.label),
+                      emoji.emoji,
                       style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      status.label,
+                      emoji.label,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -74,20 +74,5 @@ class StatusSelectorWidget extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  String _getEmoji(String label) {
-    switch (label) {
-      case '잘 쓴 돈':
-        return '😊';
-      case '그저 그런 돈':
-        return '😐';
-      case '아까운 돈':
-        return '😕';
-      case '후회한 돈':
-        return '😩';
-      default:
-        return '😊';
-    }
   }
 }

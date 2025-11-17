@@ -328,7 +328,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
             // 감정 카테고리 (위젯으로 분리)
             StatusSelectorWidget(
-              selectedStatus: _selectedStatus,
+              selectEmoji: _selectedStatus,
               onChanged: (status) {
                 setState(() {
                   _selectedStatus = status;
