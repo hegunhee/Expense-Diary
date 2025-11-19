@@ -1,4 +1,3 @@
-
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:hive/hive.dart';
 
@@ -23,7 +22,7 @@ class ExpenseCategoryAdapter extends TypeAdapter<ExpenseCategory> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is ExpenseCategoryAdapter &&
-              runtimeType == other.runtimeType &&
-              typeId == other.typeId;
+      other is ExpenseCategoryAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
