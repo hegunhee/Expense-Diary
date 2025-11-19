@@ -13,7 +13,7 @@ class ExpenseCategoryAdapter extends TypeAdapter<ExpenseCategory> {
 
   @override
   void write(BinaryWriter writer, ExpenseCategory obj) {
-    return writer.writeString(obj.name);
+    writer.writeString(obj.name);
   }
 
   @override
