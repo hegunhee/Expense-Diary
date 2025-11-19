@@ -4,22 +4,17 @@ import 'package:hive/hive.dart';
 part 'expense.g.dart';
 
 /// 지출 카테고리
-@HiveType(typeId: 0)
 enum ExpenseCategory {
   /// 식비 카테고리
-  @HiveField(0)
   food('식비', Icons.restaurant),
 
   /// 교통 카테고리
-  @HiveField(1)
   transport('교통', Icons.directions_car),
 
   /// 쇼핑 카테고리
-  @HiveField(2)
   shopping('쇼핑', Icons.shopping_bag),
 
   /// 문화생활 카테고리
-  @HiveField(3)
   culture('문화생활', Icons.movie);
 
   const ExpenseCategory(this.label, this.icon);

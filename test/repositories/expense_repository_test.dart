@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:expense_tracker/features/expense/models/adpaters/expense_category_adapter.dart';
 import 'package:expense_tracker/features/expense/models/adpaters/expense_emotion_adapter.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';

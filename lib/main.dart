@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expense_tracker/core/controllers/theme_controller.dart';
 import 'package:expense_tracker/core/themes/app_theme.dart';
+import 'package:expense_tracker/features/expense/models/adpaters/expense_category_adapter.dart';
 import 'package:expense_tracker/features/expense/models/adpaters/expense_emotion_adapter.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/screens/expense_list_screen.dart';
