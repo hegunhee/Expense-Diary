@@ -61,19 +61,19 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
 }
 
 /// 필터 컨트롤러
-class FilterController extends Notifier<ExpenseStatus?> {
+class FilterController extends Notifier<ExpenseEmotions?> {
   @override
-  ExpenseStatus? build() => null;
+  ExpenseEmotions? build() => null;
 
   /// 필터 상태 설정
-  void setFilter(ExpenseStatus? status) {
+  void setFilter(ExpenseEmotions? status) {
     state = status;
   }
 }
 
 /// 필터 컨트롤러 Provider
 final filterControllerProvider =
-    NotifierProvider<FilterController, ExpenseStatus?>(
+    NotifierProvider<FilterController, ExpenseEmotions?>(
       FilterController.new,
     );
 
@@ -87,7 +87,7 @@ final filteredExpenseProvider = Provider<List<Expense>>((ref) {
       if (filter == null) {
         return expenses;
       }
-      return expenses.where((expense) => expense.status == filter).toList();
+      return expenses.where((expense) => expense.emotion == filter).toList();
     },
     loading: () => [],
     error: (error, stackTrace) => [],

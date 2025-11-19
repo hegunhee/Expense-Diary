@@ -15,7 +15,7 @@ class ExpenseSummaryCard extends StatelessWidget {
   final int totalAmount;
 
   /// 선택된 필터
-  final ExpenseStatus? selectedFilter;
+  final ExpenseEmotions? selectedFilter;
 
   @override
   Widget build(BuildContext context) {

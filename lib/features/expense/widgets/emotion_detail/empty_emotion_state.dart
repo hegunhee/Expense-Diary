@@ -6,11 +6,11 @@ class EmptyEmotionState extends StatelessWidget {
   /// 감정별 지출 없음 상태 위젯 생성자
   const EmptyEmotionState({
     super.key,
-    required this.status,
+    required this.emotion,
   });
 
   /// 표시할 감정 상태
-  final ExpenseStatus status;
+  final ExpenseEmotions emotion;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +19,12 @@ class EmptyEmotionState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            _getStatusEmoji(status),
+            emotion.emoji,
             style: const TextStyle(fontSize: 80),
           ),
           const SizedBox(height: 16),
           Text(
-            '아직 ${status.label} 지출이 없습니다',
+            '아직 ${emotion.label} 지출이 없습니다',
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey[600],
@@ -33,18 +33,5 @@ class EmptyEmotionState extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _getStatusEmoji(ExpenseStatus status) {
-    switch (status) {
-      case ExpenseStatus.good:
-        return '😊';
-      case ExpenseStatus.normal:
-        return '😐';
-      case ExpenseStatus.regret:
-        return '😕';
-      case ExpenseStatus.bad:
-        return '😩';
-    }
   }
 }

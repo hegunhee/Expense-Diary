@@ -80,25 +80,25 @@ class SearchResultItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   // 감정 상태 (변경 이력 포함)
-                  if (expense.previousStatus != null &&
-                      expense.statusChangeReason != null)
+                  if (expense.previousEmotion != null &&
+                      expense.emotionChangeReason != null)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${_getStatusEmoji(expense.previousStatus!)} ${expense.previousStatus!.label} → ${_getStatusEmoji(expense.status)} ${expense.status.label}',
+                          '${expense.previousEmotion!.emoji} ${expense.previousEmotion!.label} → ${expense.emotion.emoji} ${expense.emotion.label}',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: _getStatusColor(expense.status),
+                            color: _getStatusColor(expense.emotion),
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          expense.statusChangeReason!,
+                          expense.emotionChangeReason!,
                           style: TextStyle(
                             fontSize: 12,
-                            color: _getStatusColor(expense.status),
+                            color: _getStatusColor(expense.emotion),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -107,11 +107,11 @@ class SearchResultItem extends StatelessWidget {
                     )
                   else
                     Text(
-                      '${_getStatusEmoji(expense.status)} ${expense.status.label}',
+                      '${expense.emotion.emoji} ${expense.emotion.label}',
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: _getStatusColor(expense.status),
+                        color: _getStatusColor(expense.emotion),
                       ),
                     ),
                   // 메모 (있는 경우)
@@ -159,28 +159,15 @@ class SearchResultItem extends StatelessWidget {
     }
   }
 
-  String _getStatusEmoji(ExpenseStatus status) {
-    switch (status) {
-      case ExpenseStatus.good:
-        return '😊';
-      case ExpenseStatus.normal:
-        return '😐';
-      case ExpenseStatus.regret:
-        return '😕';
-      case ExpenseStatus.bad:
-        return '😩';
-    }
-  }
-
-  Color _getStatusColor(ExpenseStatus status) {
-    switch (status) {
-      case ExpenseStatus.good:
+  Color _getStatusColor(ExpenseEmotions emotion) {
+    switch (emotion) {
+      case ExpenseEmotions.good:
         return const Color(0xFF4CAF50);
-      case ExpenseStatus.normal:
+      case ExpenseEmotions.normal:
         return const Color(0xFF9E9E9E);
-      case ExpenseStatus.regret:
+      case ExpenseEmotions.regret:
         return const Color(0xFFFF9800);
-      case ExpenseStatus.bad:
+      case ExpenseEmotions.bad:
         return const Color(0xFFF44336);
     }
   }

@@ -22,7 +22,7 @@ void main() {
 
       // Hive 어댑터 등록
       Hive.registerAdapter(ExpenseCategoryAdapter());
-      Hive.registerAdapter(ExpenseStatusAdapter());
+      Hive.registerAdapter(ExpenseEmotionsAdapter());
       Hive.registerAdapter(ExpenseAdapter());
 
       await Hive.openBox<Expense>('expenses');

@@ -9,10 +9,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// 감정별 상세 화면
 class EmotionDetailScreen extends ConsumerWidget {
   /// 감정별 상세 화면 생성자
-  const EmotionDetailScreen({super.key, required this.status});
+  const EmotionDetailScreen({super.key, required this.emotion});
 
   /// 표시할 감정 상태
-  final ExpenseStatus status;
+  final ExpenseEmotions emotion;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,16 +29,16 @@ class EmotionDetailScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              _getStatusEmoji(status),
+              emotion.emoji,
               style: const TextStyle(fontSize: 24),
             ),
             const SizedBox(width: 8),
             Text(
-              status.label,
+              emotion.label,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: status.color,
+                color: emotion.color,
               ),
             ),
           ],
@@ -51,11 +51,11 @@ class EmotionDetailScreen extends ConsumerWidget {
         data: (expenses) {
           // 해당 감정의 지출만 필터링
           final filteredExpenses =
-              expenses.where((e) => e.status == status).toList()
+              expenses.where((e) => e.emotion == emotion).toList()
                 ..sort((a, b) => b.date.compareTo(a.date));
 
           if (filteredExpenses.isEmpty) {
-            return EmptyEmotionState(status: status);
+            return EmptyEmotionState(emotion: emotion);
           }
 
           final totalAmount = filteredExpenses.fold(
@@ -67,7 +67,7 @@ class EmotionDetailScreen extends ConsumerWidget {
             children: [
               // 상단 요약 카드 (위젯으로 분리)
               EmotionSummaryCard(
-                status: status,
+                emotion: emotion,
                 count: filteredExpenses.length,
                 totalAmount: totalAmount,
               ),
@@ -88,18 +88,5 @@ class EmotionDetailScreen extends ConsumerWidget {
         error: (error, stack) => Center(child: Text('오류가 발생했습니다: $error')),
       ),
     );
-  }
-
-  String _getStatusEmoji(ExpenseStatus status) {
-    switch (status) {
-      case ExpenseStatus.good:
-        return '😊';
-      case ExpenseStatus.normal:
-        return '😐';
-      case ExpenseStatus.regret:
-        return '😕';
-      case ExpenseStatus.bad:
-        return '😩';
-    }
   }
 }

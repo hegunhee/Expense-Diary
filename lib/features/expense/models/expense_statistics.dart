@@ -4,13 +4,13 @@ import 'package:expense_tracker/features/expense/models/expense.dart';
 class EmotionStatistics {
   /// 감정별 통계 데이터 생성자
   const EmotionStatistics({
-    required this.status,
+    required this.emotion,
     required this.count,
     required this.amount,
   });
 
   /// 감정 상태
-  final ExpenseStatus status;
+  final ExpenseEmotions emotion;
 
   /// 지출 건수
   final int count;
@@ -43,17 +43,17 @@ class ExpenseAnalytics {
     }
 
     // 감정별 통계 계산
-    final statsMap = <ExpenseStatus, EmotionStatistics>{};
+    final statsMap = <ExpenseEmotions, EmotionStatistics>{};
 
-    for (final status in ExpenseStatus.values) {
+    for (final emotion in ExpenseEmotions.values) {
       final filteredExpenses = expenses
-          .where((e) => e.status == status)
+          .where((e) => e.emotion == emotion)
           .toList();
       final count = filteredExpenses.length;
       final amount = filteredExpenses.fold<int>(0, (sum, e) => sum + e.amount);
 
-      statsMap[status] = EmotionStatistics(
-        status: status,
+      statsMap[emotion] = EmotionStatistics(
+        emotion: emotion,
         count: count,
         amount: amount,
       );
@@ -65,7 +65,7 @@ class ExpenseAnalytics {
     return ExpenseAnalytics(
       totalAmount: totalAmount,
       totalCount: totalCount,
-      emotionStats: ExpenseStatus.values
+      emotionStats: ExpenseEmotions.values
           .map((status) => statsMap[status]!)
           .toList(),
     );

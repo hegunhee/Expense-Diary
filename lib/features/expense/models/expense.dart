@@ -31,32 +31,35 @@ enum ExpenseCategory {
   final IconData icon;
 }
 
-/// 지출 상태 (잘 쓴 돈, 그저 그런 돈, 아까운 돈, 후회한 돈)
+/// 지출 감정 (잘 쓴 돈, 그저 그런 돈, 아까운 돈, 후회한 돈)
 @HiveType(typeId: 1)
-enum ExpenseStatus {
+enum ExpenseEmotions {
   /// 잘 쓴 돈
   @HiveField(0)
-  good('잘 쓴 돈', Color(0xFF4CAF50)),
+  good('잘 쓴 돈', Color(0xFF4CAF50), '😊'),
 
   /// 그저 그런 돈
   @HiveField(1)
-  normal('그저 그런 돈', Color(0xFF9E9E9E)),
+  normal('그저 그런 돈', Color(0xFF9E9E9E), '😐'),
 
   /// 아까운 돈
   @HiveField(2)
-  regret('아까운 돈', Color(0xFFFF9800)),
+  regret('아까운 돈', Color(0xFFFF9800), '😕'),
 
   /// 후회한 돈
   @HiveField(3)
-  bad('후회한 돈', Color(0xFFF44336));
+  bad('후회한 돈', Color(0xFFF44336), '😩');
 
-  const ExpenseStatus(this.label, this.color);
+  const ExpenseEmotions(this.label, this.color, this.emoji);
 
   /// 상태 라벨
   final String label;
 
   /// 상태 색상
   final Color color;
+
+  /// 상태 이모지
+  final String emoji;
 }
 
 /// 지출 데이터 모델
@@ -68,11 +71,11 @@ class Expense {
     required this.title,
     required this.amount,
     required this.category,
-    required this.status,
+    required this.emotion,
     required this.date,
     this.memo,
-    this.previousStatus,
-    this.statusChangeReason,
+    this.previousEmotion,
+    this.emotionChangeReason,
   });
 
   /// 지출 고유 ID
@@ -93,7 +96,7 @@ class Expense {
 
   /// 지출 감정 상태
   @HiveField(4)
-  final ExpenseStatus status;
+  final ExpenseEmotions emotion;
 
   /// 지출 날짜
   @HiveField(5)
@@ -105,11 +108,11 @@ class Expense {
 
   /// 이전 감정 상태 (변경된 경우)
   @HiveField(7)
-  final ExpenseStatus? previousStatus;
+  final ExpenseEmotions? previousEmotion;
 
   /// 감정 상태 변경 사유
   @HiveField(8)
-  final String? statusChangeReason;
+  final String? emotionChangeReason;
 
   /// 지출 복사 메서드
   Expense copyWith({
@@ -117,22 +120,22 @@ class Expense {
     String? title,
     int? amount,
     ExpenseCategory? category,
-    ExpenseStatus? status,
+    ExpenseEmotions? emotion,
     DateTime? date,
     String? memo,
-    ExpenseStatus? previousStatus,
-    String? statusChangeReason,
+    ExpenseEmotions? previousEmotion,
+    String? emotionChangeReason,
   }) {
     return Expense(
       id: id ?? this.id,
       title: title ?? this.title,
       amount: amount ?? this.amount,
       category: category ?? this.category,
-      status: status ?? this.status,
+      emotion: emotion ?? this.emotion,
       date: date ?? this.date,
       memo: memo ?? this.memo,
-      previousStatus: previousStatus ?? this.previousStatus,
-      statusChangeReason: statusChangeReason ?? this.statusChangeReason,
+      previousEmotion: previousEmotion ?? this.previousEmotion,
+      emotionChangeReason: emotionChangeReason ?? this.emotionChangeReason,
     );
   }
 }

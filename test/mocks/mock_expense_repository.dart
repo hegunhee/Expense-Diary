@@ -55,8 +55,8 @@ class MockExpenseRepository implements ExpenseRepository {
   }
 
   @override
-  List<Expense> filterByStatus(ExpenseStatus status) {
-    return _expenses.where((expense) => expense.status == status).toList()
+  List<Expense> filterByStatus(ExpenseEmotions emotion) {
+    return _expenses.where((expense) => expense.emotion == emotion).toList()
       ..sort((a, b) => b.date.compareTo(a.date));
   }
 }

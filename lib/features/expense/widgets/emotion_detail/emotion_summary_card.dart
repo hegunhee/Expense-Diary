@@ -7,13 +7,13 @@ class EmotionSummaryCard extends StatelessWidget {
   /// 생성자
   const EmotionSummaryCard({
     super.key,
-    required this.status,
+    required this.emotion,
     required this.count,
     required this.totalAmount,
   });
 
   /// 감정 상태
-  final ExpenseStatus status;
+  final ExpenseEmotions emotion;
 
   /// 지출 건수
   final int count;
@@ -27,11 +27,11 @@ class EmotionSummaryCard extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: _getStatusColor(status),
+        color: _getStatusColor(emotion),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: _getStatusColor(status).withValues(alpha: 0.3),
+            color: _getStatusColor(emotion).withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -40,7 +40,7 @@ class EmotionSummaryCard extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            _getStatusEmoji(status),
+            emotion.emoji,
             style: const TextStyle(fontSize: 48),
           ),
           const SizedBox(width: 16),
@@ -49,7 +49,7 @@ class EmotionSummaryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  status.label,
+                  emotion.label,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -93,28 +93,15 @@ class EmotionSummaryCard extends StatelessWidget {
     );
   }
 
-  String _getStatusEmoji(ExpenseStatus status) {
-    switch (status) {
-      case ExpenseStatus.good:
-        return '😊';
-      case ExpenseStatus.normal:
-        return '😐';
-      case ExpenseStatus.regret:
-        return '😕';
-      case ExpenseStatus.bad:
-        return '😩';
-    }
-  }
-
-  Color _getStatusColor(ExpenseStatus status) {
-    switch (status) {
-      case ExpenseStatus.good:
+  Color _getStatusColor(ExpenseEmotions emotion) {
+    switch (emotion) {
+      case ExpenseEmotions.good:
         return const Color(0xFF4CAF50);
-      case ExpenseStatus.normal:
+      case ExpenseEmotions.normal:
         return const Color(0xFF9E9E9E);
-      case ExpenseStatus.regret:
+      case ExpenseEmotions.regret:
         return const Color(0xFFFF9800);
-      case ExpenseStatus.bad:
+      case ExpenseEmotions.bad:
         return const Color(0xFFF44336);
     }
   }

@@ -1,5 +1,4 @@
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
-import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/models/expense_statistics.dart';
 import 'package:expense_tracker/features/expense/screens/emotion_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -145,7 +144,7 @@ class StatisticsScreen extends ConsumerWidget {
     required BuildContext context,
   }) {
     final percentage = emotionStat.getPercentage(totalCount);
-    final status = emotionStat.status;
+    final emotion = emotionStat.emotion;
     final count = emotionStat.count;
     final amount = emotionStat.amount;
 
@@ -155,7 +154,7 @@ class StatisticsScreen extends ConsumerWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EmotionDetailScreen(status: status),
+                  builder: (context) => EmotionDetailScreen(emotion: emotion),
                 ),
               );
             }
@@ -181,7 +180,7 @@ class StatisticsScreen extends ConsumerWidget {
             Row(
               children: [
                 Text(
-                  _getStatusEmoji(status),
+                  emotion.emoji,
                   style: const TextStyle(fontSize: 24),
                 ),
                 const SizedBox(width: 12),
@@ -190,11 +189,11 @@ class StatisticsScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        status.label,
+                        emotion.label,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: status.color,
+                          color: emotion.color,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -213,7 +212,7 @@ class StatisticsScreen extends ConsumerWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: status.color,
+                    color: emotion.color,
                   ),
                 ),
               ],
@@ -224,7 +223,7 @@ class StatisticsScreen extends ConsumerWidget {
               child: LinearProgressIndicator(
                 value: percentage / 100,
                 backgroundColor: Colors.grey[200],
-                valueColor: AlwaysStoppedAnimation<Color>(status.color),
+                valueColor: AlwaysStoppedAnimation<Color>(emotion.color),
                 minHeight: 8,
               ),
             ),
@@ -232,18 +231,5 @@ class StatisticsScreen extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  String _getStatusEmoji(ExpenseStatus status) {
-    switch (status) {
-      case ExpenseStatus.good:
-        return '😊';
-      case ExpenseStatus.normal:
-        return '😐';
-      case ExpenseStatus.regret:
-        return '😕';
-      case ExpenseStatus.bad:
-        return '😩';
-    }
   }
 }

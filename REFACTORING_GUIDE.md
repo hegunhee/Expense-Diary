@@ -103,7 +103,7 @@ import 'package:expense_tracker/features/expense/widgets/amount_input_field.dart
 
 class _AddExpenseScreenState extends State<AddExpenseScreen> {
   ExpenseCategory? _selectedCategory;
-  ExpenseStatus? _selectedStatus;
+  ExpenseEmotions? _selectedEmotion;
   final _amountController = TextEditingController();
 
   @override
@@ -120,8 +120,8 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         
         // 감정 선택 (100줄 → 1줄)
         StatusSelectorWidget(
-          selectedStatus: _selectedStatus,
-          onChanged: (status) => setState(() => _selectedStatus = status),
+          selectedEmotion: _selectedEmotion,
+          onChanged: (emotion) => setState(() => _selectedEmotion = emotion),
         ),
         
         const SizedBox(height: 24),
