@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:expense_tracker/features/expense/models/adpaters/expense_category_adapter.dart';
+import 'package:expense_tracker/features/expense/models/adpaters/expense_emotion_adapter.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,10 +22,10 @@ void main() {
       await Hive.openBox<Expense>('expenses');
 
       // 어댑터 등록
-      if (!Hive.isAdapterRegistered(0)) {
+      if (!Hive.isAdapterRegistered(ExpenseCategoryAdapter.adapterTypeId)) {
         Hive.registerAdapter(ExpenseCategoryAdapter());
       }
-      if (!Hive.isAdapterRegistered(1)) {
+      if (!Hive.isAdapterRegistered(ExpenseEmotionsAdapter.adapterTypeId)) {
         Hive.registerAdapter(ExpenseEmotionsAdapter());
       }
       if (!Hive.isAdapterRegistered(2)) {

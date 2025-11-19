@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expense_tracker/core/controllers/theme_controller.dart';
 import 'package:expense_tracker/core/themes/app_theme.dart';
+import 'package:expense_tracker/features/expense/models/adpaters/expense_category_adapter.dart';
+import 'package:expense_tracker/features/expense/models/adpaters/expense_emotion_adapter.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/screens/expense_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +23,15 @@ void main() {
       await Hive.initFlutter();
 
       // Hive 어댑터 등록
-      Hive.registerAdapter(ExpenseCategoryAdapter());
-      Hive.registerAdapter(ExpenseEmotionsAdapter());
-      Hive.registerAdapter(ExpenseAdapter());
+      if (!Hive.isAdapterRegistered(ExpenseCategoryAdapter.adapterTypeId)) {
+        Hive.registerAdapter(ExpenseCategoryAdapter());
+      }
+      if (!Hive.isAdapterRegistered(ExpenseEmotionsAdapter.adapterTypeId)) {
+        Hive.registerAdapter(ExpenseEmotionsAdapter());
+      }
+      if (!Hive.isAdapterRegistered(2)) {
+        Hive.registerAdapter(ExpenseAdapter());
+      }
 
       await Hive.openBox<Expense>('expenses');
 

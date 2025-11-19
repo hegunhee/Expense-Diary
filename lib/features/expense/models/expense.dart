@@ -4,22 +4,17 @@ import 'package:hive/hive.dart';
 part 'expense.g.dart';
 
 /// 지출 카테고리
-@HiveType(typeId: 0)
 enum ExpenseCategory {
   /// 식비 카테고리
-  @HiveField(0)
   food('식비', Icons.restaurant),
 
   /// 교통 카테고리
-  @HiveField(1)
   transport('교통', Icons.directions_car),
 
   /// 쇼핑 카테고리
-  @HiveField(2)
   shopping('쇼핑', Icons.shopping_bag),
 
   /// 문화생활 카테고리
-  @HiveField(3)
   culture('문화생활', Icons.movie);
 
   const ExpenseCategory(this.label, this.icon);
@@ -32,22 +27,17 @@ enum ExpenseCategory {
 }
 
 /// 지출 감정 (잘 쓴 돈, 그저 그런 돈, 아까운 돈, 후회한 돈)
-@HiveType(typeId: 1)
 enum ExpenseEmotions {
   /// 잘 쓴 돈
-  @HiveField(0)
   good('잘 쓴 돈', Color(0xFF4CAF50), '😊'),
 
   /// 그저 그런 돈
-  @HiveField(1)
   normal('그저 그런 돈', Color(0xFF9E9E9E), '😐'),
 
   /// 아까운 돈
-  @HiveField(2)
   regret('아까운 돈', Color(0xFFFF9800), '😕'),
 
   /// 후회한 돈
-  @HiveField(3)
   bad('후회한 돈', Color(0xFFF44336), '😩');
 
   const ExpenseEmotions(this.label, this.color, this.emoji);
