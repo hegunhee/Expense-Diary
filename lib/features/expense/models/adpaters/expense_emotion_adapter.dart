@@ -3,8 +3,11 @@ import 'package:hive/hive.dart';
 
 /// 지출 감정 어댑터(DB용, ordial값보다는 name값을 사용하고싶어서 직접 커스텀)
 class ExpenseEmotionsAdapter extends TypeAdapter<ExpenseEmotions> {
+  /// 타입 아이디
+  static const adapterTypeId = 1;
+
   @override
-  final typeId = 1;
+  final typeId = adapterTypeId;
 
   @override
   ExpenseEmotions read(BinaryReader reader) {

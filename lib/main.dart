@@ -23,10 +23,10 @@ void main() {
       await Hive.initFlutter();
 
       // Hive 어댑터 등록
-      if (!Hive.isAdapterRegistered(0)) {
+      if (!Hive.isAdapterRegistered(ExpenseCategoryAdapter.adapterTypeId)) {
         Hive.registerAdapter(ExpenseCategoryAdapter());
       }
-      if (!Hive.isAdapterRegistered(1)) {
+      if (!Hive.isAdapterRegistered(ExpenseEmotionsAdapter.adapterTypeId)) {
         Hive.registerAdapter(ExpenseEmotionsAdapter());
       }
       if (!Hive.isAdapterRegistered(2)) {
