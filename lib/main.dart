@@ -23,9 +23,15 @@ void main() {
       await Hive.initFlutter();
 
       // Hive 어댑터 등록
-      Hive.registerAdapter(ExpenseCategoryAdapter());
-      Hive.registerAdapter(ExpenseEmotionsAdapter());
-      Hive.registerAdapter(ExpenseAdapter());
+      if (!Hive.isAdapterRegistered(0)) {
+        Hive.registerAdapter(ExpenseCategoryAdapter());
+      }
+      if (!Hive.isAdapterRegistered(1)) {
+        Hive.registerAdapter(ExpenseEmotionsAdapter());
+      }
+      if (!Hive.isAdapterRegistered(2)) {
+        Hive.registerAdapter(ExpenseAdapter());
+      }
 
       await Hive.openBox<Expense>('expenses');
 
