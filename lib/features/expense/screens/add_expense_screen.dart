@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/utils/layout_utils.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/amount_input_field.dart';
@@ -269,7 +270,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               ]
             : null,
       ),
-      body: SingleChildScrollView(
+      body: Padding(padding: systemBarsPadding(context), child: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -446,6 +447,6 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

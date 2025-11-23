@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/utils/layout_utils.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/widgets/emotion_detail/emotion_summary_card.dart';
@@ -47,7 +48,7 @@ class EmotionDetailScreen extends ConsumerWidget {
         elevation: 0,
         centerTitle: true,
       ),
-      body: expensesAsync.when(
+      body: Padding(padding: systemBarsPadding(context) ,child: expensesAsync.when(
         data: (expenses) {
           // 해당 감정의 지출만 필터링
           final filteredExpenses =
@@ -87,6 +88,6 @@ class EmotionDetailScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(child: Text('오류가 발생했습니다: $error')),
       ),
-    );
+    ));
   }
 }

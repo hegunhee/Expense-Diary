@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/utils/layout_utils.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
@@ -69,7 +70,7 @@ class ExpenseListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: Column(
+      body: Padding(padding: systemBarsPadding(context), child: Column(
         children: [
           // 필터 탭
           Container(
@@ -170,7 +171,7 @@ class ExpenseListScreen extends ConsumerWidget {
                   ),
           ),
         ],
-      ),
+      )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

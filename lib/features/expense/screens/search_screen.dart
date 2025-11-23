@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/utils/layout_utils.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
 import 'package:expense_tracker/features/expense/widgets/search/empty_search_state.dart';
@@ -49,7 +50,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Column(
+      body: Padding(padding: systemBarsPadding(context), child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 검색 입력 필드 (위젯으로 분리)
@@ -141,6 +142,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
