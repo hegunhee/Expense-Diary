@@ -48,46 +48,51 @@ class EmotionDetailScreen extends ConsumerWidget {
         elevation: 0,
         centerTitle: true,
       ),
-      body: Padding(padding: systemBarsPadding(context) ,child: expensesAsync.when(
-        data: (expenses) {
-          // 해당 감정의 지출만 필터링
-          final filteredExpenses =
-              expenses.where((e) => e.emotion == emotion).toList()
-                ..sort((a, b) => b.date.compareTo(a.date));
+      body: Padding(
+        padding: systemBarsPadding(context),
+        child: expensesAsync.when(
+          data: (expenses) {
+            // 해당 감정의 지출만 필터링
+            final filteredExpenses =
+                expenses.where((e) => e.emotion == emotion).toList()
+                  ..sort((a, b) => b.date.compareTo(a.date));
 
-          if (filteredExpenses.isEmpty) {
-            return EmptyEmotionState(emotion: emotion);
-          }
+            if (filteredExpenses.isEmpty) {
+              return EmptyEmotionState(emotion: emotion);
+            }
 
-          final totalAmount = filteredExpenses.fold(
-            0,
-            (sum, e) => sum + e.amount,
-          );
+            final totalAmount = filteredExpenses.fold(
+              0,
+              (sum, e) => sum + e.amount,
+            );
 
-          return Column(
-            children: [
-              // 상단 요약 카드 (위젯으로 분리)
-              EmotionSummaryCard(
-                emotion: emotion,
-                count: filteredExpenses.length,
-                totalAmount: totalAmount,
-              ),
-              // 지출 목록
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: filteredExpenses.length,
-                  itemBuilder: (context, index) {
-                    return ExpenseCardWidget(expense: filteredExpenses[index]);
-                  },
+            return Column(
+              children: [
+                // 상단 요약 카드 (위젯으로 분리)
+                EmotionSummaryCard(
+                  emotion: emotion,
+                  count: filteredExpenses.length,
+                  totalAmount: totalAmount,
                 ),
-              ),
-            ],
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('오류가 발생했습니다: $error')),
+                // 지출 목록
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: filteredExpenses.length,
+                    itemBuilder: (context, index) {
+                      return ExpenseCardWidget(
+                        expense: filteredExpenses[index],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(child: Text('오류가 발생했습니다: $error')),
+        ),
       ),
-    ));
+    );
   }
 }

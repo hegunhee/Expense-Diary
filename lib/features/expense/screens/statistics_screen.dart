@@ -37,10 +37,13 @@ class StatisticsScreen extends ConsumerWidget {
         elevation: 0,
         centerTitle: true,
       ),
-      body: Padding(padding: systemBarsPadding(context), child: analytics.totalCount == 0
-          ? _buildEmptyState()
-          : _buildStatisticsContent(analytics, context),
-    ));
+      body: Padding(
+        padding: systemBarsPadding(context),
+        child: analytics.totalCount == 0
+            ? _buildEmptyState()
+            : _buildStatisticsContent(analytics, context),
+      ),
+    );
   }
 
   Widget _buildEmptyState() {
