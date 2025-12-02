@@ -28,6 +28,11 @@ dependencies:
   pedantic_mono: ^1.34.0
   http: ^1.5.0
 
+  # Local Database
+  drift: ^2.29.0
+  drift_flutter: ^0.2.7
+  sqlite3_flutter_libs: ^0.5.41
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
