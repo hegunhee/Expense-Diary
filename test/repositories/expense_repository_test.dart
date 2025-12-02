@@ -64,6 +64,7 @@ void main() {
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
         memo: '테스트 메모',
+        createdAt: DateTime.now(),
       );
 
       await sut.addExpense(newExpense);
@@ -83,6 +84,7 @@ void main() {
         emotion: ExpenseEmotions.regret,
         date: DateTime.now(),
         memo: '수정된 메모',
+        createdAt: DateTime.now(),
       );
 
       await sut.updateExpense(updatedExpense);
@@ -170,6 +172,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       final expense2 = Expense(
@@ -179,6 +182,7 @@ void main() {
         category: ExpenseCategory.transport,
         emotion: ExpenseEmotions.normal,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await sut.addExpense(expense1);
@@ -203,6 +207,7 @@ void main() {
         category: ExpenseCategory.culture,
         emotion: ExpenseEmotions.bad,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await sut.addExpense(newExpense);
@@ -230,6 +235,7 @@ Future<void> _addSampleData(ExpenseRepository service) async {
       emotion: ExpenseEmotions.good,
       date: now,
       memo: '맛있었음',
+      createdAt: DateTime.now(),
     ),
     Expense(
       id: '2',
@@ -238,6 +244,7 @@ Future<void> _addSampleData(ExpenseRepository service) async {
       category: ExpenseCategory.transport,
       emotion: ExpenseEmotions.normal,
       date: now.subtract(const Duration(days: 1)),
+      createdAt: DateTime.now(),
     ),
     Expense(
       id: '3',
@@ -246,6 +253,7 @@ Future<void> _addSampleData(ExpenseRepository service) async {
       category: ExpenseCategory.culture,
       emotion: ExpenseEmotions.good,
       date: now.subtract(const Duration(days: 2)),
+      createdAt: DateTime.now(),
     ),
     Expense(
       id: '4',
@@ -255,6 +263,7 @@ Future<void> _addSampleData(ExpenseRepository service) async {
       emotion: ExpenseEmotions.regret,
       date: now.subtract(const Duration(days: 3)),
       memo: '별로 안 입을 것 같음',
+      createdAt: DateTime.now(),
     ),
     Expense(
       id: '5',
@@ -263,6 +272,7 @@ Future<void> _addSampleData(ExpenseRepository service) async {
       category: ExpenseCategory.food,
       emotion: ExpenseEmotions.bad,
       date: now.subtract(const Duration(days: 4)),
+      createdAt: DateTime.now(),
     ),
   ];
 

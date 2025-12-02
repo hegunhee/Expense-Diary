@@ -76,6 +76,8 @@ class Expense {
     this.memo,
     this.previousEmotion,
     this.emotionChangeReason,
+    required this.createdAt,
+    this.updatedAt
   });
 
   /// 지출 고유 ID
@@ -114,6 +116,14 @@ class Expense {
   @HiveField(8)
   final String? emotionChangeReason;
 
+  /// 지출 내용이 생성된 시점의 시간 (추후 시간을 변경할수도 있으므로)
+  @HiveField(9)
+  final DateTime createdAt;
+
+  /// 업데이트된 시간 아직 생성만 한 지출의 경우 null이 될 수 있음
+  @HiveField(10)
+  final DateTime? updatedAt;
+
   /// 지출 복사 메서드
   Expense copyWith({
     String? id,
@@ -125,6 +135,8 @@ class Expense {
     String? memo,
     ExpenseEmotions? previousEmotion,
     String? emotionChangeReason,
+    DateTime? createdAt,
+    DateTime? updatedAt
   }) {
     return Expense(
       id: id ?? this.id,
@@ -136,6 +148,8 @@ class Expense {
       memo: memo ?? this.memo,
       previousEmotion: previousEmotion ?? this.previousEmotion,
       emotionChangeReason: emotionChangeReason ?? this.emotionChangeReason,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt
     );
   }
 }

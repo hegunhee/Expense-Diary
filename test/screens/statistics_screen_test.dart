@@ -47,6 +47,7 @@ void main() {
           category: ExpenseCategory.food,
           emotion: ExpenseEmotions.good,
           date: DateTime.now(),
+          createdAt: DateTime.now(),
         ),
       );
       await mockService.addExpense(
@@ -57,6 +58,7 @@ void main() {
           category: ExpenseCategory.food,
           emotion: ExpenseEmotions.regret,
           date: DateTime.now(),
+          createdAt: DateTime.now(),
         ),
       );
 
@@ -88,6 +90,7 @@ void main() {
           category: ExpenseCategory.food,
           emotion: ExpenseEmotions.good,
           date: DateTime.now(),
+          createdAt: DateTime.now(),
         ),
       );
       await mockService.addExpense(
@@ -98,6 +101,7 @@ void main() {
           category: ExpenseCategory.food,
           emotion: ExpenseEmotions.good,
           date: DateTime.now(),
+          createdAt: DateTime.now(),
         ),
       );
 
@@ -147,6 +151,7 @@ void main() {
           category: ExpenseCategory.food,
           emotion: ExpenseEmotions.good,
           date: DateTime.now(),
+          createdAt: DateTime.now(),
         ),
       );
 
@@ -183,6 +188,7 @@ void main() {
           date: DateTime.now(),
           previousEmotion: ExpenseEmotions.good,
           emotionChangeReason: '생각보다 별로였음',
+          createdAt: DateTime.now(),
         ),
       );
 

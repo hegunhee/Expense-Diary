@@ -411,6 +411,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -440,6 +441,7 @@ void main() {
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
         memo: '맛있었음',
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -469,6 +471,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -505,6 +508,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -537,6 +541,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -569,6 +574,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -600,6 +606,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -632,6 +639,7 @@ void main() {
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
         memo: '맛있었음',
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -666,6 +674,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -708,6 +717,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -757,6 +767,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -811,6 +822,7 @@ void main() {
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(

@@ -290,6 +290,7 @@ Future<void> _addSampleData(MockExpenseRepository service) async {
       emotion: ExpenseEmotions.good,
       date: now,
       memo: '맛있었음',
+        createdAt: DateTime.now()
     ),
     Expense(
       id: '2',
@@ -298,6 +299,7 @@ Future<void> _addSampleData(MockExpenseRepository service) async {
       category: ExpenseCategory.transport,
       emotion: ExpenseEmotions.normal,
       date: now.subtract(const Duration(days: 1)),
+        createdAt: DateTime.now()
     ),
     Expense(
       id: '3',
@@ -306,6 +308,7 @@ Future<void> _addSampleData(MockExpenseRepository service) async {
       category: ExpenseCategory.culture,
       emotion: ExpenseEmotions.good,
       date: now.subtract(const Duration(days: 2)),
+        createdAt: DateTime.now()
     ),
     Expense(
       id: '4',
@@ -315,6 +318,7 @@ Future<void> _addSampleData(MockExpenseRepository service) async {
       emotion: ExpenseEmotions.regret,
       date: now.subtract(const Duration(days: 3)),
       memo: '별로 안 입을 것 같음',
+        createdAt: DateTime.now()
     ),
     Expense(
       id: '5',
@@ -323,6 +327,7 @@ Future<void> _addSampleData(MockExpenseRepository service) async {
       category: ExpenseCategory.food,
       emotion: ExpenseEmotions.bad,
       date: now.subtract(const Duration(days: 4)),
+        createdAt: DateTime.now()
     ),
   ];
 
