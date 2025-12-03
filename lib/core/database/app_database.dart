@@ -12,7 +12,15 @@ part 'app_database.g.dart';
 @DriftDatabase(tables: [ExpenseEntity])
 class AppDatabase extends _$AppDatabase {
   /// 생성자
-  AppDatabase() : super(_openConnection());
+  AppDatabase._(super.e);
+
+  /// 실제 앱에서 사용하는 파일 기반 DB 인스턴스를 생성한다.
+  factory AppDatabase.production() => AppDatabase._(_openConnection());
+
+  /// 테스트에서만 사용하는 인메모리 DB 인스턴스를 생성한다.
+  /// 앱의 실제 app.db 파일에는 어떤 영향도 주지 않는다.
+  factory AppDatabase.inMemoryForTest() =>
+      AppDatabase._(NativeDatabase.memory());
 
   @override
   int get schemaVersion => 1;
