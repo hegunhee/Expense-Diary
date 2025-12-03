@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart' as drift;
-import 'package:drift/native.dart';
 import 'package:expense_tracker/core/database/app_database.dart';
 import 'package:flutter_test/flutter_test.dart';
 

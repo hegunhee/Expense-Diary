@@ -1,4 +1,5 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
 
 /// Mock ExpenseService for testing
@@ -11,7 +12,17 @@ class MockExpenseRepository implements ExpenseRepository {
   }
 
   @override
-  Future<void> addExpense(Expense expense) async {
+  Future<void> addExpense(ExpenseForm form) async {
+    final expense = Expense(
+      id: _expenses.length + 1,
+      title: form.title,
+      amount: form.amount,
+      category: form.category,
+      emotion: form.emotion,
+      date: DateTime.now(),
+      memo: form.memo,
+      createdAt: DateTime.now(),
+    );
     _expenses.add(expense);
   }
 
@@ -24,7 +35,7 @@ class MockExpenseRepository implements ExpenseRepository {
   }
 
   @override
-  Future<void> deleteExpense(String id) async {
+  Future<void> deleteExpense(int id) async {
     _expenses.removeWhere((e) => e.id == id);
   }
 

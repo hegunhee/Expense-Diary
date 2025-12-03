@@ -1,5 +1,6 @@
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
 import 'package:expense_tracker/features/expense/screens/emotion_detail_screen.dart';
 import 'package:expense_tracker/features/expense/screens/statistics_screen.dart';
@@ -40,25 +41,21 @@ void main() {
     testWidgets('해당 감정의 지출만 표시된다', (tester) async {
       // 다양한 감정의 지출 추가
       await mockService.addExpense(
-        Expense(
-          id: '1',
+        ExpenseForm(
           title: '좋은 점심',
           amount: 10000,
           category: ExpenseCategory.food,
           emotion: ExpenseEmotions.good,
           date: DateTime.now(),
-          createdAt: DateTime.now(),
         ),
       );
       await mockService.addExpense(
-        Expense(
-          id: '2',
+        ExpenseForm(
           title: '아까운 커피',
           amount: 5000,
           category: ExpenseCategory.food,
           emotion: ExpenseEmotions.regret,
           date: DateTime.now(),
-          createdAt: DateTime.now(),
         ),
       );
 
@@ -83,25 +80,21 @@ void main() {
     testWidgets('요약 카드가 표시된다', (tester) async {
       // 샘플 데이터 추가
       await mockService.addExpense(
-        Expense(
-          id: '1',
+        ExpenseForm(
           title: '점심',
           amount: 10000,
           category: ExpenseCategory.food,
           emotion: ExpenseEmotions.good,
           date: DateTime.now(),
-          createdAt: DateTime.now(),
         ),
       );
       await mockService.addExpense(
-        Expense(
-          id: '2',
+        ExpenseForm(
           title: '저녁',
           amount: 15000,
           category: ExpenseCategory.food,
           emotion: ExpenseEmotions.good,
           date: DateTime.now(),
-          createdAt: DateTime.now(),
         ),
       );
 
@@ -144,14 +137,12 @@ void main() {
     testWidgets('지출 카드를 클릭하면 수정 화면으로 이동한다', (tester) async {
       // 샘플 데이터 추가
       await mockService.addExpense(
-        Expense(
-          id: '1',
+        ExpenseForm(
           title: '점심',
           amount: 10000,
           category: ExpenseCategory.food,
           emotion: ExpenseEmotions.good,
           date: DateTime.now(),
-          createdAt: DateTime.now(),
         ),
       );
 
@@ -177,10 +168,21 @@ void main() {
     });
 
     testWidgets('감정 변경 이력이 표시된다', (tester) async {
-      // 감정 변경 이력이 있는 지출 추가
+      // 1) 먼저 기본 지출 추가
       await mockService.addExpense(
+        ExpenseForm(
+          title: '점심',
+          amount: 10000,
+          category: ExpenseCategory.food,
+          emotion: ExpenseEmotions.good,
+          date: DateTime.now(),
+        ),
+      );
+
+      // 2) 그 다음 감정/이력 포함한 Expense로 업데이트
+      await mockService.updateExpense(
         Expense(
-          id: '1',
+          id: 1,
           title: '점심',
           amount: 10000,
           category: ExpenseCategory.food,
