@@ -39,6 +39,9 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.1
   drift_dev: ^2.29.0
 
+  # Mockito 추가(Mock)
+  mockito: ^5.4.0
+
 flutter:
   uses-material-design: true
 
