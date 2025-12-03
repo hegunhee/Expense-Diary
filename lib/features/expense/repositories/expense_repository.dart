@@ -129,9 +129,7 @@ class ExpenseRepository {
           ? Value(expense.emotionChangeReason)
           : const Value.absent(),
       createdAt: Value(expense.createdAt),
-      updatedAt: expense.updatedAt != null
-          ? Value(expense.updatedAt)
-          : const Value.absent(),
+      updatedAt: Value(DateTime.now())
     );
   }
 }

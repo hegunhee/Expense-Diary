@@ -146,7 +146,6 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
             ? _emotionChangeReasonController.text.trim()
             : widget.expense?.emotionChangeReason,
         createdAt: widget.expense!.createdAt,
-        updatedAt: DateTime.now(),
       );
       ref
           .read(expenseControllerProvider.notifier)
