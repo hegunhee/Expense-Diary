@@ -92,7 +92,7 @@ void main() {
       when(mockDao.getById(999)).thenAnswer((_) async => null);
 
       expect(
-        repository.getById(999),
+        () => repository.getById(999),
         throwsA(isA<StateError>()),
       );
     });
