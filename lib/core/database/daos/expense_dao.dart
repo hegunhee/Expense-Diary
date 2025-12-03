@@ -1,13 +1,21 @@
 import 'package:drift/drift.dart';
 import 'package:expense_tracker/core/database/app_database.dart';
 import 'package:expense_tracker/core/database/entities/expense_entity.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'expense_dao.g.dart';
+
+/// ExpenseDao 제공자
+final expenseDaoProvider = Provider<ExpenseDao>((ref) {
+  final db = ref.read(appDatabaseProvider);
+  return ExpenseDao(db);
+});
 
 /// Expense 관련 DB 접근 객체
 @DriftAccessor(tables: [ExpenseEntity])
 class ExpenseDao extends DatabaseAccessor<AppDatabase> with _$ExpenseDaoMixin {
-  ExpenseDao(AppDatabase db) : super(db);
+  /// ExpenseDao 생성자
+  ExpenseDao(super.attachedDatabase);
 
   /// 모든 지출 조회 (최신순)
   Future<List<ExpenseEntityData>> getAllExpenses() {

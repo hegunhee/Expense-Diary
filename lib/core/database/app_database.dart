@@ -3,10 +3,16 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:expense_tracker/core/database/entities/expense_entity.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 part 'app_database.g.dart';
+
+/// Database 제공자
+final appDatabaseProvider = Provider<AppDatabase>((ref) {
+  return AppDatabase.production();
+});
 
 /// DB 객체
 @DriftDatabase(tables: [ExpenseEntity])
