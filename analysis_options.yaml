@@ -13,6 +13,7 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "lib/shared/image_generated/**"
+    - "**/*.mocks.dart" 
   plugins:
     - custom_lint
   language:
