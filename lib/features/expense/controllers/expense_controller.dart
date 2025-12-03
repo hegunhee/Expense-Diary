@@ -22,10 +22,11 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
 
   /// 지출 추가
   Future<void> addExpense(ExpenseForm form) async {
-    await _repository.addExpense(form);
-    final expenses = await _repository.getAllExpenses();
+    final addedExpenseId = await _repository.addExpense(form);
+    final addedExpense = await _repository.getById(addedExpenseId);
     state = AsyncValue.data(
-      [...expenses]..sort((a, b) => b.date.compareTo(a.date)),
+      [...(state.value ?? []), addedExpense]
+        ..sort((a, b) => b.date.compareTo(a.date)),
     );
   }
 

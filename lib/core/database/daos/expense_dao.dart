@@ -24,6 +24,13 @@ class ExpenseDao extends DatabaseAccessor<AppDatabase> with _$ExpenseDaoMixin {
     )..orderBy([(t) => OrderingTerm.desc(t.date)])).get();
   }
 
+  /// Id를 기준으로 지출 조회
+  Future<ExpenseEntityData?> getById(int id) {
+    return (select(
+      expenseEntity,
+    )..where((t) => t.id.equals(id))).getSingleOrNull();
+  }
+
   /// 지출 추가
   Future<int> addExpense(ExpenseEntityCompanion entity) {
     return into(expenseEntity).insert(entity);

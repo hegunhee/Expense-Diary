@@ -26,10 +26,18 @@ class ExpenseRepository {
     return rows.map(_ExpenseEntityToExpense).toList();
   }
 
+  /// 키 값을 기준으로 지출 조회
+  Future<Expense> getById(int id) async {
+    final row = await _dao.getById(id);
+    return row != null
+        ? _ExpenseEntityToExpense(row)
+        : throw StateError('expense with id $id not found');
+  }
+
   /// 지출 추가
-  Future<void> addExpense(ExpenseForm form) async {
+  Future<int> addExpense(ExpenseForm form) async {
     /// 데이터 추가
-    await _dao.addExpense(_formToInsertCompanion(form));
+    return _dao.addExpense(_formToInsertCompanion(form));
   }
 
   /// 지출 수정

@@ -12,7 +12,7 @@ class MockExpenseRepository implements ExpenseRepository {
   }
 
   @override
-  Future<void> addExpense(ExpenseForm form) async {
+  Future<int> addExpense(ExpenseForm form) async {
     final expense = Expense(
       id: _expenses.length + 1,
       title: form.title,
@@ -24,6 +24,16 @@ class MockExpenseRepository implements ExpenseRepository {
       createdAt: DateTime.now(),
     );
     _expenses.add(expense);
+    return expense.id;
+  }
+
+  @override
+  Future<Expense> getById(int id) async {
+    final expense = _expenses.firstWhere(
+          (e) => e.id == id,
+      orElse: () => throw StateError('expense with id $id not found'),
+    );
+    return expense;
   }
 
   @override
