@@ -158,6 +158,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
         category: _selectedCategory!,
         emotion: _selectedEmotion!,
         date: DateTime.now(),
+        memo: _memoController.text.isEmpty ? null : _memoController.text,
       );
       ref.read(expenseControllerProvider.notifier).addExpense(expenseForm);
     }
