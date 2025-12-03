@@ -17,8 +17,8 @@ dependencies:
   easy_localization: ^3.0.8
 
   # Firebase (iOS용 GoogleService-Info.plist 필요)
-  # firebase_core: ^4.2.0
-  # firebase_crashlytics: ^5.0.3
+  firebase_core: ^4.2.0
+  firebase_crashlytics: ^5.0.3
 
   # Local Database
   hive: ^2.2.3
