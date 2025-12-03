@@ -67,7 +67,7 @@ class Expense {
   });
 
   /// 지출 고유 ID
-  final String id;
+  final int id;
 
   /// 지출 제목
   final String title;
@@ -101,7 +101,7 @@ class Expense {
 
   /// 지출 복사 메서드
   Expense copyWith({
-    String? id,
+    int? id,
     String? title,
     int? amount,
     ExpenseCategory? category,

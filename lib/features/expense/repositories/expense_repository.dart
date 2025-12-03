@@ -1,4 +1,7 @@
+import 'package:drift/drift.dart' show Value;
+import 'package:expense_tracker/core/database/app_database.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 지출 레포지토리 Provider
@@ -19,9 +22,18 @@ class ExpenseRepository {
   }
 
   /// 지출 추가
-  Future<void> addExpense(Expense expense) async {
-    _items.removeWhere((e) => e.id == expense.id);
-    _items.add(expense);
+  Future<void> addExpense(ExpenseForm form) async {
+    final newExpense = Expense(
+      id: _items.length + 1,
+      title: form.title,
+      amount: form.amount,
+      category: form.category,
+      emotion: form.emotion,
+      date: form.date,
+      memo: form.memo,
+      createdAt: DateTime.now(),
+    );
+    _items.add(newExpense);
   }
 
   /// 지출 수정
@@ -31,7 +43,7 @@ class ExpenseRepository {
   }
 
   /// 지출 삭제
-  Future<void> deleteExpense(String id) async {
+  Future<void> deleteExpense(int id) async {
     _items.removeWhere((e) => e.id == id);
   }
 

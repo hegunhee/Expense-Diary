@@ -1,5 +1,6 @@
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/amount_input_field.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/category_selector_widget.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/emotion_selector_widget.dart';
@@ -129,32 +130,36 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     final amount =
         int.tryParse(_amountController.text.replaceAll(',', '')) ?? 0;
 
-    final expense = Expense(
-      id: _isEditMode
-          ? widget.expense!.id
-          : DateTime.now().millisecondsSinceEpoch.toString(),
-      title: _titleController.text,
-      amount: amount,
-      category: _selectedCategory!,
-      emotion: _selectedEmotion!,
-      date: _isEditMode ? widget.expense!.date : DateTime.now(),
-      memo: _memoController.text.isEmpty ? null : _memoController.text,
-      previousEmotion: _isEmotionChanged
-          ? _originalEmotion
-          : widget.expense?.previousEmotion,
-      emotionChangeReason: _isEmotionChanged
-          ? _emotionChangeReasonController.text.trim()
-          : widget.expense?.emotionChangeReason,
-      createdAt: _isEditMode ? widget.expense!.createdAt : DateTime.now(),
-      updatedAt: _isEditMode ? widget.expense!.updatedAt : null
-    );
-
     if (_isEditMode) {
+      final expense = Expense(
+        id: widget.expense!.id,
+        title: _titleController.text,
+        amount: amount,
+        category: _selectedCategory!,
+        emotion: _selectedEmotion!,
+        date: widget.expense!.date,
+        memo: _memoController.text.isEmpty ? null : _memoController.text,
+        previousEmotion: _isEmotionChanged
+            ? _originalEmotion
+            : widget.expense?.previousEmotion,
+        emotionChangeReason: _isEmotionChanged
+            ? _emotionChangeReasonController.text.trim()
+            : widget.expense?.emotionChangeReason,
+        createdAt: widget.expense!.createdAt,
+        updatedAt: _isEditMode ? widget.expense!.updatedAt : null,
+      );
       ref
           .read(expenseControllerProvider.notifier)
           .updateExpense(expense.id, expense);
     } else {
-      ref.read(expenseControllerProvider.notifier).addExpense(expense);
+      final expenseForm = ExpenseForm(
+        title: _titleController.text,
+        amount: amount,
+        category: _selectedCategory!,
+        emotion: _selectedEmotion!,
+        date: DateTime.now(),
+      );
+      ref.read(expenseControllerProvider.notifier).addExpense(expenseForm);
     }
     Navigator.pop(context);
   }
