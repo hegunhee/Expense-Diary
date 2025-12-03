@@ -30,7 +30,7 @@ class MockExpenseRepository implements ExpenseRepository {
   @override
   Future<Expense> getById(int id) async {
     final expense = _expenses.firstWhere(
-          (e) => e.id == id,
+      (e) => e.id == id,
       orElse: () => throw StateError('expense with id $id not found'),
     );
     return expense;
