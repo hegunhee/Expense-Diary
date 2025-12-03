@@ -7,7 +7,7 @@ class MockExpenseRepository implements ExpenseRepository {
   final List<Expense> _expenses = [];
 
   @override
-  List<Expense> getAllExpenses() {
+  Future<List<Expense>> getAllExpenses() async {
     return List.from(_expenses)..sort((a, b) => b.date.compareTo(a.date));
   }
 
@@ -40,7 +40,7 @@ class MockExpenseRepository implements ExpenseRepository {
   }
 
   @override
-  List<Expense> searchByTitle(String query) {
+  Future<List<Expense>> searchByTitle(String query) async {
     if (query.isEmpty) {
       return getAllExpenses();
     }
@@ -55,13 +55,13 @@ class MockExpenseRepository implements ExpenseRepository {
   }
 
   @override
-  List<Expense> filterByCategory(ExpenseCategory category) {
+  Future<List<Expense>> filterByCategory(ExpenseCategory category) async {
     return _expenses.where((expense) => expense.category == category).toList()
       ..sort((a, b) => b.date.compareTo(a.date));
   }
 
   @override
-  List<Expense> filterByStatus(ExpenseEmotions emotion) {
+  Future<List<Expense>> filterByStatus(ExpenseEmotions emotion) async {
     return _expenses.where((expense) => expense.emotion == emotion).toList()
       ..sort((a, b) => b.date.compareTo(a.date));
   }

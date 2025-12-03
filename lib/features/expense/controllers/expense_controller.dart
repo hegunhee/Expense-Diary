@@ -15,7 +15,7 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
   late final ExpenseRepository _repository;
 
   @override
-  Future<List<Expense>> build() async {
+  Future<List<Expense>> build() {
     _repository = ref.read(expenseRepositoryProvider);
     return _repository.getAllExpenses();
   }
@@ -23,7 +23,7 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
   /// 지출 추가
   Future<void> addExpense(ExpenseForm form) async {
     await _repository.addExpense(form);
-    final expenses = _repository.getAllExpenses(); 
+    final expenses = await _repository.getAllExpenses();
     state = AsyncValue.data(
       [...expenses]..sort((a, b) => b.date.compareTo(a.date)),
     );
