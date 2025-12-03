@@ -1,6 +1,6 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/models/expense_form.dart';
-import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
+import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
 
 /// Mock ExpenseService for testing
 class MockExpenseRepository implements ExpenseRepository {

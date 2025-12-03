@@ -1,7 +1,7 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:expense_tracker/features/expense/models/expense_statistics.dart';
-import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
+import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 지출 컨트롤러 Provider
