@@ -6,11 +6,6 @@ class MockExpenseRepository implements ExpenseRepository {
   final List<Expense> _expenses = [];
 
   @override
-  Future<void> init() async {
-    // Mock initialization
-  }
-
-  @override
   List<Expense> getAllExpenses() {
     return List.from(_expenses)..sort((a, b) => b.date.compareTo(a.date));
   }

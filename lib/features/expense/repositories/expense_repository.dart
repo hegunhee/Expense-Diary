@@ -1,82 +1,67 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 /// 지출 레포지토리 Provider
 final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
-  final repository = ExpenseRepository();
-  repository.init();
-  return repository;
+  return ExpenseRepository();
 });
 
 /// 지출 데이터 처리 서비스
 class ExpenseRepository {
-  static const _boxName = 'expenses';
-  Box<Expense>? _box;
-
-  /// Hive Box 초기화
-  void init() {
-    _box = Hive.box<Expense>(_boxName);
-  }
+  /// 메모리에만 저장하는 리스트 (앱 재시작 시 초기화됨, Hive를 걷어내고 Drift 연동 전에 임시방편)
+  final List<Expense> _items = [];
 
   /// 모든 지출 조회
   List<Expense> getAllExpenses() {
-    if (_box == null) {
-      return [];
-    }
-    return _box!.values.toList()
-      ..sort((a, b) => b.date.compareTo(a.date)); // 최신순 정렬
+    final list = List<Expense>.from(_items);
+    list.sort((a, b) => b.date.compareTo(a.date));
+    return list;
   }
 
   /// 지출 추가
   Future<void> addExpense(Expense expense) async {
-    await _box?.put(expense.id, expense);
+    _items.removeWhere((e) => e.id == expense.id);
+    _items.add(expense);
   }
 
   /// 지출 수정
   Future<void> updateExpense(Expense expense) async {
-    await _box?.put(expense.id, expense);
+    _items.removeWhere((e) => e.id == expense.id);
+    _items.add(expense);
   }
 
   /// 지출 삭제
   Future<void> deleteExpense(String id) async {
-    await _box?.delete(id);
+    _items.removeWhere((e) => e.id == id);
   }
 
   /// 제목으로 검색 (향후 검색 기능용)
   List<Expense> searchByTitle(String query) {
-    if (_box == null || query.isEmpty) {
+    if (query.isEmpty) {
       return getAllExpenses();
     }
 
-    return _box!.values
-        .where(
-          (expense) =>
-              expense.title.toLowerCase().contains(query.toLowerCase()),
-        )
-        .toList()
-      ..sort((a, b) => b.date.compareTo(a.date));
+    final lower = query.toLowerCase();
+    final list = _items
+        .where((expense) => expense.title.toLowerCase().contains(lower))
+        .toList();
+    list.sort((a, b) => b.date.compareTo(a.date));
+    return list;
   }
 
   /// 카테고리별 필터링
   List<Expense> filterByCategory(ExpenseCategory category) {
-    if (_box == null) {
-      return [];
-    }
-
-    return _box!.values
+    final list = _items
         .where((expense) => expense.category == category)
-        .toList()
-      ..sort((a, b) => b.date.compareTo(a.date));
+        .toList();
+    list.sort((a, b) => b.date.compareTo(a.date));
+    return list;
   }
 
   /// 상태별 필터링
   List<Expense> filterByStatus(ExpenseEmotions emotion) {
-    if (_box == null) {
-      return [];
-    }
-
-    return _box!.values.where((expense) => expense.emotion == emotion).toList()
-      ..sort((a, b) => b.date.compareTo(a.date));
+    final list = _items.where((expense) => expense.emotion == emotion).toList();
+    list.sort((a, b) => b.date.compareTo(a.date));
+    return list;
   }
 }

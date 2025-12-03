@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
 
 void main() {
   group('ExpenseRepository CRUD 테스트', () {
@@ -14,25 +13,8 @@ void main() {
       // 테스트용 임시 디렉토리 생성
       testDir = Directory.systemTemp.createTempSync('hive_test_');
 
-      // Hive 초기화
-      Hive.init(testDir.path);
-
-      await Hive.openBox<Expense>('expenses');
-
-      // 어댑터 등록
-      if (!Hive.isAdapterRegistered(0)) {
-        Hive.registerAdapter(ExpenseCategoryAdapter());
-      }
-      if (!Hive.isAdapterRegistered(1)) {
-        Hive.registerAdapter(ExpenseEmotionsAdapter());
-      }
-      if (!Hive.isAdapterRegistered(2)) {
-        Hive.registerAdapter(ExpenseAdapter());
-      }
-
       // 서비스 초기화
       sut = ExpenseRepository();
-      sut.init();
 
       // 테스트용 샘플 데이터 추가
       await _addSampleData(sut);
@@ -40,7 +22,6 @@ void main() {
 
     tearDown(() async {
       // 테스트 후 박스 삭제 및 정리
-      await Hive.close();
       if (testDir.existsSync()) {
         testDir.deleteSync(recursive: true);
       }
