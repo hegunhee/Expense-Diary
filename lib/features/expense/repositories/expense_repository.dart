@@ -23,19 +23,19 @@ class ExpenseRepository {
   Future<List<Expense>> getAllExpenses() async {
     final rows = await _dao.getAllExpenses();
     // Dao에서 이미 date DESC 정렬해서 주면, 여기서 추가 정렬은 생략 가능
-    return rows.map(_ExpenseEntityToExpense).toList();
+    return rows.map(_expenseEntityToExpense).toList();
   }
 
   /// 키 값을 기준으로 지출 조회
   Future<Expense> getById(int id) async {
     final row = await _dao.getById(id);
     return row != null
-        ? _ExpenseEntityToExpense(row)
+        ? _expenseEntityToExpense(row)
         : throw StateError('expense with id $id not found');
   }
 
   /// 지출 추가
-  Future<int> addExpense(ExpenseForm form) async {
+  Future<int> addExpense(ExpenseForm form) {
     /// 데이터 추가
     return _dao.addExpense(_formToInsertCompanion(form));
   }
@@ -58,19 +58,19 @@ class ExpenseRepository {
     }
 
     final rows = await _dao.searchByTitle(query);
-    return rows.map(_ExpenseEntityToExpense).toList();
+    return rows.map(_expenseEntityToExpense).toList();
   }
 
   /// 카테고리별 필터링
   Future<List<Expense>> filterByCategory(ExpenseCategory category) async {
     final rows = await _dao.filterByCategory(category.name);
-    return rows.map(_ExpenseEntityToExpense).toList();
+    return rows.map(_expenseEntityToExpense).toList();
   }
 
   /// 상태별 필터링
   Future<List<Expense>> filterByStatus(ExpenseEmotions emotion) async {
     final rows = await _dao.filterByStatus(emotion.name);
-    return rows.map(_ExpenseEntityToExpense).toList();
+    return rows.map(_expenseEntityToExpense).toList();
   }
 
   // 아래부터는 Drift DB 매핑용 헬퍼 메서드들
@@ -90,7 +90,7 @@ class ExpenseRepository {
   }
 
   /// 조회용: ExpenseEntityData -> Expense
-  Expense _ExpenseEntityToExpense(ExpenseEntityData row) {
+  Expense _expenseEntityToExpense(ExpenseEntityData row) {
     return Expense(
       id: row.id,
       title: row.title,

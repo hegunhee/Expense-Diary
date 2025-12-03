@@ -52,7 +52,7 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
   /// 새로고침
   Future<void> refresh() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    state = await AsyncValue.guard(() {
       return _repository.getAllExpenses();
     });
   }

@@ -1,4 +1,3 @@
-import 'package:drift/drift.dart' hide isNull;
 import 'package:expense_tracker/core/database/app_database.dart';
 import 'package:expense_tracker/core/database/daos/expense_dao.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
