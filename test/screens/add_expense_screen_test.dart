@@ -17,7 +17,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -38,7 +42,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -63,7 +71,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -82,7 +94,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -105,7 +121,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -130,7 +150,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -152,7 +176,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -174,7 +202,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -196,7 +228,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -219,7 +255,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -241,7 +281,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -263,7 +307,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -286,7 +334,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -316,7 +368,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -359,7 +415,9 @@ void main() {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const AddExpenseScreen(),
+                        builder: (context) => const AddExpenseScreen(
+                          mode: Create(),
+                        ),
                       ),
                     );
                   },
@@ -421,7 +479,9 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(mode: Edit(expense, expense.emotion)),
+          ),
         ),
       );
 
@@ -451,7 +511,9 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(mode: Edit(expense, expense.emotion)),
+          ),
         ),
       );
 
@@ -481,7 +543,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -518,7 +584,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -551,7 +621,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -584,7 +658,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -616,7 +694,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -649,7 +731,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -684,7 +770,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -727,7 +817,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -777,7 +871,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -832,7 +930,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
