@@ -124,8 +124,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                AddExpenseScreen(expense: expense),
+                            builder: (context) => AddExpenseScreen(
+                              mode: Edit(expense, expense.emotion),
+                            ),
                           ),
                         );
                       },

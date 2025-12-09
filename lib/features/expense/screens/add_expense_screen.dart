@@ -7,13 +7,36 @@ import 'package:expense_tracker/features/expense/widgets/expense_form/emotion_se
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// 지출 추가/수정 모드 (이 화면에 진입한게 추가인지 수정인지 판별하기 위해 사용되는 클래스 )
+sealed class ExpenseFormMode {
+  const ExpenseFormMode();
+}
+
+/// 추가 모드
+class Create extends ExpenseFormMode {
+  /// 추가의 경우 아무런 값을 가지고 있지 않기때문에 빈 생성자
+  const Create();
+}
+
+/// 수정 모드
+class Edit extends ExpenseFormMode {
+  /// 생성자 (기존의 지출 정보와, 감정 상태를 보유중)
+  Edit(this.originalExpense, this.originalEmotion);
+
+  /// 기존에 저장되어있는 지출 정보
+  final Expense originalExpense;
+
+  /// 기존에 저장되어있는 감정 상태 (기존의 감정이 많이 사용되므로 변수로 추출함)
+  final ExpenseEmotions originalEmotion;
+}
+
 /// 지출 추가/수정 화면
 class AddExpenseScreen extends ConsumerStatefulWidget {
   /// 지출 추가/수정 화면 생성자
-  const AddExpenseScreen({super.key, this.expense});
+  const AddExpenseScreen({super.key, required this.mode});
 
-  /// 수정할 지출 (null이면 추가 모드)
-  final Expense? expense;
+  /// 지출 추가/수정인지 판별하는 변수(수정의 경우 내부적으로 기존의 지출값을 가지고 있음)
+  final ExpenseFormMode mode;
 
   @override
   ConsumerState<AddExpenseScreen> createState() => _AddExpenseScreenState();
@@ -27,13 +50,12 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
   ExpenseCategory _selectedCategory = ExpenseCategory.food;
   ExpenseEmotions _selectedEmotion = ExpenseEmotions.good;
-  ExpenseEmotions? _originalEmotion; // 원래 감정 상태 저장
 
-  bool get _isEditMode => widget.expense != null;
-  bool get _isEmotionChanged =>
-      _isEditMode &&
-      _originalEmotion != null &&
-      _originalEmotion != _selectedEmotion;
+  bool get _isEmotionChanged => switch (widget.mode) {
+    Create() => false, // 추가 모드는 '변경'이라는 개념이 없으므로 항상 false
+    Edit(: final originalEmotion) =>
+      originalEmotion != _selectedEmotion, // 수정 모드: 원본과 현재 선택 비교
+  };
 
   @override
   void initState() {
@@ -62,18 +84,18 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     });
 
     // 수정 모드인 경우 기존 데이터로 초기화
-    if (_isEditMode) {
-      _titleController.text = widget.expense!.title;
-      _amountController.text = widget.expense!.amount
+    final formMode = widget.mode;
+    if (formMode is Edit) {
+      _titleController.text = formMode.originalExpense.title;
+      _amountController.text = formMode.originalExpense.amount
           .toString()
           .replaceAllMapped(
             RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
             (Match m) => '${m[1]},',
           );
-      _memoController.text = widget.expense!.memo ?? '';
-      _selectedCategory = widget.expense!.category;
-      _selectedEmotion = widget.expense!.emotion;
-      _originalEmotion = widget.expense!.emotion; // 원래 상태 저장
+      _memoController.text = formMode.originalExpense.memo ?? '';
+      _selectedCategory = formMode.originalExpense.category;
+      _selectedEmotion = formMode.originalExpense.emotion;
     }
   }
 
@@ -116,26 +138,25 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     final amount =
         int.tryParse(_amountController.text.replaceAll(',', '')) ?? 0;
 
-    if (_isEditMode) {
-      final expense = Expense(
-        id: widget.expense!.id,
+    final formMode = widget.mode;
+
+    if (formMode is Edit) {
+      final changedExpense = formMode.originalExpense.copyWith(
         title: _titleController.text,
-        amount: amount,
         category: _selectedCategory,
         emotion: _selectedEmotion,
-        date: widget.expense!.date,
+        amount: amount,
         memo: _memoController.text.isEmpty ? null : _memoController.text,
         previousEmotion: _isEmotionChanged
-            ? _originalEmotion
-            : widget.expense?.previousEmotion,
+            ? formMode.originalEmotion
+            : formMode.originalExpense.previousEmotion,
         emotionChangeReason: _isEmotionChanged
             ? _emotionChangeReasonController.text.trim()
-            : widget.expense?.emotionChangeReason,
-        createdAt: widget.expense!.createdAt,
+            : formMode.originalExpense.emotionChangeReason,
       );
       ref
           .read(expenseControllerProvider.notifier)
-          .updateExpense(expense.id, expense);
+          .updateExpense(formMode.originalExpense.id, changedExpense);
     } else {
       final expenseForm = ExpenseForm(
         title: _titleController.text,
@@ -150,7 +171,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     Navigator.pop(context);
   }
 
-  void _showDeleteDialog(BuildContext context, WidgetRef ref) {
+  void _showDeleteDialog(BuildContext context, WidgetRef ref, int expenseId) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -198,7 +219,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               onPressed: () {
                 ref
                     .read(expenseControllerProvider.notifier)
-                    .deleteExpense(widget.expense!.id);
+                    .deleteExpense(expenseId);
                 Navigator.of(dialogContext).pop(); // 다이얼로그 닫기
                 Navigator.of(context).pop(); // 수정 화면 닫기
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -235,6 +256,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final formMode = widget.mode;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -243,7 +265,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          _isEditMode ? '지출 수정' : '새로운 지출 추가',
+          formMode is Edit ? '지출 수정' : '새로운 지출 추가',
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -253,11 +275,15 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        actions: _isEditMode
+        actions: formMode is Edit
             ? [
                 IconButton(
                   icon: const Icon(Icons.delete_outline, color: Colors.black),
-                  onPressed: () => _showDeleteDialog(context, ref),
+                  onPressed: () => _showDeleteDialog(
+                    context,
+                    ref,
+                    formMode.originalExpense.id,
+                  ),
                 ),
               ]
             : null,
@@ -427,7 +453,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                   ),
                 ),
                 child: Text(
-                  _isEditMode ? '수정' : '저장',
+                  formMode is Edit ? '수정' : '저장',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
