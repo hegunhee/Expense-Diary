@@ -11,10 +11,10 @@ class EmotionSelectorWidget extends StatelessWidget {
   });
 
   /// 선택된 감정 상태
-  final ExpenseEmotions? selectEmotion;
+  final ExpenseEmotions selectEmotion;
 
   /// 감정 상태 변경 콜백
-  final ValueChanged<ExpenseEmotions?> onChanged;
+  final ValueChanged<ExpenseEmotions> onChanged;
 
   @override
   Widget build(BuildContext context) {

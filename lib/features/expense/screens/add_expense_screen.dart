@@ -25,8 +25,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   final _memoController = TextEditingController();
   final _emotionChangeReasonController = TextEditingController();
 
-  ExpenseCategory? _selectedCategory = ExpenseCategory.food;
-  ExpenseEmotions? _selectedEmotion = ExpenseEmotions.good;
+  ExpenseCategory _selectedCategory = ExpenseCategory.food;
+  ExpenseEmotions _selectedEmotion = ExpenseEmotions.good;
   ExpenseEmotions? _originalEmotion; // 원래 감정 상태 저장
 
   bool get _isEditMode => widget.expense != null;
@@ -101,20 +101,6 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       return;
     }
 
-    if (_selectedCategory == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('지출 카테고리를 선택해주세요')),
-      );
-      return;
-    }
-
-    if (_selectedEmotion == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('감정 카테고리를 선택해주세요')),
-      );
-      return;
-    }
-
     // 감정이 변경되었는데 변경 사유를 입력하지 않은 경우
     if (_isEmotionChanged &&
         _emotionChangeReasonController.text.trim().isEmpty) {
@@ -135,8 +121,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
         id: widget.expense!.id,
         title: _titleController.text,
         amount: amount,
-        category: _selectedCategory!,
-        emotion: _selectedEmotion!,
+        category: _selectedCategory,
+        emotion: _selectedEmotion,
         date: widget.expense!.date,
         memo: _memoController.text.isEmpty ? null : _memoController.text,
         previousEmotion: _isEmotionChanged
@@ -154,8 +140,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       final expenseForm = ExpenseForm(
         title: _titleController.text,
         amount: amount,
-        category: _selectedCategory!,
-        emotion: _selectedEmotion!,
+        category: _selectedCategory,
+        emotion: _selectedEmotion,
         date: DateTime.now(),
         memo: _memoController.text.isEmpty ? null : _memoController.text,
       );
