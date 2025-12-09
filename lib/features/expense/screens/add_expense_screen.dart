@@ -53,7 +53,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
   bool get _isEmotionChanged => switch (widget.mode) {
     Create() => false, // 추가 모드는 '변경'이라는 개념이 없으므로 항상 false
-    Edit(: final originalEmotion) =>
+    Edit(:final originalEmotion) =>
       originalEmotion != _selectedEmotion, // 수정 모드: 원본과 현재 선택 비교
   };
 
