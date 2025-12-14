@@ -21,7 +21,7 @@ void main() {
 
   group('ExpenseRepository.getAllExpenses', () {
     test('Dao에서 받은 Row를 Expense 리스트로 매핑한다', () async {
-      // given
+      // Arrange
       final now = DateTime(2024, 1, 2);
       final rows = <ExpenseEntityData>[
         ExpenseEntityData(
@@ -38,10 +38,10 @@ void main() {
 
       when(mockDao.getAllExpenses()).thenAnswer((_) async => rows);
 
-      // when
+      // Act
       final result = await repository.getAllExpenses();
 
-      // then
+      // Assert
       expect(result.length, 1);
       final e = result.first;
       expect(e.id, 1);
@@ -57,7 +57,7 @@ void main() {
 
   group('ExpenseRepository.addExpense', () {
     test('ExpenseForm을 Companion으로 매핑해서 Dao.addExpense를 호출한다', () async {
-      // given
+      // Arrange
       final form = ExpenseForm(
         title: '택시',
         amount: 8000,
@@ -69,10 +69,10 @@ void main() {
 
       when(mockDao.addExpense(any)).thenAnswer((_) async => 10);
 
-      // when
+      // Act
       final returnedId = await repository.addExpense(form);
 
-      // then
+      // Assert
       expect(returnedId, 10);
       final captured =
           verify(mockDao.addExpense(captureAny)).captured.single
