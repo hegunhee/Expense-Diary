@@ -43,15 +43,15 @@ void main() {
 
       // Assert
       expect(result.length, 1);
-      final e = result.first;
-      expect(e.id, 1);
-      expect(e.title, '점심');
-      expect(e.amount, 10000);
-      expect(e.category, ExpenseCategory.food);
-      expect(e.emotion, ExpenseEmotions.good);
-      expect(e.memo, '맛있었다');
-      expect(e.createdAt, now);
-      expect(e.updatedAt, isNull);
+      final expense = result.first;
+      expect(expense.id, 1);
+      expect(expense.title, '점심');
+      expect(expense.amount, 10000);
+      expect(expense.category, ExpenseCategory.food);
+      expect(expense.emotion, ExpenseEmotions.good);
+      expect(expense.memo, '맛있었다');
+      expect(expense.createdAt, now);
+      expect(expense.updatedAt, isNull);
     });
   });
 
