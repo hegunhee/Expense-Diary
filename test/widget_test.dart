@@ -8,11 +8,15 @@ import 'mocks/mock_expense_repository.dart';
 
 void main() {
   testWidgets('지출 목록 화면이 정상적으로 렌더링된다', (tester) async {
+    final container = ProviderContainer.test(
+      overrides: [
+        expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+      ],
+    );
+
     await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
-        ],
+      UncontrolledProviderScope(
+        container: container,
         child: const MaterialApp(home: ExpenseListScreen()),
       ),
     );
