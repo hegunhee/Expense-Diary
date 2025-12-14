@@ -65,6 +65,9 @@ coverage/
 *.lcov
 .test_coverage.dart
 
+# Generated Code
+test/**/*.mocks.dart
+
 # env file
 .env
 
