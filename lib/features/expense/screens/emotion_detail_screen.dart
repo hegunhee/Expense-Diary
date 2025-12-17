@@ -65,26 +65,27 @@ class EmotionDetailScreen extends ConsumerWidget {
               0,
               (sum, e) => sum + e.amount,
             );
-
-            return Column(
-              children: [
-                // 상단 요약 카드 (위젯으로 분리)
-                EmotionSummaryCard(
-                  emotion: emotion,
-                  count: filteredExpenses.length,
-                  totalAmount: totalAmount,
-                ),
-                // 지출 목록
-                Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: filteredExpenses.length,
-                    itemBuilder: (context, index) {
-                      return ExpenseCardWidget(
+          return Column(
+            children: [
+              // 상단 요약 카드 (위젯으로 분리)
+              EmotionSummaryCard(
+                emotion: emotion,
+                count: filteredExpenses.length,
+                totalAmount: totalAmount,
+              ),
+              // 지출 목록
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: filteredExpenses.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: ExpenseCardWidget(
                         expense: filteredExpenses[index],
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ],
             );
