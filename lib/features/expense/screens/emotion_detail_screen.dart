@@ -77,7 +77,12 @@ class EmotionDetailScreen extends ConsumerWidget {
                   padding: const EdgeInsets.all(16),
                   itemCount: filteredExpenses.length,
                   itemBuilder: (context, index) {
-                    return ExpenseCardWidget(expense: filteredExpenses[index]);
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: ExpenseCardWidget(
+                        expense: filteredExpenses[index],
+                      ),
+                    );
                   },
                 ),
               ),
