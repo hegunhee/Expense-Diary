@@ -26,6 +26,12 @@ jobs:
       - name: 파이어베이스 기본 설정
         run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > android/app/google-services.json
 
+      - name: keystore 해독
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /home/runner/upload-keystore.jks
+
+      - name: key.properties 생성
+        run: echo "${{ secrets.KEY_PROPERTIES }}" > android/key.properties
+
       # Flutter의 로컬라이제이션 파일 생성
       #      - name: 로컬라이제이션 파일 생성
       #        run: flutter gen-l10n
