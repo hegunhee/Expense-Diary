@@ -456,7 +456,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                     ),
                   ),
                   child: Text(
-                    _isEditMode ? '수정' : '저장',
+                    formMode is Edit ? '수정' : '저장',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
