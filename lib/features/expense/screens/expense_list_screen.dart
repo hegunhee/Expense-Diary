@@ -179,7 +179,9 @@ class ExpenseListScreen extends ConsumerWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddExpenseScreen()),
+            MaterialPageRoute(
+              builder: (context) => const AddExpenseScreen(mode: Create()),
+            ),
           );
         },
         backgroundColor: const Color(0xFF4CAF50),

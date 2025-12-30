@@ -11,10 +11,10 @@ class CategorySelectorWidget extends StatelessWidget {
   });
 
   /// 선택된 카테고리
-  final ExpenseCategory? selectedCategory;
+  final ExpenseCategory selectedCategory;
 
   /// 카테고리 변경 콜백
-  final ValueChanged<ExpenseCategory?> onChanged;
+  final ValueChanged<ExpenseCategory> onChanged;
 
   @override
   Widget build(BuildContext context) {
