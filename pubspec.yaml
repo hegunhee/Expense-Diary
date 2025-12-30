@@ -2,7 +2,7 @@ name: expense_tracker
 description: "지출 관리 가계부 앱"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 0.1.0+1
 
 environment:
   sdk: ^3.8.1
@@ -17,8 +17,8 @@ dependencies:
   easy_localization: ^3.0.8
 
   # Firebase (iOS용 GoogleService-Info.plist 필요)
-  # firebase_core: ^4.2.0
-  # firebase_crashlytics: ^5.0.3
+  firebase_core: ^4.2.0
+  firebase_crashlytics: ^5.0.3
 
   # Local Database
   path_provider: ^2.1.5

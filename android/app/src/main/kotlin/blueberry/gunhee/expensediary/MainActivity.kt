@@ -1,4 +1,4 @@
-package com.example.blueberry_template
+package blueberry.gunhee.expensediary
 
 import io.flutter.embedding.android.FlutterActivity
 
