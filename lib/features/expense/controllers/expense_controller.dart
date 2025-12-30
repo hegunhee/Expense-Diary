@@ -1,6 +1,7 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:expense_tracker/features/expense/models/expense_statistics.dart';
-import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
+import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 지출 컨트롤러 Provider
@@ -14,21 +15,23 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
   late final ExpenseRepository _repository;
 
   @override
-  Future<List<Expense>> build() async {
+  Future<List<Expense>> build() {
     _repository = ref.read(expenseRepositoryProvider);
     return _repository.getAllExpenses();
   }
 
   /// 지출 추가
-  Future<void> addExpense(Expense expense) async {
-    await _repository.addExpense(expense);
+  Future<void> addExpense(ExpenseForm form) async {
+    final addedExpenseId = await _repository.addExpense(form);
+    final addedExpense = await _repository.getById(addedExpenseId);
     state = AsyncValue.data(
-      [...state.value ?? [], expense]..sort((a, b) => b.date.compareTo(a.date)),
+      [...(state.value ?? []), addedExpense]
+        ..sort((a, b) => b.date.compareTo(a.date)),
     );
   }
 
   /// 지출 수정
-  Future<void> updateExpense(String id, Expense expense) async {
+  Future<void> updateExpense(int id, Expense expense) async {
     await _repository.updateExpense(expense);
     state = AsyncValue.data(
       [
@@ -39,7 +42,7 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
   }
 
   /// 지출 삭제
-  Future<void> deleteExpense(String id) async {
+  Future<void> deleteExpense(int id) async {
     await _repository.deleteExpense(id);
     state = AsyncValue.data(
       (state.value ?? []).where((expense) => expense.id != id).toList(),
@@ -49,7 +52,7 @@ class ExpenseController extends AsyncNotifier<List<Expense>> {
   /// 새로고침
   Future<void> refresh() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    state = await AsyncValue.guard(() {
       return _repository.getAllExpenses();
     });
   }

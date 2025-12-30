@@ -1,5 +1,5 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
-import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
+import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +17,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -38,7 +42,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -63,7 +71,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -82,7 +94,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -105,7 +121,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -130,7 +150,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -152,7 +176,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -174,7 +202,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -196,7 +228,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -219,7 +255,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -241,7 +281,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -263,7 +307,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -286,7 +334,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -316,7 +368,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: const MaterialApp(home: AddExpenseScreen()),
+          child: const MaterialApp(
+            home: AddExpenseScreen(
+              mode: Create(),
+            ),
+          ),
         ),
       );
 
@@ -359,7 +415,9 @@ void main() {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const AddExpenseScreen(),
+                        builder: (context) => const AddExpenseScreen(
+                          mode: Create(),
+                        ),
                       ),
                     );
                   },
@@ -405,12 +463,13 @@ void main() {
   group('AddExpenseScreen 수정 모드 테스트', () {
     testWidgets('수정 모드로 열리면 "지출 수정" 타이틀이 표시된다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '테스트 지출',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -420,7 +479,9 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(mode: Edit(expense, expense.emotion)),
+          ),
         ),
       );
 
@@ -433,13 +494,14 @@ void main() {
 
     testWidgets('수정 모드로 열리면 기존 데이터가 표시된다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '점심 식사',
         amount: 15000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
         memo: '맛있었음',
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -449,7 +511,9 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(mode: Edit(expense, expense.emotion)),
+          ),
         ),
       );
 
@@ -463,12 +527,13 @@ void main() {
 
     testWidgets('수정 모드에서 버튼 텍스트가 "수정"으로 표시된다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '테스트 지출',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -478,7 +543,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -499,12 +568,13 @@ void main() {
 
     testWidgets('수정 모드에서 지출 이름을 변경할 수 있다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -514,7 +584,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -531,12 +605,13 @@ void main() {
 
     testWidgets('수정 모드에서 금액을 변경할 수 있다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -546,7 +621,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -563,12 +642,13 @@ void main() {
 
     testWidgets('수정 모드에서 카테고리를 변경할 수 있다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -578,7 +658,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -594,12 +678,13 @@ void main() {
 
     testWidgets('수정 모드에서 감정 상태를 변경할 수 있다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -609,7 +694,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -625,13 +714,14 @@ void main() {
 
     testWidgets('수정 모드에서 메모를 변경할 수 있다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
         memo: '맛있었음',
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -641,7 +731,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -660,12 +754,13 @@ void main() {
   group('AddExpenseScreen 감정 변경 이력 테스트', () {
     testWidgets('수정 모드에서 감정을 변경하면 변경 사유 필드가 표시된다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -675,7 +770,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -702,12 +801,13 @@ void main() {
 
     testWidgets('감정 변경 시 변경 사유를 입력하지 않으면 저장할 수 없다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -717,7 +817,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -751,12 +855,13 @@ void main() {
 
     testWidgets('감정 변경 시 변경 사유를 입력하면 저장할 수 있다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -766,7 +871,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
@@ -805,12 +914,13 @@ void main() {
 
     testWidgets('감정을 변경하지 않으면 변경 사유 필드가 표시되지 않는다', (tester) async {
       final expense = Expense(
-        id: '1',
+        id: 1,
         title: '점심 식사',
         amount: 10000,
         category: ExpenseCategory.food,
         emotion: ExpenseEmotions.good,
         date: DateTime.now(),
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(
@@ -820,7 +930,11 @@ void main() {
               MockExpenseRepository(),
             ),
           ],
-          child: MaterialApp(home: AddExpenseScreen(expense: expense)),
+          child: MaterialApp(
+            home: AddExpenseScreen(
+              mode: Edit(expense, expense.emotion),
+            ),
+          ),
         ),
       );
 
