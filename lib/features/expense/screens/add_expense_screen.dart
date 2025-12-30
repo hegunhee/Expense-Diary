@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/utils/layout_utils.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/models/expense_form.dart';
@@ -288,79 +289,16 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               ]
             : null,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 지출 이름
-            const Text(
-              '지출 이름',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _titleController,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-              ),
-              decoration: InputDecoration(
-                hintText: '예) 친구와 커피',
-                hintStyle: const TextStyle(color: Color(0xFF666666)),
-                filled: true,
-                fillColor: const Color(0xFFF5F5F5),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 24),
-
-            // 금액 (위젯으로 분리)
-            AmountInputField(
-              controller: _amountController,
-            ),
-
-            const SizedBox(height: 24),
-
-            // 지출 카테고리 (위젯으로 분리)
-            CategorySelectorWidget(
-              selectedCategory: _selectedCategory,
-              onChanged: (category) {
-                setState(() {
-                  _selectedCategory = category;
-                });
-              },
-            ),
-
-            const SizedBox(height: 24),
-
-            // 감정 카테고리 (위젯으로 분리)
-            EmotionSelectorWidget(
-              selectEmotion: _selectedEmotion,
-              onChanged: (emotion) {
-                setState(() {
-                  _selectedEmotion = emotion;
-                });
-              },
-            ),
-
-            // 감정 변경 사유 (감정이 변경된 경우에만 표시)
-            if (_isEmotionChanged) ...[
-              const SizedBox(height: 24),
+      body: Padding(
+        padding: systemBarsPadding(context),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 지출 이름
               const Text(
-                '변경 사유',
+                '지출 이름',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -369,100 +307,166 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               ),
               const SizedBox(height: 12),
               TextField(
-                controller: _emotionChangeReasonController,
-                maxLines: 2,
+                controller: _titleController,
                 style: const TextStyle(
                   fontSize: 16,
                   color: Colors.black,
                 ),
                 decoration: InputDecoration(
-                  hintText: '왜 생각이 바뀌었나요?',
+                  hintText: '예) 친구와 커피',
                   hintStyle: const TextStyle(color: Color(0xFF666666)),
                   filled: true,
-                  fillColor: const Color(0xFFFFF9E6),
+                  fillColor: const Color(0xFFF5F5F5),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFFFB74D),
-                      width: 2,
-                    ),
+                    borderSide: BorderSide.none,
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFFFB74D),
-                      width: 2,
-                    ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFFF9800),
-                      width: 2,
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // 금액 (위젯으로 분리)
+              AmountInputField(
+                controller: _amountController,
+              ),
+
+              const SizedBox(height: 24),
+
+              // 지출 카테고리 (위젯으로 분리)
+              CategorySelectorWidget(
+                selectedCategory: _selectedCategory,
+                onChanged: (category) {
+                  setState(() {
+                    _selectedCategory = category;
+                  });
+                },
+              ),
+
+              const SizedBox(height: 24),
+
+              // 감정 카테고리 (위젯으로 분리)
+              EmotionSelectorWidget(
+                selectEmotion: _selectedEmotion,
+                onChanged: (emotion) {
+                  setState(() {
+                    _selectedEmotion = emotion;
+                  });
+                },
+              ),
+
+              // 감정 변경 사유 (감정이 변경된 경우에만 표시)
+              if (_isEmotionChanged) ...[
+                const SizedBox(height: 24),
+                const Text(
+                  '변경 사유',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _emotionChangeReasonController,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: '왜 생각이 바뀌었나요?',
+                    hintStyle: const TextStyle(color: Color(0xFF666666)),
+                    filled: true,
+                    fillColor: const Color(0xFFFFF9E6),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFFFB74D),
+                        width: 2,
+                      ),
                     ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFFFB74D),
+                        width: 2,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFFF9800),
+                        width: 2,
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.all(16),
+                  ),
+                ),
+              ],
+
+              const SizedBox(height: 24),
+
+              // 메모
+              const Text(
+                '메모 (선택 사항)',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _memoController,
+                maxLines: 3,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
+                decoration: InputDecoration(
+                  hintText: '메모 추가...',
+                  hintStyle: const TextStyle(color: Color(0xFF666666)),
+                  filled: true,
+                  fillColor: const Color(0xFFF5F5F5),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
                   ),
                   contentPadding: const EdgeInsets.all(16),
                 ),
               ),
+
+              const SizedBox(height: 32),
+
+              // 저장 버튼
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: _saveExpense,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF4CAF50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    formMode is Edit ? '수정' : '저장',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
             ],
-
-            const SizedBox(height: 24),
-
-            // 메모
-            const Text(
-              '메모 (선택 사항)',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _memoController,
-              maxLines: 3,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-              ),
-              decoration: InputDecoration(
-                hintText: '메모 추가...',
-                hintStyle: const TextStyle(color: Color(0xFF666666)),
-                filled: true,
-                fillColor: const Color(0xFFF5F5F5),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.all(16),
-              ),
-            ),
-
-            const SizedBox(height: 32),
-
-            // 저장 버튼
-            SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: ElevatedButton(
-                onPressed: _saveExpense,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF4CAF50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(
-                  formMode is Edit ? '수정' : '저장',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
