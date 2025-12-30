@@ -23,7 +23,8 @@ class ExpenseCardWidget extends ConsumerWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddExpenseScreen(expense: expense),
+            builder: (context) =>
+                AddExpenseScreen(mode: Edit(expense, expense.emotion)),
           ),
         );
       },

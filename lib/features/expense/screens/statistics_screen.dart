@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/utils/layout_utils.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense_statistics.dart';
 import 'package:expense_tracker/features/expense/screens/emotion_detail_screen.dart';
@@ -36,9 +37,12 @@ class StatisticsScreen extends ConsumerWidget {
         elevation: 0,
         centerTitle: true,
       ),
-      body: analytics.totalCount == 0
-          ? _buildEmptyState()
-          : _buildStatisticsContent(analytics, context),
+      body: Padding(
+        padding: systemBarsPadding(context),
+        child: analytics.totalCount == 0
+            ? _buildEmptyState()
+            : _buildStatisticsContent(analytics, context),
+      ),
     );
   }
 

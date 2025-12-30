@@ -1,5 +1,6 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
-import 'package:expense_tracker/features/expense/repositories//expense_repository.dart';
+import 'package:expense_tracker/features/expense/models/expense_form.dart';
+import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
 import 'package:expense_tracker/features/expense/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -281,9 +282,8 @@ void main() {
 Future<void> _addSampleData(MockExpenseRepository service) async {
   final now = DateTime.now();
 
-  final sampleExpenses = [
-    Expense(
-      id: '1',
+  final sampleExpensesForm = [
+    ExpenseForm(
       title: '친구랑 점심',
       amount: 15000,
       category: ExpenseCategory.food,
@@ -291,24 +291,21 @@ Future<void> _addSampleData(MockExpenseRepository service) async {
       date: now,
       memo: '맛있었음',
     ),
-    Expense(
-      id: '2',
+    ExpenseForm(
       title: '택시비',
       amount: 8000,
       category: ExpenseCategory.transport,
       emotion: ExpenseEmotions.normal,
       date: now.subtract(const Duration(days: 1)),
     ),
-    Expense(
-      id: '3',
+    ExpenseForm(
       title: '영화 관람',
       amount: 14000,
       category: ExpenseCategory.culture,
       emotion: ExpenseEmotions.good,
       date: now.subtract(const Duration(days: 2)),
     ),
-    Expense(
-      id: '4',
+    ExpenseForm(
       title: '충동 구매한 옷',
       amount: 50000,
       category: ExpenseCategory.shopping,
@@ -316,8 +313,7 @@ Future<void> _addSampleData(MockExpenseRepository service) async {
       date: now.subtract(const Duration(days: 3)),
       memo: '별로 안 입을 것 같음',
     ),
-    Expense(
-      id: '5',
+    ExpenseForm(
       title: '비싼 커피',
       amount: 7000,
       category: ExpenseCategory.food,
@@ -326,7 +322,7 @@ Future<void> _addSampleData(MockExpenseRepository service) async {
     ),
   ];
 
-  for (final expense in sampleExpenses) {
-    await service.addExpense(expense);
+  for (final form in sampleExpensesForm) {
+    await service.addExpense(form);
   }
 }
