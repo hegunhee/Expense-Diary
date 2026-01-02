@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
     <application
-        android:label="쓰는 가계부"
+        android:label="마음 가계부"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true">
