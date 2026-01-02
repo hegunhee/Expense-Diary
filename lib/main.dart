@@ -70,7 +70,7 @@ class MyApp extends ConsumerWidget {
     final themeMode = ref.watch(themeControllerProvider);
 
     return MaterialApp(
-      title: '쓰는 가계부',
+      title: '마음 가계부',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
