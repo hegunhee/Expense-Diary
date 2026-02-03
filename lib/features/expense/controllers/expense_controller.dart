@@ -102,3 +102,39 @@ final totalExpenseProvider = Provider<int>((ref) {
   final expenses = ref.watch(filteredExpenseProvider);
   return expenses.fold<int>(0, (sum, expense) => sum + expense.amount);
 });
+
+/// 지출 상태
+class ExpenseState {
+  /// 지출 상태 생성자
+  const ExpenseState({required this.expenses, this.expenseEmotion});
+
+  /// 지출 목록
+  final List<Expense> expenses;
+
+  /// 지출 감정
+  final ExpenseEmotions? expenseEmotion;
+
+  /// 감정에 의해 필터링 된 지출목록
+  List<Expense> get filteredExpenses {
+    if (expenseEmotion == null) {
+      return expenses;
+    }
+    return expenses.where((e) => e.emotion == expenseEmotion).toList();
+  }
+
+  /// 필터링 된 지출 합계
+  int get totalAmount {
+    return filteredExpenses.fold(0, (sum, e) => sum + e.amount);
+  }
+
+  /// 상태 복사
+  ExpenseState copyWith({
+    List<Expense>? expenses,
+    ExpenseEmotions? expenseEmotion,
+  }) {
+    return ExpenseState(
+      expenses: expenses ?? this.expenses,
+      expenseEmotion: expenseEmotion ?? this.expenseEmotion,
+    );
+  }
+}
