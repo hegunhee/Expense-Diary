@@ -1,6 +1,6 @@
 import 'package:expense_tracker/core/utils/layout_utils.dart';
-import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/providers/expense_providers.dart';
 import 'package:expense_tracker/features/expense/widgets/emotion_detail/emotion_summary_card.dart';
 import 'package:expense_tracker/features/expense/widgets/emotion_detail/empty_emotion_state.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_list/expense_card_widget.dart';
@@ -51,10 +51,10 @@ class EmotionDetailScreen extends ConsumerWidget {
       body: Padding(
         padding: systemBarsPadding(context),
         child: expensesAsync.when(
-          data: (expenses) {
+          data: (state) {
             // 해당 감정의 지출만 필터링
             final filteredExpenses =
-                expenses.where((e) => e.emotion == emotion).toList()
+                state.expenses.where((e) => e.emotion == emotion).toList()
                   ..sort((a, b) => b.date.compareTo(a.date));
 
             if (filteredExpenses.isEmpty) {

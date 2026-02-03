@@ -1,5 +1,5 @@
 import 'package:expense_tracker/core/utils/layout_utils.dart';
-import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
+import 'package:expense_tracker/features/expense/providers/expense_providers.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
 import 'package:expense_tracker/features/expense/widgets/search/empty_search_state.dart';
 import 'package:expense_tracker/features/expense/widgets/search/no_results_state.dart';
@@ -94,10 +94,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             // 검색 결과 목록
             Expanded(
               child: expensesAsync.when(
-                data: (expenses) {
+                data: (state) {
                   final filteredExpenses = _searchQuery.isEmpty
                       ? []
-                      : expenses.where((expense) {
+                      : state.expenses.where((expense) {
                           final query = _searchQuery.toLowerCase();
                           final titleMatch = expense.title
                               .toLowerCase()
