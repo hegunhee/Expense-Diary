@@ -94,10 +94,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             // 검색 결과 목록
             Expanded(
               child: expensesAsync.when(
-                data: (expenses) {
+                data: (state) {
                   final filteredExpenses = _searchQuery.isEmpty
                       ? []
-                      : expenses.where((expense) {
+                      : state.expenses.where((expense) {
                           final query = _searchQuery.toLowerCase();
                           final titleMatch = expense.title
                               .toLowerCase()

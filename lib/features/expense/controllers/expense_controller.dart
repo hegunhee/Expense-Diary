@@ -6,102 +6,86 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 지출 컨트롤러 Provider
 final expenseControllerProvider =
-    AsyncNotifierProvider<ExpenseController, List<Expense>>(
+    AsyncNotifierProvider<ExpenseController, ExpenseState>(
       ExpenseController.new,
     );
 
 /// 지출 컨트롤러
-class ExpenseController extends AsyncNotifier<List<Expense>> {
+class ExpenseController extends AsyncNotifier<ExpenseState> {
   late final ExpenseRepository _repository;
 
   @override
-  Future<List<Expense>> build() {
+  Future<ExpenseState> build() async {
     _repository = ref.read(expenseRepositoryProvider);
-    return _repository.getAllExpenses();
+    final expenses = await _repository.getAllExpenses();
+    return ExpenseState(expenses: expenses);
   }
 
   /// 지출 추가
   Future<void> addExpense(ExpenseForm form) async {
     final addedExpenseId = await _repository.addExpense(form);
     final addedExpense = await _repository.getById(addedExpenseId);
-    state = AsyncValue.data(
-      [...(state.value ?? []), addedExpense]
-        ..sort((a, b) => b.date.compareTo(a.date)),
+
+    final currentExpenses = state.value?.expenses ?? [];
+    final updatedExpenses = [...currentExpenses, addedExpense]
+      ..sort((a, b) => b.date.compareTo(a.date));
+
+    state = state.whenData(
+      (value) => value.copyWith(expenses: updatedExpenses),
     );
   }
 
   /// 지출 수정
   Future<void> updateExpense(int id, Expense expense) async {
     await _repository.updateExpense(expense);
-    state = AsyncValue.data(
-      [
-        for (final item in state.value ?? [])
-          if (item.id == id) expense else item,
-      ]..sort((a, b) => b.date.compareTo(a.date)),
+
+    final currentExpenses = state.value?.expenses ?? [];
+    final updatedExpenses = [
+      for (final item in currentExpenses)
+        if (item.id == id) expense else item,
+    ]..sort((a, b) => b.date.compareTo(a.date));
+
+    state = state.whenData(
+      (value) => value.copyWith(expenses: updatedExpenses),
     );
   }
 
   /// 지출 삭제
   Future<void> deleteExpense(int id) async {
     await _repository.deleteExpense(id);
-    state = AsyncValue.data(
-      (state.value ?? []).where((expense) => expense.id != id).toList(),
+
+    final currentExpenses = state.value?.expenses ?? [];
+    final updatedExpenses = currentExpenses
+        .where((expense) => expense.id != id)
+        .toList();
+
+    state = state.whenData(
+      (value) => value.copyWith(expenses: updatedExpenses),
+    );
+  }
+
+  /// 필터 설정
+  void setFilter(ExpenseEmotions? emotion) {
+    state = state.whenData(
+      (value) => value.copyWith(expenseEmotion: emotion)
     );
   }
 
   /// 새로고침
   Future<void> refresh() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() {
-      return _repository.getAllExpenses();
+    state = await AsyncValue.guard(() async {
+      final expenses = await _repository.getAllExpenses();
+      final currentFilter = state.value?.expenseEmotion;
+      return ExpenseState(expenses: expenses, expenseEmotion: currentFilter);
     });
   }
 
   /// 통계 정보
   ExpenseAnalytics getAnalytics() {
-    return ExpenseAnalytics.fromExpenses(state.value ?? []);
+    return ExpenseAnalytics.fromExpenses(state.value?.expenses ?? []);
   }
 }
-
-/// 필터 컨트롤러
-class FilterController extends Notifier<ExpenseEmotions?> {
-  @override
-  ExpenseEmotions? build() => null;
-
-  /// 필터 상태 설정
-  void setFilter(ExpenseEmotions? status) {
-    state = status;
-  }
-}
-
-/// 필터 컨트롤러 Provider
-final filterControllerProvider =
-    NotifierProvider<FilterController, ExpenseEmotions?>(
-      FilterController.new,
-    );
-
-/// 필터링된 지출 목록
-final filteredExpenseProvider = Provider<List<Expense>>((ref) {
-  final expensesAsync = ref.watch(expenseControllerProvider);
-  final filter = ref.watch(filterControllerProvider);
-
-  return expensesAsync.when(
-    data: (expenses) {
-      if (filter == null) {
-        return expenses;
-      }
-      return expenses.where((expense) => expense.emotion == filter).toList();
-    },
-    loading: () => [],
-    error: (error, stackTrace) => [],
-  );
-});
-
-/// 총 지출 금액
-final totalExpenseProvider = Provider<int>((ref) {
-  final expenses = ref.watch(filteredExpenseProvider);
-  return expenses.fold<int>(0, (sum, expense) => sum + expense.amount);
-});
 
 /// 지출 상태
 class ExpenseState {

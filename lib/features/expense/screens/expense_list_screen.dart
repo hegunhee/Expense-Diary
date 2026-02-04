@@ -19,9 +19,27 @@ class ExpenseListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expenses = ref.watch(filteredExpenseProvider);
-    final totalAmount = ref.watch(totalExpenseProvider);
-    final selectedFilter = ref.watch(filterControllerProvider);
+    final stateAsync = ref.watch(expenseControllerProvider);
+
+    return stateAsync.when(
+      data: (state) => _buildContent(context, ref, state),
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, stack) => Scaffold(
+        body: Center(child: Text('오류가 발생했습니다: $error')),
+      ),
+    );
+  }
+
+  Widget _buildContent(
+    BuildContext context,
+    WidgetRef ref,
+    ExpenseState state,
+  ) {
+    final expenses = state.filteredExpenses;
+    final totalAmount = state.totalAmount;
+    final selectedFilter = state.expenseEmotion;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
@@ -87,7 +105,7 @@ class ExpenseListScreen extends ConsumerWidget {
                       label: '전체',
                       isSelected: selectedFilter == null,
                       onTap: () => ref
-                          .read(filterControllerProvider.notifier)
+                          .read(expenseControllerProvider.notifier)
                           .setFilter(null),
                     ),
                     const SizedBox(width: 8),
@@ -95,7 +113,7 @@ class ExpenseListScreen extends ConsumerWidget {
                       label: '잘 쓴 돈',
                       isSelected: selectedFilter == ExpenseEmotions.good,
                       onTap: () => ref
-                          .read(filterControllerProvider.notifier)
+                          .read(expenseControllerProvider.notifier)
                           .setFilter(ExpenseEmotions.good),
                     ),
                     const SizedBox(width: 8),
@@ -103,7 +121,7 @@ class ExpenseListScreen extends ConsumerWidget {
                       label: '그저 그런 돈',
                       isSelected: selectedFilter == ExpenseEmotions.normal,
                       onTap: () => ref
-                          .read(filterControllerProvider.notifier)
+                          .read(expenseControllerProvider.notifier)
                           .setFilter(ExpenseEmotions.normal),
                     ),
                     const SizedBox(width: 8),
@@ -111,7 +129,7 @@ class ExpenseListScreen extends ConsumerWidget {
                       label: '아까운 돈',
                       isSelected: selectedFilter == ExpenseEmotions.regret,
                       onTap: () => ref
-                          .read(filterControllerProvider.notifier)
+                          .read(expenseControllerProvider.notifier)
                           .setFilter(ExpenseEmotions.regret),
                     ),
                     const SizedBox(width: 8),
@@ -119,7 +137,7 @@ class ExpenseListScreen extends ConsumerWidget {
                       label: '후회한 돈',
                       isSelected: selectedFilter == ExpenseEmotions.bad,
                       onTap: () => ref
-                          .read(filterControllerProvider.notifier)
+                          .read(expenseControllerProvider.notifier)
                           .setFilter(ExpenseEmotions.bad),
                     ),
                   ],

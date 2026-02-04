@@ -51,10 +51,11 @@ class EmotionDetailScreen extends ConsumerWidget {
       body: Padding(
         padding: systemBarsPadding(context),
         child: expensesAsync.when(
-          data: (expenses) {
-            // 해당 감정의 지출만 필터링
+          data: (state) {
+            // 홈 화면에서 선택한 필터가 아닌 지금 이 감정 통계 화면에서 클릭한 감정을 기반으로 해야하기때문에 따로 필터링
+            // state 클래스에서 함수를 작성하려 했으나 함수가 중복되어 보이기때문에 여기서 작성
             final filteredExpenses =
-                expenses.where((e) => e.emotion == emotion).toList()
+                state.expenses.where((e) => e.emotion == emotion).toList()
                   ..sort((a, b) => b.date.compareTo(a.date));
 
             if (filteredExpenses.isEmpty) {
