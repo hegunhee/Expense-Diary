@@ -20,6 +20,8 @@ void main() {
         ),
       );
 
+      await tester.pumpAndSettle();
+
       // 화면이 렌더링되는지 확인
       expect(find.byType(ExpenseListScreen), findsOneWidget);
 

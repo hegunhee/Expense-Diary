@@ -21,6 +21,8 @@ void main() {
       ),
     );
 
+    await tester.pumpAndSettle();
+
     expect(find.byType(ExpenseListScreen), findsOneWidget);
     expect(find.text('지출 목록'), findsOneWidget);
   });
