@@ -90,21 +90,13 @@ class ExpenseController extends AsyncNotifier<ExpenseState> {
 
   /// 새로고침
   Future<void> refresh() async {
-
     final currentFilter = state.value?.filter;
       state = const AsyncValue.loading();
-
 
     state = await AsyncValue.guard(() async {
       final expenses = await _repository.getAllExpenses();
       return ExpenseState(expenses: expenses, filter: currentFilter);
     });
-    // state = const AsyncValue.loading();
-    //
-    // state = await AsyncValue.guard(() async {
-    //   final expenses = await _repository.getAllExpenses();
-    //   return ExpenseState(expenses: expenses);
-    // });
   }
 
   /// 통계 정보
