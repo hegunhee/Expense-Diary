@@ -3,7 +3,6 @@ import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:expense_tracker/features/expense/models/expense_statistics.dart';
 import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
 import 'package:expense_tracker/features/expense/state/expense_state.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 지출 컨트롤러
@@ -16,7 +15,7 @@ class ExpenseController extends AsyncNotifier<ExpenseState> {
 
     final expenses = await _repository.getAllExpenses();
 
-    return ExpenseState(expenses: expenses, filter: null);
+    return ExpenseState(expenses: expenses);
   }
 
   /// 필터 설정
@@ -91,12 +90,21 @@ class ExpenseController extends AsyncNotifier<ExpenseState> {
 
   /// 새로고침
   Future<void> refresh() async {
-    state = const AsyncValue.loading();
+
+    final currentFilter = state.value?.filter;
+      state = const AsyncValue.loading();
+
 
     state = await AsyncValue.guard(() async {
       final expenses = await _repository.getAllExpenses();
-      return ExpenseState(expenses: expenses);
+      return ExpenseState(expenses: expenses, filter: currentFilter);
     });
+    // state = const AsyncValue.loading();
+    //
+    // state = await AsyncValue.guard(() async {
+    //   final expenses = await _repository.getAllExpenses();
+    //   return ExpenseState(expenses: expenses);
+    // });
   }
 
   /// 통계 정보
