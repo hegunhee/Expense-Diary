@@ -157,7 +157,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       );
       ref
           .read(expenseControllerProvider.notifier)
-          .updateExpense(formMode.originalExpense.id, changedExpense);
+          .updateExpense(changedExpense);
     } else {
       final expenseForm = ExpenseForm(
         title: _titleController.text,

@@ -51,10 +51,10 @@ class EmotionDetailScreen extends ConsumerWidget {
       body: Padding(
         padding: systemBarsPadding(context),
         child: expensesAsync.when(
-          data: (expenses) {
+          data: (state) {
             // 해당 감정의 지출만 필터링
             final filteredExpenses =
-                expenses.where((e) => e.emotion == emotion).toList()
+                state.expenses.where((e) => e.emotion == emotion).toList()
                   ..sort((a, b) => b.date.compareTo(a.date));
 
             if (filteredExpenses.isEmpty) {
