@@ -1,6 +1,6 @@
 import 'package:expense_tracker/core/utils/layout_utils.dart';
+import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
-import 'package:expense_tracker/features/expense/providers/expense_providers.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
 import 'package:expense_tracker/features/expense/screens/search_screen.dart';
 import 'package:expense_tracker/features/expense/screens/statistics_screen.dart';

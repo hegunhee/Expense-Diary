@@ -1,6 +1,6 @@
 import 'package:expense_tracker/core/utils/layout_utils.dart';
+import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
-import 'package:expense_tracker/features/expense/providers/expense_providers.dart';
 import 'package:expense_tracker/features/expense/widgets/emotion_detail/emotion_summary_card.dart';
 import 'package:expense_tracker/features/expense/widgets/emotion_detail/empty_emotion_state.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_list/expense_card_widget.dart';

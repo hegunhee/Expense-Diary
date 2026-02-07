@@ -1,6 +1,6 @@
 import 'package:expense_tracker/core/utils/layout_utils.dart';
+import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense_statistics.dart';
-import 'package:expense_tracker/features/expense/providers/expense_providers.dart';
 import 'package:expense_tracker/features/expense/screens/emotion_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

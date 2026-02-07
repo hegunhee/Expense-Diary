@@ -1,5 +1,5 @@
+import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
-import 'package:expense_tracker/features/expense/providers/expense_providers.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
