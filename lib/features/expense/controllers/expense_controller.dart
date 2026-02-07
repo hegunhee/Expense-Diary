@@ -32,6 +32,7 @@ class ExpenseController extends AsyncNotifier<ExpenseState> {
     state = AsyncValue.data(
       current.copyWith(
         filter: filter,
+        resetFilter: filter == null,
       ),
     );
   }
@@ -52,7 +53,7 @@ class ExpenseController extends AsyncNotifier<ExpenseState> {
     ]..sort((a, b) => b.date.compareTo(a.date));
 
     state = AsyncValue.data(
-      current.copyWith(expenses: updatedExpenses,filter: current.filter),
+      current.copyWith(expenses: updatedExpenses),
     );
   }
 
@@ -71,7 +72,7 @@ class ExpenseController extends AsyncNotifier<ExpenseState> {
     ]..sort((a, b) => b.date.compareTo(a.date));
 
     state = AsyncValue.data(
-      current.copyWith(expenses: updatedExpenses,filter: current.filter),
+      current.copyWith(expenses: updatedExpenses),
     );
   }
 
@@ -143,10 +144,11 @@ class ExpenseState {
   ExpenseState copyWith({
     List<Expense>? expenses,
     ExpenseEmotions? filter,
+    bool resetFilter = false
   }) {
     return ExpenseState(
       expenses: expenses ?? this.expenses,
-      filter: filter,
+      filter: resetFilter ? null : (filter ?? this.filter),
     );
   }
 }
