@@ -144,7 +144,7 @@ class ExpenseState {
   ExpenseState copyWith({
     List<Expense>? expenses,
     ExpenseEmotions? filter,
-    bool resetFilter = false
+    bool resetFilter = false,
   }) {
     return ExpenseState(
       expenses: expenses ?? this.expenses,
