@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 /// 튜토리얼 컨텐츠 위젯
 /// 제목과 설명을 표시하는 재사용 가능한 위젯
 class TutorialContentWidget extends StatelessWidget {
-
   /// 튜토리얼 컨텐츠 위젯 생성자
   const TutorialContentWidget({
     required this.title,
     required this.description,
     super.key,
   });
+
   /// 튜토리얼 제목
   final String title;
 

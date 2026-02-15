@@ -214,7 +214,6 @@ void main() {
   });
 
   group('ExpenseListScreen 튜토리얼 테스트', () {
-
     testWidgets('튜토리얼을 이미 봤을 때 샘플 데이터가 표시되지 않아야 함', (tester) async {
       final container = ProviderContainer(
         overrides: [
@@ -259,7 +258,6 @@ void main() {
 
 /// 테스트용 TutorialController
 class TestTutorialController extends TutorialController {
-
   /// 테스트용 TutorialController 생성자
   TestTutorialController({required this.hasSeenTutorial});
   final bool hasSeenTutorial;
