@@ -1,5 +1,7 @@
 import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
 import 'package:expense_tracker/features/expense/screens/expense_list_screen.dart';
+import 'package:expense_tracker/features/tutorial/constants/tutorial_sample_data.dart';
+import 'package:expense_tracker/features/tutorial/controllers/tutorial_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -210,4 +212,61 @@ void main() {
       expect(find.byIcon(Icons.add), findsOneWidget);
     });
   });
+
+  group('ExpenseListScreen 튜토리얼 테스트', () {
+    testWidgets('튜토리얼을 이미 봤을 때 샘플 데이터가 표시되지 않아야 함', (tester) async {
+      final container = ProviderContainer(
+        overrides: [
+          expenseRepositoryProvider.overrideWithValue(MockExpenseRepository()),
+          tutorialControllerProvider.overrideWith(() {
+            return TestTutorialController(hasSeenTutorial: true);
+          }),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const MaterialApp(home: ExpenseListScreen()),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // 샘플 데이터가 표시되지 않아야 함
+      final sampleExpenses = getTutorialSampleExpenses();
+      for (final expense in sampleExpenses) {
+        expect(find.text(expense.title), findsNothing);
+      }
+    });
+
+    testWidgets('샘플 데이터에 감정 변경된 지출이 2개 포함되어야 함', (tester) async {
+      final sampleExpenses = getTutorialSampleExpenses();
+      final changedEmotions = sampleExpenses
+          .where((e) => e.previousEmotion != null)
+          .toList();
+
+      expect(changedEmotions.length, 2);
+      for (final expense in changedEmotions) {
+        expect(expense.emotionChangeReason, isNotNull);
+        expect(expense.emotionChangeReason!.isNotEmpty, true);
+        expect(expense.updatedAt, isNotNull);
+      }
+    });
+  });
+}
+
+/// 테스트용 TutorialController
+class TestTutorialController extends TutorialController {
+  /// 테스트용 TutorialController 생성자
+  TestTutorialController({required this.hasSeenTutorial});
+  final bool hasSeenTutorial;
+
+  @override
+  TutorialState build() {
+    return TutorialState(
+      hasSeenTutorial: hasSeenTutorial,
+      tutorialData: hasSeenTutorial ? [] : getTutorialSampleExpenses(),
+    );
+  }
 }

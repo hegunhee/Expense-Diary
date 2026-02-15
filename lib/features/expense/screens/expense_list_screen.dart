@@ -1,4 +1,5 @@
 import 'package:expense_tracker/core/utils/layout_utils.dart';
+import 'package:expense_tracker/core/widgets/tutorial/tutorial_content_widget.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
@@ -8,18 +9,125 @@ import 'package:expense_tracker/features/expense/widgets/expense_list/empty_expe
 import 'package:expense_tracker/features/expense/widgets/expense_list/expense_card_widget.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_list/expense_summary_card.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_list/filter_chip_widget.dart';
+import 'package:expense_tracker/features/tutorial/controllers/tutorial_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 /// 지출 목록 화면
-class ExpenseListScreen extends ConsumerWidget {
+class ExpenseListScreen extends ConsumerStatefulWidget {
   /// 지출 목록 화면 생성자
   const ExpenseListScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ExpenseListScreen> createState() => _ExpenseListScreenState();
+}
+
+class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
+  // 튜토리얼 타겟 키들 (지출 추가, 상단바 아래의 필터들, 지출 리스트들)
+  final GlobalKey _addButtonKey = GlobalKey();
+  final GlobalKey _filterKey = GlobalKey();
+  final GlobalKey _expenseListKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  /// 튜토리얼 모드인지 확인
+  bool _isTutorialMode(TutorialState tutorialState) {
+    return !tutorialState.hasSeenTutorial &&
+        tutorialState.tutorialData.isNotEmpty;
+  }
+
+  /// 표시할 지출 목록 가져오기 (튜토리얼 모드면 샘플 데이터, 아니면 실제 데이터)
+  List<Expense> _getDisplayExpenses(
+    TutorialState tutorialState,
+    List<Expense> realExpenses,
+  ) {
+    return _isTutorialMode(tutorialState)
+        ? tutorialState.tutorialData
+        : realExpenses;
+  }
+
+  /// 총 금액 계산 (튜토리얼 모드면 샘플 데이터 기준, 아니면 실제 데이터 기준)
+  int _getTotalAmount(TutorialState tutorialState, int realTotalAmount) {
+    return _isTutorialMode(tutorialState)
+        ? tutorialState.tutorialData.fold<int>(0, (sum, e) => sum + e.amount)
+        : realTotalAmount;
+  }
+
+  void _showTutorial() {
+    final targets = <TargetFocus>[
+      TargetFocus(
+        identify: 'filter',
+        keyTarget: _filterKey,
+        alignSkip: Alignment.topRight,
+        contents: [
+          TargetContent(
+            child: const TutorialContentWidget(
+              title: '감정 필터',
+              description: '감정별로 지출을 필터링해서 볼 수 있어요.\n 지출이 발생한 감정을 확인해보세요!',
+            ),
+          ),
+        ],
+      ),
+      TargetFocus(
+        identify: 'expense-list',
+        keyTarget: _expenseListKey,
+        alignSkip: Alignment.topRight,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            child: const TutorialContentWidget(
+              title: '가계부 목록',
+              description: '기록한 지출 내역을 확인하고\n클릭해서 수정하거나 삭제할 수 있어요.',
+            ),
+          ),
+        ],
+      ),
+      TargetFocus(
+        identify: 'add-button',
+        keyTarget: _addButtonKey,
+        alignSkip: Alignment.topRight,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            child: const TutorialContentWidget(
+              title: '지출 추가하기',
+              description: '새로운 지출을 기록하세요!\n감정과 함께 지출을 관리할 수 있어요.',
+            ),
+          ),
+        ],
+      ),
+    ];
+
+    TutorialCoachMark(
+      targets: targets,
+      onFinish: () {
+        // 튜토리얼 완료 시 상태 저장
+        ref.read(tutorialControllerProvider.notifier).setTutorialShown();
+      },
+      onSkip: () {
+        // 튜토리얼 건너뛰기 시에도 상태 저장
+        ref.read(tutorialControllerProvider.notifier).setTutorialShown();
+        return true;
+      },
+    ).show(context: context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final expensesAsync = ref.watch(expenseControllerProvider);
+    final tutorialState = ref.watch(tutorialControllerProvider);
+
+    // 데이터 로딩 완료 후 튜토리얼을 본적이 없다면 튜토리얼 표시
+    if (!tutorialState.hasSeenTutorial && expensesAsync.hasValue) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showTutorial();
+      });
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
@@ -72,9 +180,15 @@ class ExpenseListScreen extends ConsumerWidget {
         padding: systemBarsPadding(context),
         child: expensesAsync.when(
           data: (state) {
-            final expenses = state.filteredExpenses;
+            final expenses = _getDisplayExpenses(
+              tutorialState,
+              state.filteredExpenses,
+            );
             final selectedFilter = state.filter;
-            final totalAmount = state.totalAmount;
+            final totalAmount = _getTotalAmount(
+              tutorialState,
+              state.totalAmount,
+            );
             return Column(
               children: [
                 // 필터 탭
@@ -87,6 +201,7 @@ class ExpenseListScreen extends ConsumerWidget {
                     child: Row(
                       children: [
                         FilterChipWidget(
+                          key: _filterKey,
                           label: '전체',
                           isSelected: selectedFilter == null,
                           onTap: () => ref
@@ -140,6 +255,7 @@ class ExpenseListScreen extends ConsumerWidget {
 
                 // 지출 목록
                 Expanded(
+                  key: _expenseListKey,
                   child: expenses.isEmpty
                       ? const EmptyExpenseState()
                       : ListView.builder(
@@ -186,6 +302,7 @@ class ExpenseListScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        key: _addButtonKey,
         onPressed: () {
           Navigator.push(
             context,
