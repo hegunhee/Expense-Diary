@@ -1,4 +1,5 @@
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/tutorial/constants/tutorial_sample_data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,18 +30,11 @@ class TutorialController extends Notifier<TutorialState> {
     final isShown = prefs.getBool(_keyTutorialShown) ?? false;
 
     // 튜토리얼을 아직 안 봤으면 샘플 데이터 설정
-    final tutorialData = isShown ? <Expense>[] : _getSampleData();
-
+    final tutorialData = isShown ? <Expense>[] : getTutorialSampleExpenses();
     state = TutorialState(
       isTutorialShown: isShown,
       tutorialData: tutorialData,
     );
-  }
-
-  /// 샘플 데이터 생성 (나중에 구현)
-  List<Expense> _getSampleData() {
-    // 추후에 샘플 데이터 추가
-    return [];
   }
 
   /// 튜토리얼 표시 완료로 설정
@@ -80,4 +74,3 @@ class TutorialState {
     );
   }
 }
-
