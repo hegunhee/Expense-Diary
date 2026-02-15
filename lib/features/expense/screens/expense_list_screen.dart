@@ -9,6 +9,7 @@ import 'package:expense_tracker/features/expense/widgets/expense_list/empty_expe
 import 'package:expense_tracker/features/expense/widgets/expense_list/expense_card_widget.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_list/expense_summary_card.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_list/filter_chip_widget.dart';
+import 'package:expense_tracker/features/tutorial/controllers/tutorial_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -29,11 +30,32 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
   final GlobalKey _filterKey = GlobalKey();
   final GlobalKey _expenseListKey = GlobalKey();
 
-  var _hasShownTutorial = false;
-
   @override
   void initState() {
     super.initState();
+  }
+
+  /// 튜토리얼 모드인지 확인
+  bool _isTutorialMode(TutorialState tutorialState) {
+    return !tutorialState.isTutorialShown &&
+        tutorialState.tutorialData.isNotEmpty;
+  }
+
+  /// 표시할 지출 목록 가져오기 (튜토리얼 모드면 샘플 데이터, 아니면 실제 데이터)
+  List<Expense> _getDisplayExpenses(
+    TutorialState tutorialState,
+    List<Expense> realExpenses,
+  ) {
+    return _isTutorialMode(tutorialState)
+        ? tutorialState.tutorialData
+        : realExpenses;
+  }
+
+  /// 총 금액 계산 (튜토리얼 모드면 샘플 데이터 기준, 아니면 실제 데이터 기준)
+  int _getTotalAmount(TutorialState tutorialState, int realTotalAmount) {
+    return _isTutorialMode(tutorialState)
+        ? tutorialState.tutorialData.fold<int>(0, (sum, e) => sum + e.amount)
+        : realTotalAmount;
   }
 
   void _showTutorial() {
@@ -46,7 +68,7 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
           TargetContent(
             child: const TutorialContentWidget(
               title: '감정 필터',
-              description: '감정별로 지출을 필터링해서 볼 수 있어요.\n 돈을 사용하고 난 감정을 확인해보세요!',
+              description: '감정별로 지출을 필터링해서 볼 수 있어요.\n 지출이 발생한 감정을 확인해보세요!',
             ),
           ),
         ],
@@ -74,7 +96,7 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
             align: ContentAlign.top,
             child: const TutorialContentWidget(
               title: '지출 추가하기',
-              description: '여기를 눌러서 새로운 지출을 기록하세요!\n감정과 함께 지출을 관리할 수 있어요.',
+              description: '새로운 지출을 기록하세요!\n감정과 함께 지출을 관리할 수 있어요.',
             ),
           ),
         ],
@@ -83,17 +105,26 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
 
     TutorialCoachMark(
       targets: targets,
+      onFinish: () {
+        // 튜토리얼 완료 시 상태 저장
+        ref.read(tutorialControllerProvider.notifier).setTutorialShown();
+      },
+      onSkip: () {
+        // 튜토리얼 건너뛰기 시에도 상태 저장
+        ref.read(tutorialControllerProvider.notifier).setTutorialShown();
+        return true;
+      },
     ).show(context: context);
   }
 
   @override
   Widget build(BuildContext context) {
     final expensesAsync = ref.watch(expenseControllerProvider);
+    final tutorialState = ref.watch(tutorialControllerProvider);
 
-    // 데이터 로딩 완료 후 튜토리얼 표시 (한 번만, 추후 Controller로 관리 예정)
-    if (!_hasShownTutorial && expensesAsync.hasValue) {
+    // 데이터 로딩 완료 후 튜토리얼을 본적이 없다면 튜토리얼 표시
+    if (!tutorialState.isTutorialShown && expensesAsync.hasValue) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _hasShownTutorial = true;
         _showTutorial();
       });
     }
@@ -149,9 +180,15 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
         padding: systemBarsPadding(context),
         child: expensesAsync.when(
           data: (state) {
-            final expenses = state.filteredExpenses;
+            final expenses = _getDisplayExpenses(
+              tutorialState,
+              state.filteredExpenses,
+            );
             final selectedFilter = state.filter;
-            final totalAmount = state.totalAmount;
+            final totalAmount = _getTotalAmount(
+              tutorialState,
+              state.totalAmount,
+            );
             return Column(
               children: [
                 // 필터 탭
