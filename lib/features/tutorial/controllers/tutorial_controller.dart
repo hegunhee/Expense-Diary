@@ -19,7 +19,7 @@ class TutorialController extends Notifier<TutorialState> {
 
     // 기본값 반환 (비동기 로딩 전)
     return const TutorialState(
-      isTutorialShown: false,
+      hasSeenTutorial: true,
       tutorialData: [],
     );
   }
@@ -27,12 +27,12 @@ class TutorialController extends Notifier<TutorialState> {
   /// SharedPreferences에서 데이터 로드 및 State 업데이트
   Future<void> _loadTutorialState() async {
     final prefs = await SharedPreferences.getInstance();
-    final isShown = prefs.getBool(_keyTutorialShown) ?? false;
+    final hasSeen = prefs.getBool(_keyTutorialShown) ?? false;
 
     // 튜토리얼을 아직 안 봤으면 샘플 데이터 설정
-    final tutorialData = isShown ? <Expense>[] : getTutorialSampleExpenses();
+    final tutorialData = hasSeen ? <Expense>[] : getTutorialSampleExpenses();
     state = TutorialState(
-      isTutorialShown: isShown,
+      hasSeenTutorial: hasSeen,
       tutorialData: tutorialData,
     );
   }
@@ -43,7 +43,7 @@ class TutorialController extends Notifier<TutorialState> {
     await prefs.setBool(_keyTutorialShown, true);
 
     state = state.copyWith(
-      isTutorialShown: true,
+      hasSeenTutorial: true,
       tutorialData: [], // 튜토리얼 완료 시 샘플 데이터 제거
     );
   }
@@ -53,23 +53,23 @@ class TutorialController extends Notifier<TutorialState> {
 class TutorialState {
   /// 튜토리얼 생성자
   const TutorialState({
-    required this.isTutorialShown,
+    required this.hasSeenTutorial,
     required this.tutorialData,
   });
 
   /// 튜토리얼을 이미 봤는지 여부
-  final bool isTutorialShown;
+  final bool hasSeenTutorial;
 
   /// 튜토리얼용 샘플 데이터
   final List<Expense> tutorialData;
 
   /// 상태 복사
   TutorialState copyWith({
-    bool? isTutorialShown,
+    bool? hasSeenTutorial,
     List<Expense>? tutorialData,
   }) {
     return TutorialState(
-      isTutorialShown: isTutorialShown ?? this.isTutorialShown,
+      hasSeenTutorial: hasSeenTutorial ?? this.hasSeenTutorial,
       tutorialData: tutorialData ?? this.tutorialData,
     );
   }

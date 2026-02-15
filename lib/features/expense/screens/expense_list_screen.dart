@@ -37,7 +37,7 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
 
   /// 튜토리얼 모드인지 확인
   bool _isTutorialMode(TutorialState tutorialState) {
-    return !tutorialState.isTutorialShown &&
+    return !tutorialState.hasSeenTutorial &&
         tutorialState.tutorialData.isNotEmpty;
   }
 
@@ -123,7 +123,7 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
     final tutorialState = ref.watch(tutorialControllerProvider);
 
     // 데이터 로딩 완료 후 튜토리얼을 본적이 없다면 튜토리얼 표시
-    if (!tutorialState.isTutorialShown && expensesAsync.hasValue) {
+    if (!tutorialState.hasSeenTutorial && expensesAsync.hasValue) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _showTutorial();
       });
