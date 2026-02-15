@@ -1,4 +1,5 @@
 import 'package:expense_tracker/core/utils/layout_utils.dart';
+import 'package:expense_tracker/core/widgets/tutorial/tutorial_content_widget.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
@@ -11,15 +12,91 @@ import 'package:expense_tracker/features/expense/widgets/expense_list/filter_chi
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 /// 지출 목록 화면
-class ExpenseListScreen extends ConsumerWidget {
+class ExpenseListScreen extends ConsumerStatefulWidget {
   /// 지출 목록 화면 생성자
   const ExpenseListScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ExpenseListScreen> createState() => _ExpenseListScreenState();
+}
+
+class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
+  // 튜토리얼 타겟 키들 (지출 추가, 상단바 아래의 필터들, 지출 리스트들)
+  final GlobalKey _addButtonKey = GlobalKey();
+  final GlobalKey _filterKey = GlobalKey();
+  final GlobalKey _expenseListKey = GlobalKey();
+
+  var _hasShownTutorial = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _showTutorial() {
+    final targets = <TargetFocus>[
+      TargetFocus(
+        identify: 'filter',
+        keyTarget: _filterKey,
+        alignSkip: Alignment.topRight,
+        contents: [
+          TargetContent(
+            child: const TutorialContentWidget(
+              title: '감정 필터',
+              description: '감정별로 지출을 필터링해서 볼 수 있어요.\n 돈을 사용하고 난 감정을 확인해보세요!',
+            ),
+          ),
+        ],
+      ),
+      TargetFocus(
+        identify: 'expense-list',
+        keyTarget: _expenseListKey,
+        alignSkip: Alignment.topRight,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            child: const TutorialContentWidget(
+              title: '가계부 목록',
+              description: '기록한 지출 내역을 확인하고\n클릭해서 수정하거나 삭제할 수 있어요.',
+            ),
+          ),
+        ],
+      ),
+      TargetFocus(
+        identify: 'add-button',
+        keyTarget: _addButtonKey,
+        alignSkip: Alignment.topRight,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            child: const TutorialContentWidget(
+              title: '지출 추가하기',
+              description: '여기를 눌러서 새로운 지출을 기록하세요!\n감정과 함께 지출을 관리할 수 있어요.',
+            ),
+          ),
+        ],
+      ),
+    ];
+
+    TutorialCoachMark(
+      targets: targets,
+    ).show(context: context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final expensesAsync = ref.watch(expenseControllerProvider);
+
+    // 데이터 로딩 완료 후 튜토리얼 표시 (한 번만, 추후 Controller로 관리 예정)
+    if (!_hasShownTutorial && expensesAsync.hasValue) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _hasShownTutorial = true;
+        _showTutorial();
+      });
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
@@ -87,6 +164,7 @@ class ExpenseListScreen extends ConsumerWidget {
                     child: Row(
                       children: [
                         FilterChipWidget(
+                          key: _filterKey,
                           label: '전체',
                           isSelected: selectedFilter == null,
                           onTap: () => ref
@@ -140,6 +218,7 @@ class ExpenseListScreen extends ConsumerWidget {
 
                 // 지출 목록
                 Expanded(
+                  key: _expenseListKey,
                   child: expenses.isEmpty
                       ? const EmptyExpenseState()
                       : ListView.builder(
@@ -186,6 +265,7 @@ class ExpenseListScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        key: _addButtonKey,
         onPressed: () {
           Navigator.push(
             context,
