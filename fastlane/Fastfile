@@ -1,0 +1,46 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "TestFlight에 업로드"
+  lane :beta do
+    # App Store Connect API 인증
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
+      key_content: ENV["APP_STORE_CONNECT_API_KEY_CONTENT"],
+      is_key_content_base64: true,
+    )
+
+    # 코드 서명 설정 (수동)
+    import_certificate(
+      certificate_path: "distribution.p12",
+      certificate_password: ENV["IOS_CERTIFICATE_PASSWORD"],
+      keychain_name: "build.keychain",
+      keychain_password: "temp_password",
+    )
+
+    install_provisioning_profile(
+      path: "profile.mobileprovision"
+    )
+
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      bundle_identifier: "com.gunhee.expensediary",
+      profile_name: ENV["PROVISIONING_PROFILE_NAME"],
+    )
+
+    # Flutter 빌드
+    sh("flutter build ios --release --no-codesign")
+
+    # Xcode 빌드 & 아카이브
+    build_app(
+      workspace: "ios/Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      output_directory: "build/ios",
+    )
+
+    # TestFlight 업로드
+    upload_to_testflight(api_key: api_key)
+  end
+end
