@@ -1,0 +1,63 @@
+name: iOS App Store 배포
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    name: TestFlight 배포
+    runs-on: macos-latest
+
+    steps:
+      - name: 리포지토리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Flutter 설정
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.35.6"
+
+      - name: 의존성 설치
+        run: flutter pub get
+
+      - name: 빌드러너 실행
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Firebase 설정
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > android/app/google-services.json
+
+      - name: Ruby 설정
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Fastlane 설치
+        run: bundle install
+
+      - name: 임시 키체인 생성
+        run: |
+          security create-keychain -p "temp_password" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "temp_password" build.keychain
+          security set-keychain-settings -t 3600 -u build.keychain
+
+      - name: p12 인증서 디코딩
+        run: echo "${{ secrets.IOS_DISTRIBUTION_P12 }}" | base64 --decode > distribution.p12
+
+      - name: Provisioning Profile 디코딩
+        run: |
+          echo "${{ secrets.IOS_PROVISIONING_PROFILE }}" | base64 --decode > profile.mobileprovision
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+
+      - name: Fastlane beta 실행
+        run: bundle exec fastlane ios beta
+        env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          PROVISIONING_PROFILE_NAME: ${{ secrets.IOS_PROVISIONING_PROFILE_NAME }}
