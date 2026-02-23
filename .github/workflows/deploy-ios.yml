@@ -3,7 +3,7 @@ name: iOS App Store 배포
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   deploy:
@@ -25,13 +25,10 @@ jobs:
       - name: 빌드러너 실행
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
-      - name: Firebase 설정
-        run: echo '${{ secrets.GOOGLE_SERVICES_INFO_PLIST }}' | base64 --decode > ios/Runner/GoogleService-Info.plist
-
       - name: Ruby 설정
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: "3.2"
           bundler-cache: true
 
       - name: Fastlane 설치
