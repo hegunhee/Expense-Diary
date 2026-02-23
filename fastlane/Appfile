@@ -1,5 +1,1 @@
 app_identifier("com.gunhee.expensediary")
-apple_id(ENV["APPLE_ID"])
-
-itc_team_id(ENV["ITC_TEAM_ID"])   # App Store Connect Team ID
-team_id(ENV["APPLE_TEAM_ID"])     # Developer Portal Team ID
