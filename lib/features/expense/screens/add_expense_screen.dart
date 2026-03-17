@@ -1,35 +1,16 @@
 import 'package:expense_tracker/core/utils/layout_utils.dart';
+import 'package:expense_tracker/core/widgets/picker/date_picker_widget.dart';
+import 'package:expense_tracker/core/widgets/picker/time_spinner_widget.dart';
+import 'package:expense_tracker/features/expense/controllers/add_expense_form_controller.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
-import 'package:expense_tracker/features/expense/models/expense_form.dart';
+import 'package:expense_tracker/features/expense/models/expense_form_mode.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/amount_input_field.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/category_selector_widget.dart';
+import 'package:expense_tracker/features/expense/widgets/expense_form/date_time_selector_widget.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/emotion_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-/// 지출 추가/수정 모드 (이 화면에 진입한게 추가인지 수정인지 판별하기 위해 사용되는 클래스 )
-sealed class ExpenseFormMode {
-  const ExpenseFormMode();
-}
-
-/// 추가 모드
-class Create extends ExpenseFormMode {
-  /// 추가의 경우 아무런 값을 가지고 있지 않기때문에 빈 생성자
-  const Create();
-}
-
-/// 수정 모드
-class Edit extends ExpenseFormMode {
-  /// 생성자 (기존의 지출 정보와, 감정 상태를 보유중)
-  Edit(this.originalExpense, this.originalEmotion);
-
-  /// 기존에 저장되어있는 지출 정보
-  final Expense originalExpense;
-
-  /// 기존에 저장되어있는 감정 상태 (기존의 감정이 많이 사용되므로 변수로 추출함)
-  final ExpenseEmotions originalEmotion;
-}
 
 /// 지출 추가/수정 화면
 class AddExpenseScreen extends ConsumerStatefulWidget {
@@ -48,15 +29,6 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   final _amountController = TextEditingController();
   final _memoController = TextEditingController();
   final _emotionChangeReasonController = TextEditingController();
-
-  ExpenseCategory _selectedCategory = ExpenseCategory.food;
-  ExpenseEmotions _selectedEmotion = ExpenseEmotions.good;
-
-  bool get _isEmotionChanged => switch (widget.mode) {
-    Create() => false, // 추가 모드는 '변경'이라는 개념이 없으므로 항상 false
-    Edit(:final originalEmotion) =>
-      originalEmotion != _selectedEmotion, // 수정 모드: 원본과 현재 선택 비교
-  };
 
   @override
   void initState() {
@@ -84,7 +56,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       }
     });
 
-    // 수정 모드인 경우 기존 데이터로 초기화
+    // 수정 모드인 경우 기존 텍스트 데이터로 초기화
     final formMode = widget.mode;
     if (formMode is Edit) {
       _titleController.text = formMode.originalExpense.title;
@@ -95,8 +67,6 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
             (Match m) => '${m[1]},',
           );
       _memoController.text = formMode.originalExpense.memo ?? '';
-      _selectedCategory = formMode.originalExpense.category;
-      _selectedEmotion = formMode.originalExpense.emotion;
     }
   }
 
@@ -110,6 +80,11 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   }
 
   void _saveExpense() {
+    final formController = ref.read(
+      addExpenseFormControllerProvider(widget.mode).notifier,
+    );
+    final formMode = widget.mode;
+
     if (_titleController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('지출 이름을 입력해주세요')),
@@ -125,7 +100,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     }
 
     // 감정이 변경되었는데 변경 사유를 입력하지 않은 경우
-    if (_isEmotionChanged &&
+    if (formController.isEmotionChanged(formMode) &&
         _emotionChangeReasonController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -138,34 +113,25 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
     final amount =
         int.tryParse(_amountController.text.replaceAll(',', '')) ?? 0;
-
-    final formMode = widget.mode;
+    final memo =
+        _memoController.text.isEmpty ? null : _memoController.text;
 
     if (formMode is Edit) {
-      final changedExpense = formMode.originalExpense.copyWith(
+      final changedExpense = formController.buildUpdatedExpense(
+        mode: formMode,
         title: _titleController.text,
-        category: _selectedCategory,
-        emotion: _selectedEmotion,
         amount: amount,
-        memo: _memoController.text.isEmpty ? null : _memoController.text,
-        previousEmotion: _isEmotionChanged
-            ? formMode.originalEmotion
-            : formMode.originalExpense.previousEmotion,
-        emotionChangeReason: _isEmotionChanged
-            ? _emotionChangeReasonController.text.trim()
-            : formMode.originalExpense.emotionChangeReason,
+        memo: memo,
+        emotionChangeReason: _emotionChangeReasonController.text.trim(),
       );
       ref
           .read(expenseControllerProvider.notifier)
           .updateExpense(changedExpense);
     } else {
-      final expenseForm = ExpenseForm(
+      final expenseForm = formController.buildExpenseForm(
         title: _titleController.text,
         amount: amount,
-        category: _selectedCategory,
-        emotion: _selectedEmotion,
-        date: DateTime.now(),
-        memo: _memoController.text.isEmpty ? null : _memoController.text,
+        memo: memo,
       );
       ref.read(expenseControllerProvider.notifier).addExpense(expenseForm);
     }
@@ -258,6 +224,11 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     final formMode = widget.mode;
+    final formState = ref.watch(addExpenseFormControllerProvider(formMode));
+    final formController = ref.read(
+      addExpenseFormControllerProvider(formMode).notifier,
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -340,30 +311,48 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
                     const SizedBox(height: 24),
 
+                    // 날짜 및 시간 선택
+                    DateTimeSelectorWidget(
+                      selectedDate: formState.selectedDate,
+                      onDateTap: formController.toggleDatePicker,
+                      onTimeTap: formController.toggleTimePicker,
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // 날짜 피커
+                    if (formState.showDatePicker)
+                      DatePickerWidget(
+                        selectedDate: formState.selectedDate,
+                        onDateChanged: formController.updateDate,
+                      ),
+
+                    // 시간 스피너
+                    if (formState.showTimePicker)
+                      TimeSpinnerWidget(
+                        selectedDate: formState.selectedDate,
+                        onTimeChanged: formController.updateTime,
+                      ),
+
+                    if (formState.showDatePicker || formState.showTimePicker)
+                      const SizedBox(height: 24),
+
                     // 지출 카테고리 (위젯으로 분리)
                     CategorySelectorWidget(
-                      selectedCategory: _selectedCategory,
-                      onChanged: (category) {
-                        setState(() {
-                          _selectedCategory = category;
-                        });
-                      },
+                      selectedCategory: formState.selectedCategory,
+                      onChanged: formController.updateCategory,
                     ),
 
                     const SizedBox(height: 24),
 
                     // 감정 카테고리 (위젯으로 분리)
                     EmotionSelectorWidget(
-                      selectEmotion: _selectedEmotion,
-                      onChanged: (emotion) {
-                        setState(() {
-                          _selectedEmotion = emotion;
-                        });
-                      },
+                      selectEmotion: formState.selectedEmotion,
+                      onChanged: formController.updateEmotion,
                     ),
 
                     // 감정 변경 사유 (감정이 변경된 경우에만 표시)
-                    if (_isEmotionChanged) ...[
+                    if (formController.isEmotionChanged(formMode)) ...[
                       const SizedBox(height: 24),
                       const Text(
                         '변경 사유',

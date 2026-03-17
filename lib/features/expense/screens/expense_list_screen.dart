@@ -1,7 +1,9 @@
+import 'package:expense_tracker/core/themes/app_colors.dart';
 import 'package:expense_tracker/core/utils/layout_utils.dart';
 import 'package:expense_tracker/core/widgets/tutorial/tutorial_content_widget.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_form_mode.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
 import 'package:expense_tracker/features/expense/screens/search_screen.dart';
 import 'package:expense_tracker/features/expense/screens/statistics_screen.dart';
@@ -311,7 +313,10 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
             ),
           );
         },
-        backgroundColor: const Color(0xFF4CAF50),
+
+        /// colorScheme이 없음에 따라 플로팅 액션 버튼 색상 지정
+        backgroundColor: context.colors.primary,
+        foregroundColor: context.colors.textPrimary,
         child: const Icon(Icons.add),
       ),
     );
