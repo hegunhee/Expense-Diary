@@ -113,8 +113,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
     final amount =
         int.tryParse(_amountController.text.replaceAll(',', '')) ?? 0;
-    final memo =
-        _memoController.text.isEmpty ? null : _memoController.text;
+    final memo = _memoController.text.isEmpty ? null : _memoController.text;
 
     if (formMode is Edit) {
       final changedExpense = formController.buildUpdatedExpense(

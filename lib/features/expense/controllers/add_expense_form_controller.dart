@@ -157,21 +157,20 @@ class AddExpenseFormController
       amount: amount,
       memo: memo,
       date: state.selectedDate,
-      previousEmotion:
-          emotionChanged
-              ? mode.originalEmotion
-              : mode.originalExpense.previousEmotion,
-      emotionChangeReason:
-          emotionChanged
-              ? emotionChangeReason
-              : mode.originalExpense.emotionChangeReason,
+      previousEmotion: emotionChanged
+          ? mode.originalEmotion
+          : mode.originalExpense.previousEmotion,
+      emotionChangeReason: emotionChanged
+          ? emotionChangeReason
+          : mode.originalExpense.emotionChangeReason,
     );
   }
 }
 
 /// 지출 추가/수정 폼 컨트롤러 프로바이더
-final addExpenseFormControllerProvider = NotifierProvider.family<
-  AddExpenseFormController,
-  AddExpenseFormState,
-  ExpenseFormMode
->(AddExpenseFormController.new);
+final addExpenseFormControllerProvider =
+    NotifierProvider.family<
+      AddExpenseFormController,
+      AddExpenseFormState,
+      ExpenseFormMode
+    >(AddExpenseFormController.new);
