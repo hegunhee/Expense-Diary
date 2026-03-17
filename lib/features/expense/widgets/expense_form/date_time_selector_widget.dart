@@ -45,22 +45,22 @@ class DateTimeSelectorWidget extends StatelessWidget {
                     vertical: 16,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F5),
+                    color: context.colors.surface,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.calendar_today,
-                        color: Color(0xFF4CAF50),
+                        color: context.colors.primary,
                         size: 20,
                       ),
                       const SizedBox(width: 12),
                       Text(
                         '${selectedDate.year}.${selectedDate.month.toString().padLeft(2, '0')}.${selectedDate.day.toString().padLeft(2, '0')}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black,
+                          color: context.colors.textPrimary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -79,22 +79,22 @@ class DateTimeSelectorWidget extends StatelessWidget {
                     vertical: 16,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F5),
+                    color: context.colors.surface,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.access_time,
-                        color: Color(0xFF4CAF50),
+                        color: context.colors.primary,
                         size: 20,
                       ),
                       const SizedBox(width: 12),
                       Text(
                         '${selectedDate.hour.toString().padLeft(2, '0')}:${selectedDate.minute.toString().padLeft(2, '0')}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black,
+                          color: context.colors.textPrimary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
