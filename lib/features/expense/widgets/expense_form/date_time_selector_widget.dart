@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// 날짜 및 시간 선택 위젯
@@ -21,15 +22,16 @@ class DateTimeSelectorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           '날짜 및 시간',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: context.colors.textPrimary,
           ),
         ),
         const SizedBox(height: 12),

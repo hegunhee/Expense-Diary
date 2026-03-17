@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/themes/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class TimeSpinnerWidget extends StatelessWidget {
     return Container(
       height: 125,
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F5F5),
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(12),
       ),
       child: CupertinoDatePicker(
