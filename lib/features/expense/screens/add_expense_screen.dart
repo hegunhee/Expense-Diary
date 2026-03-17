@@ -383,7 +383,11 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                         selectedDate: _selectedDate,
                         onDateChanged: (date) {
                           setState(() {
-                            _selectedDate = date;
+                            _selectedDate = _selectedDate.copyWith(
+                              year: date.year,
+                              month: date.month,
+                              day: date.day,
+                            );
                           });
                         },
                       ),
