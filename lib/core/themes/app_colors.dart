@@ -10,6 +10,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.textSecondary,
     required this.primary,
     required this.secondary,
+    required this.tertiary,
     required this.error,
     required this.success,
     required this.warning,
@@ -30,6 +31,9 @@ class AppColors extends ThemeExtension<AppColors> {
   /// 보조 강조 색상
   final Color secondary;
 
+  /// 세번째 강조 색상
+  final Color tertiary;
+
   /// 오류 상태 표시 색상
   final Color error;
 
@@ -46,6 +50,7 @@ class AppColors extends ThemeExtension<AppColors> {
     textSecondary: Color(0xFF666666),
     primary: Color(0xFF4CAF50),
     secondary: Color(0xAA4CAF50),
+    tertiary: Color(0xFFD32F2F),
     error: Color(0xFFB00020),
     success: Color(0xFF4CAF50),
     warning: Color(0xFFFFC107),
@@ -58,6 +63,7 @@ class AppColors extends ThemeExtension<AppColors> {
     textSecondary: Color(0xFFB0B0B0),
     primary: Color(0xFF64B5F6),
     secondary: Color(0xFF26C6DA),
+    tertiary: Color(0xFFD32F2F),
     error: Color(0xFFCF6679),
     success: Color(0xFF81C784),
     warning: Color(0xFFFFD54F),
@@ -70,6 +76,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? textSecondary,
     Color? primary,
     Color? secondary,
+    Color? tertiary,
     Color? error,
     Color? success,
     Color? warning,
@@ -79,6 +86,7 @@ class AppColors extends ThemeExtension<AppColors> {
     textSecondary: textSecondary ?? this.textSecondary,
     primary: primary ?? this.primary,
     secondary: secondary ?? this.secondary,
+    tertiary: tertiary ?? this.tertiary,
     error: error ?? this.error,
     success: success ?? this.success,
     warning: warning ?? this.warning,
@@ -95,6 +103,7 @@ class AppColors extends ThemeExtension<AppColors> {
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       primary: Color.lerp(primary, other.primary, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
+      tertiary: Color.lerp(tertiary, other.tertiary, t)!,
       error: Color.lerp(error, other.error, t)!,
       success: Color.lerp(success, other.success, t)!,
       warning: Color.lerp(warning, other.warning, t)!,

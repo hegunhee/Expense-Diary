@@ -8,25 +8,24 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-
-      /// datePicker는 고유 Theme 데이터의 색상을 가지므로 설정
+      // datePicker는 고유 Theme 데이터의 색상을 가지므로 설정
       datePickerTheme: DatePickerThemeData(
         todayForegroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return Colors.white;
+            return AppColors.light.surface;
           }
-          return Colors.red;
+          return AppColors.light.tertiary;
         }),
         todayBackgroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return const Color(0xFF4CAF50);
+            return AppColors.light.primary;
           }
-          return Colors.white;
+          return AppColors.light.surface;
         }),
         todayBorder: BorderSide.none,
         dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return const Color(0xFF4CAF50);
+            return AppColors.light.primary;
           }
           return null;
         }),
