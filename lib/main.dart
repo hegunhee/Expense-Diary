@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:expense_tracker/core/controllers/theme_controller.dart';
 import 'package:expense_tracker/core/themes/app_theme.dart';
 import 'package:expense_tracker/features/expense/screens/expense_list_screen.dart';
 import 'package:expense_tracker/firebase_options.dart';
@@ -67,13 +66,10 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeControllerProvider);
-
     return MaterialApp(
       title: '마음 가계부',
       theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: themeMode,
+      themeMode: ThemeMode.light,
       locale: context.locale,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
