@@ -19,13 +19,14 @@ class DatePickerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 250,
-        child: CalendarDatePicker(
-          initialDate: selectedDate,
-          /// 임의로 2020년부터 2100년 사이의 값을 가지도록 설정
-          firstDate: DateTime(2020),
-          lastDate: DateTime(2100),
-          onDateChanged: onDateChanged,
-        ),
+      child: CalendarDatePicker(
+        initialDate: selectedDate,
+
+        /// 임의로 2020년부터 2100년 사이의 값을 가지도록 설정
+        firstDate: DateTime(2020),
+        lastDate: DateTime(2100),
+        onDateChanged: onDateChanged,
+      ),
     );
   }
 }

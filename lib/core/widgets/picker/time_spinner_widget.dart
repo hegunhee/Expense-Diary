@@ -12,6 +12,7 @@ class TimeSpinnerWidget extends StatelessWidget {
 
   /// 선택되어있는 날짜 (시, 분 사용)
   final DateTime selectedDate;
+
   /// 시간 변경 콜백
   final ValueChanged<TimeOfDay> onTimeChanged;
 
@@ -24,25 +25,25 @@ class TimeSpinnerWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: CupertinoDatePicker(
-          mode: CupertinoDatePickerMode.time,
-          use24hFormat: true,
-          itemExtent: 40,
-          initialDateTime: DateTime(
-            selectedDate.year,
-            selectedDate.month,
-            selectedDate.day,
-            selectedDate.hour,
-            selectedDate.minute,
-          ),
-          onDateTimeChanged: (DateTime newDateTime) {
-            onTimeChanged(
-              TimeOfDay(
-                hour: newDateTime.hour,
-                minute: newDateTime.minute,
-              ),
-            );
-          },
+        mode: CupertinoDatePickerMode.time,
+        use24hFormat: true,
+        itemExtent: 40,
+        initialDateTime: DateTime(
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day,
+          selectedDate.hour,
+          selectedDate.minute,
         ),
+        onDateTimeChanged: (DateTime newDateTime) {
+          onTimeChanged(
+            TimeOfDay(
+              hour: newDateTime.hour,
+              minute: newDateTime.minute,
+            ),
+          );
+        },
+      ),
     );
   }
 }

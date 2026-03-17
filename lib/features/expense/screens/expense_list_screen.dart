@@ -312,6 +312,7 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
             ),
           );
         },
+
         /// colorScheme이 없음에 따라 플로팅 액션 버튼 색상 지정
         backgroundColor: context.colors.primary,
         foregroundColor: context.colors.textPrimary,

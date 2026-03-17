@@ -3,33 +3,33 @@ import 'package:flutter/material.dart';
 
 /// 앱 전체에서 사용되는 테마 설정을 정의하는 클래스
 class AppTheme {
-
   /// 라이트 모드 테마 설정을 반환합니다.
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
+
       /// datePicker는 고유 Theme 데이터의 색상을 가지므로 설정
       datePickerTheme: DatePickerThemeData(
         todayForegroundColor: WidgetStateProperty.resolveWith((states) {
-          if(states.contains(WidgetState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return Colors.white;
           }
           return Colors.red;
         }),
         todayBackgroundColor: WidgetStateProperty.resolveWith((states) {
-          if(states.contains(WidgetState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return const Color(0xFF4CAF50);
           }
           return Colors.white;
         }),
         todayBorder: BorderSide.none,
         dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
-          if(states.contains(WidgetState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return const Color(0xFF4CAF50);
           }
           return null;
-        })
+        }),
       ),
       extensions: const <ThemeExtension<dynamic>>[
         AppColors.light,
