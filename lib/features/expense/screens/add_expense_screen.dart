@@ -1,9 +1,12 @@
 import 'package:expense_tracker/core/utils/layout_utils.dart';
+import 'package:expense_tracker/core/widgets/picker/date_picker_widget.dart';
+import 'package:expense_tracker/core/widgets/picker/time_spinner_widget.dart';
 import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/amount_input_field.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/category_selector_widget.dart';
+import 'package:expense_tracker/features/expense/widgets/expense_form/date_time_selector_widget.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/emotion_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,6 +54,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
   ExpenseCategory _selectedCategory = ExpenseCategory.food;
   ExpenseEmotions _selectedEmotion = ExpenseEmotions.good;
+  late DateTime _selectedDate;
+  var _showDatePicker = false;
+  var _showTimePicker = false;
 
   bool get _isEmotionChanged => switch (widget.mode) {
     Create() => false, // 추가 모드는 '변경'이라는 개념이 없으므로 항상 false
@@ -97,6 +103,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       _memoController.text = formMode.originalExpense.memo ?? '';
       _selectedCategory = formMode.originalExpense.category;
       _selectedEmotion = formMode.originalExpense.emotion;
+      _selectedDate = formMode.originalExpense.date;
+    } else {
+      _selectedDate = DateTime.now();
     }
   }
 
@@ -148,6 +157,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
         emotion: _selectedEmotion,
         amount: amount,
         memo: _memoController.text.isEmpty ? null : _memoController.text,
+        date: _selectedDate,
         previousEmotion: _isEmotionChanged
             ? formMode.originalEmotion
             : formMode.originalExpense.previousEmotion,
@@ -164,7 +174,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
         amount: amount,
         category: _selectedCategory,
         emotion: _selectedEmotion,
-        date: DateTime.now(),
+        date: _selectedDate,
         memo: _memoController.text.isEmpty ? null : _memoController.text,
       );
       ref.read(expenseControllerProvider.notifier).addExpense(expenseForm);
@@ -255,6 +265,24 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     );
   }
 
+  void _toggleDatePicker() {
+    setState(() {
+      _showDatePicker = !_showDatePicker;
+      if (_showDatePicker) {
+        _showTimePicker = false;
+      }
+    });
+  }
+
+  void _toggleTimePicker() {
+    setState(() {
+      _showTimePicker = !_showTimePicker;
+      if (_showTimePicker) {
+        _showDatePicker = false;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final formMode = widget.mode;
@@ -339,6 +367,43 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                     ),
 
                     const SizedBox(height: 24),
+
+                    // 날짜 및 시간 선택
+                    DateTimeSelectorWidget(
+                      selectedDate: _selectedDate,
+                      onDateTap: _toggleDatePicker,
+                      onTimeTap: _toggleTimePicker,
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // 날짜 피커
+                    if (_showDatePicker)
+                      DatePickerWidget(
+                        selectedDate: _selectedDate,
+                        onDateChanged: (date) {
+                          setState(() {
+                            _selectedDate = date;
+                          });
+                        },
+                      ),
+
+                    // 시간 스피너
+                    if (_showTimePicker)
+                      TimeSpinnerWidget(
+                        selectedDate: _selectedDate,
+                        onTimeChanged: (time) {
+                          setState(() {
+                            _selectedDate = _selectedDate.copyWith(
+                              hour: time.hour,
+                              minute: time.minute,
+                            );
+                          });
+                        },
+                      ),
+
+                    if (_showDatePicker || _showTimePicker)
+                      const SizedBox(height: 24),
 
                     // 지출 카테고리 (위젯으로 분리)
                     CategorySelectorWidget(
