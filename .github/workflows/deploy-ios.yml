@@ -14,13 +14,22 @@ jobs:
       - name: 리포지토리 체크아웃
         uses: actions/checkout@v4
 
+      - name: Ruby 설정
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: CocoaPods 설치
+        run: gem install cocoapods
+
+      - name: Fastlane 설치
+        run: bundle install
+
       - name: Flutter 설정
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.35.6"
-
-      - name: CocoaPods 설치
-        run: gem install cocoapods
 
       - name: 의존성 설치
         run: flutter pub get
@@ -30,15 +39,6 @@ jobs:
 
       - name: 빌드러너 실행
         run: flutter pub run build_runner build --delete-conflicting-outputs
-
-      - name: Ruby 설정
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.2"
-          bundler-cache: true
-
-      - name: Fastlane 설치
-        run: bundle install
 
       - name: 임시 키체인 생성
         run: |
