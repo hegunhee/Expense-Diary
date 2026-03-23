@@ -30,10 +30,7 @@ platform :ios do
       profile_name: ENV["PROVISIONING_PROFILE_NAME"],
     )
 
-    # Flutter 빌드
-    sh("flutter build ios --release --no-codesign")
-
-    # Xcode 빌드 & 아카이브
+    # Xcode 빌드 & 아카이브 (Flutter 빌드는 워크플로우에서 완료)
     build_app(
       workspace: "ios/Runner.xcworkspace",
       scheme: "Runner",
