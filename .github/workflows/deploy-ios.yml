@@ -33,7 +33,7 @@ jobs:
       - name: Ruby 설정
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.2"
+          ruby-version: "3.3"
           bundler-cache: true
 
       - name: Fastlane 설치
