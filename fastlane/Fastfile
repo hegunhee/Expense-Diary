@@ -28,6 +28,7 @@ platform :ios do
     update_code_signing_settings(
       path: "ios/Runner.xcodeproj",
       use_automatic_signing: false,
+      team_id: ENV["DEVELOPMENT_TEAM_ID"],
       bundle_identifier: "com.gunhee.expensediary",
       profile_name: ENV["PROVISIONING_PROFILE_NAME"],
     )
