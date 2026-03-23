@@ -23,6 +23,9 @@ jobs:
       - name: 의존성 설치
         run: flutter pub get
 
+      - name: FlutterFire CLI 설치
+        run: dart pub global activate flutterfire_cli
+
       - name: GoogleService-Info.plist 복원
         run: |
           echo "${{ secrets.IOS_GOOGLE_SERVICE_INFO_PLIST }}" | base64 --decode > ios/Runner/GoogleService-Info.plist
