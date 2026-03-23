@@ -31,6 +31,7 @@ platform :ios do
       team_id: ENV["DEVELOPMENT_TEAM_ID"],
       bundle_identifier: "com.gunhee.expensediary",
       profile_name: ENV["PROVISIONING_PROFILE_NAME"],
+      code_sign_identity: "Apple Distribution",
     )
 
     # Xcode 빌드 & 아카이브 (Flutter 빌드는 워크플로우에서 완료)
