@@ -23,15 +23,15 @@ jobs:
       - name: 의존성 설치
         run: flutter pub get
 
+      - name: GoogleService-Info.plist 복원
+        run: |
+          echo "${{ secrets.IOS_GOOGLE_SERVICE_INFO_PLIST }}" | base64 --decode > ios/Runner/GoogleService-Info.plist
+
       - name: 빌드러너 실행
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Flutter iOS 빌드
         run: flutter build ios --release --no-codesign
-
-      - name: GoogleService-Info.plist 복원
-        run: |
-          echo "${{ secrets.IOS_GOOGLE_SERVICE_INFO_PLIST }}" | base64 --decode > ios/Runner/GoogleService-Info.plist
 
       # Fastlane (Ruby 설정 후 Xcode 빌드 & 업로드만 담당)
       - name: Ruby 설정
