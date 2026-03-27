@@ -19,6 +19,7 @@ dependencies:
 
   # Firebase (iOS용 GoogleService-Info.plist 필요)
   firebase_core: ^4.2.0
+  firebase_analytics: ^12.2.0
   firebase_crashlytics: ^5.0.3
 
   # Local Database
