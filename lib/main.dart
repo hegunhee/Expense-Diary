@@ -53,7 +53,7 @@ void main() {
     },
     (error, stack) {
       // Zone에서 캐치되지 않은 에러 처리
-      // FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       debugPrint('Uncaught error: $error');
     },
   );
