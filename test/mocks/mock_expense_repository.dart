@@ -102,7 +102,9 @@ class MockExpenseRepository implements ExpenseRepository {
               expenseFilter.endDate.add(const Duration(days: 1)),
             );
 
-        if (!isInDateRange) return false;
+        if (!isInDateRange) {
+          return false;
+        }
 
         // 감정 필터링
         if (expenseFilter.emotion != null) {
