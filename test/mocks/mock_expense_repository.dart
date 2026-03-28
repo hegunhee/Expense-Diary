@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_filter.dart';
 import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
 
 /// Mock ExpenseService for testing
 class MockExpenseRepository implements ExpenseRepository {
   final List<Expense> _expenses = [];
+  final _controller = StreamController<List<Expense>>.broadcast();
 
   @override
   Future<List<Expense>> getAllExpenses() async {
@@ -24,6 +28,7 @@ class MockExpenseRepository implements ExpenseRepository {
       createdAt: DateTime.now(),
     );
     _expenses.add(expense);
+    _notifyListeners();
     return expense.id;
   }
 
@@ -41,12 +46,14 @@ class MockExpenseRepository implements ExpenseRepository {
     final index = _expenses.indexWhere((e) => e.id == expense.id);
     if (index != -1) {
       _expenses[index] = expense;
+      _notifyListeners();
     }
   }
 
   @override
   Future<void> deleteExpense(int id) async {
     _expenses.removeWhere((e) => e.id == id);
+    _notifyListeners();
   }
 
   @override
@@ -74,5 +81,45 @@ class MockExpenseRepository implements ExpenseRepository {
   Future<List<Expense>> filterByStatus(ExpenseEmotions emotion) async {
     return _expenses.where((expense) => expense.emotion == emotion).toList()
       ..sort((a, b) => b.date.compareTo(a.date));
+  }
+
+  @override
+  Stream<List<Expense>> watchExpenses({
+    required ExpenseFilter expenseFilter,
+  }) {
+    // 초기 데이터 emit
+    _notifyListeners();
+
+    // Stream 변환: 필터링 적용
+    return _controller.stream.map((expenses) {
+      return expenses.where((expense) {
+        // 날짜 필터링
+        final isInDateRange =
+            expense.date.isAfter(
+              expenseFilter.startDate.subtract(const Duration(seconds: 1)),
+            ) &&
+            expense.date.isBefore(
+              expenseFilter.endDate.add(const Duration(days: 1)),
+            );
+
+        if (!isInDateRange) return false;
+
+        // 감정 필터링
+        if (expenseFilter.emotion != null) {
+          return expense.emotion == expenseFilter.emotion;
+        }
+
+        return true;
+      }).toList()..sort((a, b) => b.date.compareTo(a.date));
+    });
+  }
+
+  void _notifyListeners() {
+    _controller.add(List.from(_expenses));
+  }
+
+  /// 테스트 종료 시 호출
+  void dispose() {
+    _controller.close();
   }
 }
