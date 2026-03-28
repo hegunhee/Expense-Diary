@@ -1,9 +1,9 @@
 import 'package:expense_tracker/core/utils/layout_utils.dart';
 import 'package:expense_tracker/core/widgets/picker/date_picker_widget.dart';
 import 'package:expense_tracker/core/widgets/picker/time_spinner_widget.dart';
-import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/models/expense_form.dart';
+import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/amount_input_field.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/category_selector_widget.dart';
 import 'package:expense_tracker/features/expense/widgets/expense_form/date_time_selector_widget.dart';
@@ -118,7 +118,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     super.dispose();
   }
 
-  void _saveExpense() {
+  Future<void> _saveExpense() async {
     if (_titleController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('지출 이름을 입력해주세요')),
@@ -149,6 +149,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
         int.tryParse(_amountController.text.replaceAll(',', '')) ?? 0;
 
     final formMode = widget.mode;
+    final repository = ref.read(expenseRepositoryProvider);
 
     if (formMode is Edit) {
       final changedExpense = formMode.originalExpense.copyWith(
@@ -165,9 +166,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
             ? _emotionChangeReasonController.text.trim()
             : formMode.originalExpense.emotionChangeReason,
       );
-      ref
-          .read(expenseControllerProvider.notifier)
-          .updateExpense(changedExpense);
+      await repository.updateExpense(changedExpense);
     } else {
       final expenseForm = ExpenseForm(
         title: _titleController.text,
@@ -177,9 +176,12 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
         date: _selectedDate,
         memo: _memoController.text.isEmpty ? null : _memoController.text,
       );
-      ref.read(expenseControllerProvider.notifier).addExpense(expenseForm);
+      await repository.addExpense(expenseForm);
     }
-    Navigator.pop(context);
+
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 
   void _showDeleteDialog(BuildContext context, WidgetRef ref, int expenseId) {
@@ -211,52 +213,22 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               onPressed: () {
                 Navigator.of(dialogContext).pop();
               },
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
-                ),
-              ),
-              child: const Text(
-                '취소',
-                style: TextStyle(
-                  color: Color(0xFF999999),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              child: const Text('취소'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                ref
-                    .read(expenseControllerProvider.notifier)
-                    .deleteExpense(expenseId);
-                Navigator.of(dialogContext).pop(); // 다이얼로그 닫기
-                Navigator.of(context).pop(); // 수정 화면 닫기
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('삭제되었습니다'),
-                    backgroundColor: Color(0xFF4CAF50),
-                  ),
-                );
+            TextButton(
+              onPressed: () async {
+                final repository = ref.read(expenseRepositoryProvider);
+                await repository.deleteExpense(expenseId);
+                if (dialogContext.mounted) {
+                  Navigator.of(dialogContext).pop();
+                }
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF4CAF50),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
               child: const Text(
                 '삭제',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(color: Colors.red),
               ),
             ),
           ],
