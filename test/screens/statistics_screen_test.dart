@@ -1,4 +1,3 @@
-import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
@@ -23,13 +22,14 @@ void main() {
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
-            expenseControllerProvider.overrideWith(ExpenseController.new),
           ],
           child: const MaterialApp(home: StatisticsScreen()),
         ),
       );
 
-      await tester.pumpAndSettle();
+      // Stream Provider가 데이터를 emit할 때까지 대기
+      await tester.pump(); // 초기 빌드
+      await tester.pump(const Duration(milliseconds: 100)); // Stream 데이터 대기
 
       // 안내 메시지 확인
       expect(find.text('아직 지출 데이터가 없습니다'), findsOneWidget);

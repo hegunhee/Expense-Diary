@@ -89,11 +89,8 @@ class MockExpenseRepository implements ExpenseRepository {
   Stream<List<Expense>> watchExpenses({
     required ExpenseFilter expenseFilter,
   }) {
-    // 초기 데이터 emit
-    _notifyListeners();
-
     // Stream 변환: 필터링 적용
-    return _controller.stream.map((expenses) {
+    final stream = _controller.stream.map((expenses) {
       return expenses.where((expense) {
         // 날짜 필터링
         final isInDateRange =
@@ -116,6 +113,11 @@ class MockExpenseRepository implements ExpenseRepository {
         return true;
       }).toList()..sort((a, b) => b.date.compareTo(a.date));
     });
+
+    // 초기 데이터 emit (Stream 반환 후)
+    Future.microtask(_notifyListeners);
+
+    return stream;
   }
 
   void _notifyListeners() {
