@@ -10,7 +10,8 @@ import 'package:flutter_riverpod/misc.dart';
 /// 1. ExpenseFilter를 파라미터로 받아 필터링
 /// 2. DB에서 필터링된 데이터만 가져옴
 /// 3. DB 변경 시 자동으로 갱신 (Drift의 watch 기능)
-final StreamProviderFamily<List<Expense>, ExpenseFilter> expenseListStreamProvider = StreamProvider.autoDispose
+final StreamProviderFamily<List<Expense>, ExpenseFilter>
+expenseListStreamProvider = StreamProvider.autoDispose
     .family<List<Expense>, ExpenseFilter>((ref, filter) {
       final repository = ref.read(expenseRepositoryProvider);
 
