@@ -65,7 +65,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             _isSearching = false;
           });
         }
-      } catch (e) {
+      } on Exception catch (_) {
         if (mounted) {
           setState(() {
             _searchResults = [];
@@ -143,9 +143,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               padding: const EdgeInsets.all(16),
               child: SearchBarWidget(
                 controller: _searchController,
-                onChanged: (value) {
-                  _performSearch(value);
-                },
+                onChanged: _performSearch,
                 onClear: () {
                   _searchController.clear();
                   _performSearch('');
