@@ -149,7 +149,7 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: context.colors.surface,
       appBar: AppBar(
         title: const Text(
           '지출 목록',
@@ -311,10 +311,10 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
                                     padding: const EdgeInsets.only(bottom: 12),
                                     child: Text(
                                       _formatDate(expense.date),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFF4CAF50),
+                                        color: context.colors.primary,
                                       ),
                                     ),
                                   ),

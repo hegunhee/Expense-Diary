@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/themes/app_colors.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -45,14 +46,14 @@ class ExpenseSummaryCard extends StatelessWidget {
                   );
                   onMonthChanged(previousMonth);
                 },
-                color: const Color(0xFF4CAF50),
+                color: context.colors.primary,
               ),
               Text(
                 DateFormat('yyyy.MM').format(selectedDate),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: context.colors.textPrimary,
                 ),
               ),
               IconButton(
@@ -64,7 +65,7 @@ class ExpenseSummaryCard extends StatelessWidget {
                   );
                   onMonthChanged(nextMonth);
                 },
-                color: const Color(0xFF4CAF50),
+                color: context.colors.primary,
               ),
             ],
           ),
@@ -75,17 +76,17 @@ class ExpenseSummaryCard extends StatelessWidget {
             children: [
               Text(
                 selectedFilter == null ? '총 지출' : selectedFilter!.label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
-                  color: Color(0xFF666666),
+                  color: context.colors.textSecondary,
                 ),
               ),
               Text(
                 '${NumberFormat('#,###').format(totalAmount)}원',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: context.colors.textPrimary,
                 ),
               ),
             ],

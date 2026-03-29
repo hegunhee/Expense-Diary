@@ -1,3 +1,4 @@
+import 'package:expense_tracker/core/themes/app_colors.dart';
 import 'package:expense_tracker/core/utils/layout_utils.dart';
 import 'package:expense_tracker/core/widgets/picker/date_picker_widget.dart';
 import 'package:expense_tracker/core/widgets/picker/time_spinner_widget.dart';
@@ -190,19 +191,19 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           backgroundColor: Colors.white,
-          title: const Text(
+          title: Text(
             '삭제 확인',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: context.colors.textPrimary,
             ),
           ),
-          content: const Text(
+          content: Text(
             '삭제 하시겠습니까?',
             style: TextStyle(
               fontSize: 16,
-              color: Color(0xFF666666),
+              color: context.colors.textSecondary,
             ),
           ),
           shape: RoundedRectangleBorder(
@@ -317,9 +318,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                       ),
                       decoration: InputDecoration(
                         hintText: '예) 친구와 커피',
-                        hintStyle: const TextStyle(color: Color(0xFF666666)),
+                        hintStyle: TextStyle(color: context.colors.textSecondary),
                         filled: true,
-                        fillColor: const Color(0xFFF5F5F5),
+                        fillColor: context.colors.surface,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide.none,
@@ -424,7 +425,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                         ),
                         decoration: InputDecoration(
                           hintText: '왜 생각이 바뀌었나요?',
-                          hintStyle: const TextStyle(color: Color(0xFF666666)),
+                          hintStyle: TextStyle(color: context.colors.textSecondary),
                           filled: true,
                           fillColor: const Color(0xFFFFF9E6),
                           border: OutlineInputBorder(
@@ -456,27 +457,27 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                     const SizedBox(height: 24),
 
                     // 메모
-                    const Text(
+                    Text(
                       '메모 (선택 사항)',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
+                        color: context.colors.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 12),
                     TextField(
                       controller: _memoController,
                       maxLines: 3,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
-                        color: Colors.black,
+                        color: context.colors.textPrimary,
                       ),
                       decoration: InputDecoration(
                         hintText: '메모 추가...',
-                        hintStyle: const TextStyle(color: Color(0xFF666666)),
+                        hintStyle: TextStyle(color: context.colors.textSecondary),
                         filled: true,
-                        fillColor: const Color(0xFFF5F5F5),
+                        fillColor: context.colors.surface,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide.none,
@@ -512,7 +513,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                 child: ElevatedButton(
                   onPressed: _saveExpense,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF4CAF50),
+                    backgroundColor: context.colors.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
