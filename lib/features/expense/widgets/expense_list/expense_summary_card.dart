@@ -29,7 +29,7 @@ class ExpenseSummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20,4,20,20),
       child: Column(
         children: [
           // 월 선택 UI
