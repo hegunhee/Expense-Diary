@@ -173,7 +173,10 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const StatisticsScreen(),
+                  builder: (context) => StatisticsScreen(
+                    startDate: _filter.startDate,
+                    endDate: _filter.endDate,
+                  ),
                 ),
               );
             },
