@@ -197,9 +197,7 @@ class ExpenseCardWidget extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () {
-                ref
-                    .read(expenseRepositoryProvider)
-                    .deleteExpense(expense.id);
+                ref.read(expenseRepositoryProvider).deleteExpense(expense.id);
                 Navigator.pop(dialogContext);
               },
               child: const Text(
