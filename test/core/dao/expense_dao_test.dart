@@ -131,7 +131,7 @@ void main() {
         ),
       );
 
-      final result = await dao.searchByTitle('점심');
+      final result = await dao.searchByTitleOrMemo('점심');
 
       expect(result.length, 1);
       expect(result.first.title, '친구랑 점심');

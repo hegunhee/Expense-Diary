@@ -52,13 +52,13 @@ class ExpenseRepository {
     await _dao.deleteExpense(id);
   }
 
-  /// 제목으로 검색 (향후 검색 기능용)
-  Future<List<Expense>> searchByTitle(String query) async {
+  /// 제목 또는 메모로 검색
+  Future<List<Expense>> searchByTitleOrMemo(String query) async {
     if (query.isEmpty) {
       return getAllExpenses();
     }
 
-    final rows = await _dao.searchByTitle(query);
+    final rows = await _dao.searchByTitleOrMemo(query);
     return rows.map(_expenseEntityToExpense).toList();
   }
 

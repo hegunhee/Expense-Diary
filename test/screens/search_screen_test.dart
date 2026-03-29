@@ -10,17 +10,17 @@ import '../mocks/mock_expense_repository.dart';
 
 void main() {
   group('SearchScreen 테스트', () {
-    late MockExpenseRepository mockService;
+    late MockExpenseRepository mockRepository;
 
     setUp(() {
-      mockService = MockExpenseRepository();
+      mockRepository = MockExpenseRepository();
     });
 
     testWidgets('검색 화면이 정상적으로 렌더링된다', (tester) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -43,7 +43,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -58,12 +58,12 @@ void main() {
 
     testWidgets('지출 이름으로 검색할 수 있다', (tester) async {
       // 샘플 데이터 추가
-      await _addSampleData(mockService);
+      await _addSampleData(mockRepository);
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -83,12 +83,12 @@ void main() {
 
     testWidgets('메모로 검색할 수 있다', (tester) async {
       // 샘플 데이터 추가
-      await _addSampleData(mockService);
+      await _addSampleData(mockRepository);
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -108,12 +108,12 @@ void main() {
 
     testWidgets('검색어가 대소문자를 구분하지 않는다', (tester) async {
       // 샘플 데이터 추가
-      await _addSampleData(mockService);
+      await _addSampleData(mockRepository);
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -131,12 +131,12 @@ void main() {
 
     testWidgets('검색 결과가 없으면 안내 메시지가 표시된다', (tester) async {
       // 샘플 데이터 추가
-      await _addSampleData(mockService);
+      await _addSampleData(mockRepository);
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -155,12 +155,12 @@ void main() {
 
     testWidgets('여러 검색 결과가 표시된다', (tester) async {
       // 샘플 데이터 추가
-      await _addSampleData(mockService);
+      await _addSampleData(mockRepository);
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -179,12 +179,12 @@ void main() {
 
     testWidgets('검색 결과에 카테고리가 표시된다', (tester) async {
       // 샘플 데이터 추가
-      await _addSampleData(mockService);
+      await _addSampleData(mockRepository);
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -202,12 +202,12 @@ void main() {
 
     testWidgets('검색 결과에 감정 상태가 표시된다', (tester) async {
       // 샘플 데이터 추가
-      await _addSampleData(mockService);
+      await _addSampleData(mockRepository);
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -225,12 +225,12 @@ void main() {
 
     testWidgets('검색어를 지우면 안내 메시지가 다시 표시된다', (tester) async {
       // 샘플 데이터 추가
-      await _addSampleData(mockService);
+      await _addSampleData(mockRepository);
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),
@@ -255,12 +255,12 @@ void main() {
 
     testWidgets('부분 검색이 가능하다', (tester) async {
       // 샘플 데이터 추가
-      await _addSampleData(mockService);
+      await _addSampleData(mockRepository);
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            expenseRepositoryProvider.overrideWithValue(mockService),
+            expenseRepositoryProvider.overrideWithValue(mockRepository),
           ],
           child: const MaterialApp(home: SearchScreen()),
         ),

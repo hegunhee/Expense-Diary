@@ -57,18 +57,20 @@ class MockExpenseRepository implements ExpenseRepository {
   }
 
   @override
-  Future<List<Expense>> searchByTitle(String query) async {
+  Future<List<Expense>> searchByTitleOrMemo(String query) async {
     if (query.isEmpty) {
       return getAllExpenses();
     }
 
-    return _expenses
-        .where(
-          (expense) =>
-              expense.title.toLowerCase().contains(query.toLowerCase()),
-        )
-        .toList()
-      ..sort((a, b) => b.date.compareTo(a.date));
+    return _expenses.where(
+      (expense) {
+        final lowerQuery = query.toLowerCase();
+        final titleMatch = expense.title.toLowerCase().contains(lowerQuery);
+        final memoMatch =
+            expense.memo?.toLowerCase().contains(lowerQuery) ?? false;
+        return titleMatch || memoMatch;
+      },
+    ).toList()..sort((a, b) => b.date.compareTo(a.date));
   }
 
   @override
