@@ -65,7 +65,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             _isSearching = false;
           });
         }
-      } catch (e) {
+      } on Exception catch (_) {
         if (mounted) {
           setState(() {
             _searchResults = [];
@@ -97,8 +97,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         final expense = _searchResults[index];
         return SearchResultItem(
           expense: expense,
-          onTap: () {
-            Navigator.push(
+          onTap: () async {
+            await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => AddExpenseScreen(
@@ -106,6 +106,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 ),
               ),
             );
+            // 수정 후 돌아왔을 때 검색 결과 다시 로드
+            if (mounted && _searchQuery.isNotEmpty) {
+              _performSearch(_searchQuery);
+            }
           },
         );
       },
@@ -143,9 +147,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               padding: const EdgeInsets.all(16),
               child: SearchBarWidget(
                 controller: _searchController,
-                onChanged: (value) {
-                  _performSearch(value);
-                },
+                onChanged: _performSearch,
                 onClear: () {
                   _searchController.clear();
                   _performSearch('');

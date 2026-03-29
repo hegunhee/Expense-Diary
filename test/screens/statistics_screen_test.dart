@@ -1,4 +1,3 @@
-import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
 import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
@@ -19,17 +18,24 @@ void main() {
 
   group('StatisticsScreen 테스트', () {
     testWidgets('데이터가 없을 때 안내 메시지가 표시된다', (tester) async {
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
-            expenseControllerProvider.overrideWith(ExpenseController.new),
           ],
-          child: const MaterialApp(home: StatisticsScreen()),
+          child: MaterialApp(
+            home: StatisticsScreen(
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
+          ),
         ),
       );
 
-      await tester.pumpAndSettle();
+      // Stream Provider가 데이터를 emit할 때까지 대기
+      await tester.pump(); // 초기 빌드
+      await tester.pump(const Duration(milliseconds: 100)); // Stream 데이터 대기
 
       // 안내 메시지 확인
       expect(find.text('아직 지출 데이터가 없습니다'), findsOneWidget);
@@ -59,13 +65,18 @@ void main() {
         ),
       );
 
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(
-            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
+          child: MaterialApp(
+            home: EmotionDetailScreen(
+              emotion: ExpenseEmotions.good,
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
           ),
         ),
       );
@@ -98,13 +109,18 @@ void main() {
         ),
       );
 
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(
-            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
+          child: MaterialApp(
+            home: EmotionDetailScreen(
+              emotion: ExpenseEmotions.good,
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
           ),
         ),
       );
@@ -117,13 +133,18 @@ void main() {
     });
 
     testWidgets('데이터가 없을 때 안내 메시지가 표시된다', (tester) async {
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(
-            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
+          child: MaterialApp(
+            home: EmotionDetailScreen(
+              emotion: ExpenseEmotions.good,
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
           ),
         ),
       );
@@ -146,13 +167,18 @@ void main() {
         ),
       );
 
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(
-            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
+          child: MaterialApp(
+            home: EmotionDetailScreen(
+              emotion: ExpenseEmotions.good,
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
           ),
         ),
       );
@@ -194,13 +220,18 @@ void main() {
         ),
       );
 
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(
-            home: EmotionDetailScreen(emotion: ExpenseEmotions.regret),
+          child: MaterialApp(
+            home: EmotionDetailScreen(
+              emotion: ExpenseEmotions.regret,
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
           ),
         ),
       );
