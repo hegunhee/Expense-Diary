@@ -74,7 +74,11 @@ class EmotionDetailScreen extends ConsumerWidget {
             if (expenses.isEmpty) {
               return Column(
                 children: [
-                  _buildDateRangeHeader(context, filter.startDate, filter.endDate),
+                  _buildDateRangeHeader(
+                    context,
+                    filter.startDate,
+                    filter.endDate,
+                  ),
                   Expanded(child: EmptyEmotionState(emotion: emotion)),
                 ],
               );
@@ -86,7 +90,11 @@ class EmotionDetailScreen extends ConsumerWidget {
             );
             return Column(
               children: [
-                _buildDateRangeHeader(context, filter.startDate, filter.endDate),
+                _buildDateRangeHeader(
+                  context,
+                  filter.startDate,
+                  filter.endDate,
+                ),
                 // 상단 요약 카드 (위젯으로 분리)
                 EmotionSummaryCard(
                   emotion: emotion,
@@ -118,7 +126,11 @@ class EmotionDetailScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDateRangeHeader(BuildContext context, DateTime startDate, DateTime endDate) {
+  Widget _buildDateRangeHeader(
+    BuildContext context,
+    DateTime startDate,
+    DateTime endDate,
+  ) {
     final dateFormat = DateFormat('yyyy.MM.dd');
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -131,7 +143,11 @@ class EmotionDetailScreen extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.calendar_today, size: 16, color: context.colors.textSecondary),
+          Icon(
+            Icons.calendar_today,
+            size: 16,
+            color: context.colors.textSecondary,
+          ),
           const SizedBox(width: 8),
           Text(
             '${dateFormat.format(startDate)} ~ ${dateFormat.format(endDate)}',

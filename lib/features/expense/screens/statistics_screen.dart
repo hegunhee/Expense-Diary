@@ -70,14 +70,22 @@ class StatisticsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDateRangeHeader(BuildContext context, DateTime startDate, DateTime endDate) {
+  Widget _buildDateRangeHeader(
+    BuildContext context,
+    DateTime startDate,
+    DateTime endDate,
+  ) {
     final dateFormat = DateFormat('yyyy.MM.dd');
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.calendar_today, size: 16, color: context.colors.textSecondary,),
+          Icon(
+            Icons.calendar_today,
+            size: 16,
+            color: context.colors.textSecondary,
+          ),
           const SizedBox(width: 8),
           Text(
             '${dateFormat.format(startDate)} ~ ${dateFormat.format(endDate)}',
