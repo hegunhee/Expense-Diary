@@ -81,7 +81,7 @@ class ExpenseDao extends DatabaseAccessor<AppDatabase> with _$ExpenseDaoMixin {
   ///
   /// [emotion] 감정 필터 (null이면 모든 감정)
   /// [startDate] 시작 날짜
-  /// [endDate] 종료 날짜 (해당 날짜의 23:59:59까지 포함)
+  /// [endDate] 종료 날짜 (해당 날짜까지 포함)
   Stream<List<ExpenseEntityData>> watchExpenses({
     String? emotion,
     required DateTime startDate,
