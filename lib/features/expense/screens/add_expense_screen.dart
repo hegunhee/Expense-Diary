@@ -318,7 +318,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                       ),
                       decoration: InputDecoration(
                         hintText: '예) 친구와 커피',
-                        hintStyle: TextStyle(color: context.colors.textSecondary),
+                        hintStyle: TextStyle(
+                          color: context.colors.textSecondary,
+                        ),
                         filled: true,
                         fillColor: context.colors.surface,
                         border: OutlineInputBorder(
@@ -425,7 +427,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                         ),
                         decoration: InputDecoration(
                           hintText: '왜 생각이 바뀌었나요?',
-                          hintStyle: TextStyle(color: context.colors.textSecondary),
+                          hintStyle: TextStyle(
+                            color: context.colors.textSecondary,
+                          ),
                           filled: true,
                           fillColor: const Color(0xFFFFF9E6),
                           border: OutlineInputBorder(
@@ -475,7 +479,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                       ),
                       decoration: InputDecoration(
                         hintText: '메모 추가...',
-                        hintStyle: TextStyle(color: context.colors.textSecondary),
+                        hintStyle: TextStyle(
+                          color: context.colors.textSecondary,
+                        ),
                         filled: true,
                         fillColor: context.colors.surface,
                         border: OutlineInputBorder(
