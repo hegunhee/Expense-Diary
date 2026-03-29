@@ -87,21 +87,18 @@ class ExpenseDao extends DatabaseAccessor<AppDatabase> with _$ExpenseDaoMixin {
   }) {
     final query = select(expenseEntity);
 
-    // endDate의 하루 전체를 포함하도록 23:59:59로 조정
+    // endDate의 하루 전체를 포함하도록 다음날까지 설정
     final inclusiveEndDate = DateTime(
       endDate.year,
       endDate.month,
-      endDate.day,
-      23,
-      59,
-      59,
+      endDate.day + 1,
     );
 
     // 날짜 필터 (필수)
     query.where(
       (t) =>
           t.date.isBiggerOrEqualValue(startDate) &
-          t.date.isSmallerOrEqualValue(inclusiveEndDate),
+          t.date.isSmallerThanValue(inclusiveEndDate),
     );
 
     // 감정 필터 (선택)
