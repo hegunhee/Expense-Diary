@@ -57,7 +57,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     _debounceTimer = Timer(const Duration(milliseconds: 300), () async {
       try {
         final repository = ref.read(expenseRepositoryProvider);
-        final results = await repository.searchByTitle(query);
+        final results = await repository.searchByTitleOrMemo(query);
 
         if (mounted) {
           setState(() {

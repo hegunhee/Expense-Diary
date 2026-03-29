@@ -46,15 +46,17 @@ class ExpenseDao extends DatabaseAccessor<AppDatabase> with _$ExpenseDaoMixin {
     return (delete(expenseEntity)..where((t) => t.id.equals(id))).go();
   }
 
-  /// 제목으로 검색
-  Future<List<ExpenseEntityData>> searchByTitle(String query) {
+  /// 제목 또는 메모로 검색
+  Future<List<ExpenseEntityData>> searchByTitleOrMemo(String query) {
     if (query.isEmpty) {
       return getAllExpenses();
     }
 
     final pattern = '%${query.toLowerCase()}%';
     return (select(expenseEntity)
-          ..where((t) => t.title.lower().like(pattern))
+          ..where(
+            (t) => t.title.lower().like(pattern) | t.memo.lower().like(pattern),
+          )
           ..orderBy([(t) => OrderingTerm.desc(t.date)]))
         .get();
   }
