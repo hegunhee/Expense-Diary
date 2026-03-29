@@ -18,12 +18,18 @@ void main() {
 
   group('StatisticsScreen 테스트', () {
     testWidgets('데이터가 없을 때 안내 메시지가 표시된다', (tester) async {
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(home: StatisticsScreen()),
+          child: MaterialApp(
+            home: StatisticsScreen(
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
+          ),
         ),
       );
 
@@ -59,13 +65,18 @@ void main() {
         ),
       );
 
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(
-            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
+          child: MaterialApp(
+            home: EmotionDetailScreen(
+              emotion: ExpenseEmotions.good,
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
           ),
         ),
       );
@@ -98,13 +109,18 @@ void main() {
         ),
       );
 
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(
-            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
+          child: MaterialApp(
+            home: EmotionDetailScreen(
+              emotion: ExpenseEmotions.good,
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
           ),
         ),
       );
@@ -117,13 +133,18 @@ void main() {
     });
 
     testWidgets('데이터가 없을 때 안내 메시지가 표시된다', (tester) async {
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(
-            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
+          child: MaterialApp(
+            home: EmotionDetailScreen(
+              emotion: ExpenseEmotions.good,
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
           ),
         ),
       );
@@ -146,13 +167,18 @@ void main() {
         ),
       );
 
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(
-            home: EmotionDetailScreen(emotion: ExpenseEmotions.good),
+          child: MaterialApp(
+            home: EmotionDetailScreen(
+              emotion: ExpenseEmotions.good,
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
           ),
         ),
       );
@@ -194,13 +220,18 @@ void main() {
         ),
       );
 
+      final now = DateTime.now();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             expenseRepositoryProvider.overrideWithValue(mockService),
           ],
-          child: const MaterialApp(
-            home: EmotionDetailScreen(emotion: ExpenseEmotions.regret),
+          child: MaterialApp(
+            home: EmotionDetailScreen(
+              emotion: ExpenseEmotions.regret,
+              startDate: DateTime(now.year, now.month),
+              endDate: DateTime(now.year, now.month + 1, 0),
+            ),
           ),
         ),
       );
