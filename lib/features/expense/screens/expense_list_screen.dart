@@ -1,8 +1,9 @@
 import 'package:expense_tracker/core/themes/app_colors.dart';
 import 'package:expense_tracker/core/utils/layout_utils.dart';
 import 'package:expense_tracker/core/widgets/tutorial/tutorial_content_widget.dart';
-import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_filter.dart';
+import 'package:expense_tracker/features/expense/providers/expense_list_stream_provider.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
 import 'package:expense_tracker/features/expense/screens/search_screen.dart';
 import 'package:expense_tracker/features/expense/screens/statistics_screen.dart';
@@ -31,9 +32,19 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
   final GlobalKey _filterKey = GlobalKey();
   final GlobalKey _expenseListKey = GlobalKey();
 
+  // 필터 상태
+  late ExpenseFilter _filter;
+
   @override
   void initState() {
     super.initState();
+    _filter = ExpenseFilter.thisMonth();
+  }
+
+  void _updateFilter(ExpenseFilter newFilter) {
+    setState(() {
+      _filter = newFilter;
+    });
   }
 
   /// 튜토리얼 모드인지 확인
@@ -120,8 +131,15 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final expensesAsync = ref.watch(expenseControllerProvider);
     final tutorialState = ref.watch(tutorialControllerProvider);
+    final expensesAsync = ref.watch(expenseListStreamProvider(_filter));
+
+    // 이전 데이터 캐싱 (깜빡임 방지)
+    final cachedExpenses = expensesAsync.when(
+      data: (data) => data,
+      loading: () => expensesAsync.value ?? [],
+      error: (_, _) => expensesAsync.value ?? [],
+    );
 
     // 데이터 로딩 완료 후 튜토리얼을 본적이 없다면 튜토리얼 표시
     if (!tutorialState.hasSeenTutorial && expensesAsync.hasValue) {
@@ -131,7 +149,7 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: context.colors.surface,
       appBar: AppBar(
         title: const Text(
           '지출 목록',
@@ -179,17 +197,21 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
       ),
       body: Padding(
         padding: systemBarsPadding(context),
-        child: expensesAsync.when(
-          data: (state) {
-            final expenses = _getDisplayExpenses(
+        child: Builder(
+          builder: (context) {
+            final displayExpenses = _getDisplayExpenses(
               tutorialState,
-              state.filteredExpenses,
+              cachedExpenses,
             );
-            final selectedFilter = state.filter;
             final totalAmount = _getTotalAmount(
               tutorialState,
-              state.totalAmount,
+              cachedExpenses.fold<int>(
+                0,
+                (int sum, Expense e) => sum + e.amount,
+              ),
             );
+            final selectedFilter = _filter.emotion;
+
             return Column(
               children: [
                 // 필터 탭
@@ -205,41 +227,41 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
                           key: _filterKey,
                           label: '전체',
                           isSelected: selectedFilter == null,
-                          onTap: () => ref
-                              .read(expenseControllerProvider.notifier)
-                              .setFilter(null),
+                          onTap: () => _updateFilter(
+                            _filter.copyWith(clearEmotion: true),
+                          ),
                         ),
                         const SizedBox(width: 8),
                         FilterChipWidget(
                           label: '잘 쓴 돈',
                           isSelected: selectedFilter == ExpenseEmotions.good,
-                          onTap: () => ref
-                              .read(expenseControllerProvider.notifier)
-                              .setFilter(ExpenseEmotions.good),
+                          onTap: () => _updateFilter(
+                            _filter.copyWith(emotion: ExpenseEmotions.good),
+                          ),
                         ),
                         const SizedBox(width: 8),
                         FilterChipWidget(
                           label: '그저 그런 돈',
                           isSelected: selectedFilter == ExpenseEmotions.normal,
-                          onTap: () => ref
-                              .read(expenseControllerProvider.notifier)
-                              .setFilter(ExpenseEmotions.normal),
+                          onTap: () => _updateFilter(
+                            _filter.copyWith(emotion: ExpenseEmotions.normal),
+                          ),
                         ),
                         const SizedBox(width: 8),
                         FilterChipWidget(
                           label: '아까운 돈',
                           isSelected: selectedFilter == ExpenseEmotions.regret,
-                          onTap: () => ref
-                              .read(expenseControllerProvider.notifier)
-                              .setFilter(ExpenseEmotions.regret),
+                          onTap: () => _updateFilter(
+                            _filter.copyWith(emotion: ExpenseEmotions.regret),
+                          ),
                         ),
                         const SizedBox(width: 8),
                         FilterChipWidget(
                           label: '후회한 돈',
                           isSelected: selectedFilter == ExpenseEmotions.bad,
-                          onTap: () => ref
-                              .read(expenseControllerProvider.notifier)
-                              .setFilter(ExpenseEmotions.bad),
+                          onTap: () => _updateFilter(
+                            _filter.copyWith(emotion: ExpenseEmotions.bad),
+                          ),
                         ),
                       ],
                     ),
@@ -250,6 +272,15 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
                 ExpenseSummaryCard(
                   totalAmount: totalAmount,
                   selectedFilter: selectedFilter,
+                  selectedDate: _filter.startDate,
+                  onMonthChanged: (DateTime newDate) {
+                    _updateFilter(
+                      _filter.copyWith(
+                        startDate: DateTime(newDate.year, newDate.month),
+                        endDate: DateTime(newDate.year, newDate.month + 1, 0),
+                      ),
+                    );
+                  },
                 ),
 
                 const SizedBox(height: 8),
@@ -257,18 +288,18 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
                 // 지출 목록
                 Expanded(
                   key: _expenseListKey,
-                  child: expenses.isEmpty
+                  child: displayExpenses.isEmpty
                       ? const EmptyExpenseState()
                       : ListView.builder(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          itemCount: expenses.length,
+                          itemCount: displayExpenses.length,
                           itemBuilder: (context, index) {
-                            final expense = expenses[index];
+                            final expense = displayExpenses[index];
                             final showDate =
                                 index == 0 ||
                                 !_isSameDay(
                                   expense.date,
-                                  expenses[index - 1].date,
+                                  displayExpenses[index - 1].date,
                                 );
 
                             return Column(
@@ -280,10 +311,10 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
                                     padding: const EdgeInsets.only(bottom: 12),
                                     child: Text(
                                       _formatDate(expense.date),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFF4CAF50),
+                                        color: context.colors.primary,
                                       ),
                                     ),
                                   ),
@@ -298,8 +329,6 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
               ],
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => Center(child: Text('오류가 발생했습니다: $error')),
         ),
       ),
       floatingActionButton: FloatingActionButton(

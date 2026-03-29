@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:expense_tracker/core/database/app_database.dart';
 import 'package:expense_tracker/core/database/daos/expense_dao.dart';
 import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/models/expense_filter.dart';
 import 'package:expense_tracker/features/expense/models/expense_form.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,6 +72,22 @@ class ExpenseRepository {
   Future<List<Expense>> filterByStatus(ExpenseEmotions emotion) async {
     final rows = await _dao.filterByStatus(emotion.name);
     return rows.map(_expenseEntityToExpense).toList();
+  }
+
+  /// 필터링된 지출 목록 Stream
+  ///
+  /// DB 변경 시 자동으로 갱신되는 Stream을 반환합니다.
+  /// [expenseFilter] 필터 조건 (감정, 날짜 범위)
+  Stream<List<Expense>> watchExpenses({
+    required ExpenseFilter expenseFilter,
+  }) {
+    return _dao
+        .watchExpenses(
+          emotion: expenseFilter.emotion?.name,
+          startDate: expenseFilter.startDate,
+          endDate: expenseFilter.endDate,
+        )
+        .map((entities) => entities.map(_expenseEntityToExpense).toList());
   }
 
   // 아래부터는 Drift DB 매핑용 헬퍼 메서드들

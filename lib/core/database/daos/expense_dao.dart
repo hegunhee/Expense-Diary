@@ -74,4 +74,41 @@ class ExpenseDao extends DatabaseAccessor<AppDatabase> with _$ExpenseDaoMixin {
           ..orderBy([(t) => OrderingTerm.desc(t.date)]))
         .get();
   }
+
+  /// 필터링된 지출 조회 (Stream)
+  ///
+  /// [emotion] 감정 필터 (null이면 모든 감정)
+  /// [startDate] 시작 날짜
+  /// [endDate] 종료 날짜 (해당 날짜의 23:59:59까지 포함)
+  Stream<List<ExpenseEntityData>> watchExpenses({
+    String? emotion,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    final query = select(expenseEntity);
+
+    // endDate의 하루 전체를 포함하도록 다음날까지 설정
+    final inclusiveEndDate = DateTime(
+      endDate.year,
+      endDate.month,
+      endDate.day + 1,
+    );
+
+    // 날짜 필터 (필수)
+    query.where(
+      (t) =>
+          t.date.isBiggerOrEqualValue(startDate) &
+          t.date.isSmallerThanValue(inclusiveEndDate),
+    );
+
+    // 감정 필터 (선택)
+    if (emotion != null) {
+      query.where((t) => t.emotion.equals(emotion));
+    }
+
+    // 최신순 정렬
+    query.orderBy([(t) => OrderingTerm.desc(t.date)]);
+
+    return query.watch();
+  }
 }
