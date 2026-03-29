@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:expense_tracker/core/utils/layout_utils.dart';
-import 'package:expense_tracker/features/expense/controllers/expense_controller.dart';
+import 'package:expense_tracker/features/expense/models/expense.dart';
+import 'package:expense_tracker/features/expense/repositories/expense_repository.dart';
 import 'package:expense_tracker/features/expense/screens/add_expense_screen.dart';
 import 'package:expense_tracker/features/expense/widgets/search/empty_search_state.dart';
 import 'package:expense_tracker/features/expense/widgets/search/no_results_state.dart';
@@ -20,17 +23,97 @@ class SearchScreen extends ConsumerStatefulWidget {
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final _searchController = TextEditingController();
   var _searchQuery = '';
+  List<Expense> _searchResults = [];
+  var _isSearching = false;
+  Timer? _debounceTimer;
 
   @override
   void dispose() {
     _searchController.dispose();
+    _debounceTimer?.cancel();
     super.dispose();
+  }
+
+  /// 디바운싱을 적용한 검색 실행
+  void _performSearch(String query) {
+    // 이전 타이머 취소
+    _debounceTimer?.cancel();
+
+    if (query.isEmpty) {
+      setState(() {
+        _searchQuery = query;
+        _searchResults = [];
+        _isSearching = false;
+      });
+      return;
+    }
+
+    setState(() {
+      _searchQuery = query;
+      _isSearching = true;
+    });
+
+    // 300ms 후에 검색 실행
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () async {
+      try {
+        final repository = ref.read(expenseRepositoryProvider);
+        final results = await repository.searchByTitle(query);
+
+        if (mounted) {
+          setState(() {
+            _searchResults = results;
+            _isSearching = false;
+          });
+        }
+      } catch (e) {
+        if (mounted) {
+          setState(() {
+            _searchResults = [];
+            _isSearching = false;
+          });
+        }
+      }
+    });
+  }
+
+  /// 검색 결과 위젯 빌드
+  Widget _buildSearchResults() {
+    if (_searchQuery.isEmpty) {
+      return const EmptySearchState();
+    }
+
+    if (_isSearching) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_searchResults.isEmpty) {
+      return NoResultsState(searchQuery: _searchQuery);
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      itemCount: _searchResults.length,
+      itemBuilder: (context, index) {
+        final expense = _searchResults[index];
+        return SearchResultItem(
+          expense: expense,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddExpenseScreen(
+                  mode: Edit(expense, expense.emotion),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final expensesAsync = ref.watch(expenseControllerProvider);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -61,15 +144,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               child: SearchBarWidget(
                 controller: _searchController,
                 onChanged: (value) {
-                  setState(() {
-                    _searchQuery = value;
-                  });
+                  _performSearch(value);
                 },
                 onClear: () {
-                  setState(() {
-                    _searchController.clear();
-                    _searchQuery = '';
-                  });
+                  _searchController.clear();
+                  _performSearch('');
                 },
               ),
             ),
@@ -93,57 +172,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
             // 검색 결과 목록
             Expanded(
-              child: expensesAsync.when(
-                data: (state) {
-                  final filteredExpenses = _searchQuery.isEmpty
-                      ? []
-                      : state.expenses.where((expense) {
-                          final query = _searchQuery.toLowerCase();
-                          final titleMatch = expense.title
-                              .toLowerCase()
-                              .contains(
-                                query,
-                              );
-                          final memoMatch =
-                              expense.memo?.toLowerCase().contains(query) ??
-                              false;
-                          return titleMatch || memoMatch;
-                        }).toList();
-
-                  if (_searchQuery.isEmpty) {
-                    return const EmptySearchState();
-                  }
-
-                  if (filteredExpenses.isEmpty) {
-                    return NoResultsState(searchQuery: _searchQuery);
-                  }
-
-                  return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: filteredExpenses.length,
-                    itemBuilder: (context, index) {
-                      final expense = filteredExpenses[index];
-                      return SearchResultItem(
-                        expense: expense,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddExpenseScreen(
-                                mode: Edit(expense, expense.emotion),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stack) => Center(
-                  child: Text('오류가 발생했습니다: $error'),
-                ),
-              ),
+              child: _buildSearchResults(),
             ),
           ],
         ),
