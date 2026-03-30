@@ -1,4 +1,8 @@
 # 마음 가계부 💰
+<img width="128" height="128" alt="마음가계부_128" src="https://github.com/user-attachments/assets/13567753-5481-47b9-ae29-64ad37ab6683" />  
+
+#### [앱스토어 링크](https://apps.apple.com/kr/app/마음-가계부/id6759452921)
+#### [플레이스토어 링크](https://play.google.com/store/apps/details?id=blueberry.gunhee.expensediary)  
 
 > "지출에 감정을 담다" - 단순한 기록을 넘어, 소비 습관을 돌아보는 감정 기반 가계부 앱
 
