@@ -46,3 +46,20 @@ platform :ios do
     upload_to_testflight(api_key: api_key)
   end
 end
+
+platform :android do
+  desc "Google Play Store에 업로드"
+  lane :deploy do
+    # Google Play Store에 업로드 (internal 트랙)
+    # AAB 파일은 워크플로우에서 이미 빌드됨
+    upload_to_play_store(
+      package_name: "blueberry.gunhee.expensediary",
+      track: "internal",
+      aab: "build/app/outputs/bundle/release/app-release.aab",
+      json_key_data: ENV["PLAY_STORE_CONFIG_JSON"],
+      skip_upload_screenshots: true,
+      skip_upload_images: true,
+      skip_upload_metadata: true,
+    )
+  end
+end

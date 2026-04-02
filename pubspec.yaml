@@ -2,7 +2,7 @@ name: expense_tracker
 description: "지출 관리 가계부 앱"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.1.2+3
+version: 0.1.5+4
 
 environment:
   sdk: ^3.8.1
