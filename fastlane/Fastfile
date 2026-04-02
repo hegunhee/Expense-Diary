@@ -46,3 +46,31 @@ platform :ios do
     upload_to_testflight(api_key: api_key)
   end
 end
+
+platform :android do
+  desc "Google Play Store에 업로드"
+  lane :deploy do
+    # AAB 파일 빌드 (Flutter 빌드는 워크플로우에서 완료)
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      project_dir: "android/",
+      properties: {
+        "android.injected.signing.store.file" => ENV["ANDROID_KEYSTORE_PATH"],
+        "android.injected.signing.store.password" => ENV["ANDROID_KEYSTORE_PASSWORD"],
+        "android.injected.signing.key.alias" => ENV["ANDROID_KEY_ALIAS"],
+        "android.injected.signing.key.password" => ENV["ANDROID_KEY_PASSWORD"],
+      }
+    )
+
+    # Google Play Store에 업로드 (internal 트랙)
+    upload_to_play_store(
+      track: "internal",
+      aab: "android/app/build/outputs/bundle/release/app-release.aab",
+      json_key_data: ENV["PLAY_STORE_CONFIG_JSON"],
+      skip_upload_screenshots: true,
+      skip_upload_images: true,
+      skip_upload_metadata: true,
+    )
+  end
+end
