@@ -1,0 +1,75 @@
+name: Android Play Store 배포
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  deploy:
+    name: Play Store 배포
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 리포지토리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Java 설정
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Flutter 설정
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.35.6"
+          cache: true
+
+      - name: 의존성 설치
+        run: flutter pub get
+
+      - name: google-services.json 복원
+        run: |
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 --decode > android/app/google-services.json
+
+      - name: 빌드러너 실행
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Keystore 파일 생성
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+
+      - name: key.properties 파일 생성
+        run: |
+          cat > android/key.properties << EOF
+          storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=upload-keystore.jks
+          EOF
+
+      - name: Ruby 설정
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Fastlane 설치
+        run: bundle install
+
+      - name: Fastlane deploy 실행
+        run: bundle exec fastlane android deploy
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android/app/upload-keystore.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          PLAY_STORE_CONFIG_JSON: ${{ secrets.PLAY_STORE_CONFIG_JSON }}
+
+      - name: 정리
+        if: always()
+        run: |
+          rm -f android/app/upload-keystore.jks
+          rm -f android/key.properties
+          rm -f android/app/google-services.json
