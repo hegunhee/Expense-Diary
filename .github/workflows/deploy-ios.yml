@@ -3,7 +3,7 @@ name: iOS App Store 배포
 on:
   push:
     tags:
-      - "v*"
+      - "v0.2.0"
 
 jobs:
   deploy:
