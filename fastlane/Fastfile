@@ -4,12 +4,15 @@ ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "120"
 
 def load_version_and_changelog
   pubspec_content = File.read("../pubspec.yaml")
-  version = pubspec_content.match(/version:\s*(.+)/)[1].strip
-  version_name = version.split('+')[0]
+  version_match = pubspec_content.match(/^\s*version:\s*([^\s#]+)/)
+  UI.user_error!("pubspec.yaml에서 version 값을 찾을 수 없습니다.") unless version_match
+  version = version_match[1].strip
+  version_name = version.split('+', 2).first
   
   release_note_path = "../docs/releaseNotes/#{version_name}.md"
   if File.exist?(release_note_path)
-    changelog = File.read(release_note_path)
+    changelog = File.read(release_note_path).strip
+    UI.user_error!("릴리즈 노트가 비어 있습니다: #{release_note_path}") if changelog.empty?
     UI.message("릴리즈 노트 로드: #{release_note_path}")
   else
     UI.user_error!("릴리즈 노트를 찾을 수 없습니다: #{release_note_path}")
