@@ -2,9 +2,30 @@ default_platform(:ios)
 
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "120"
 
+def load_version_and_changelog
+  pubspec_content = File.read("../pubspec.yaml")
+  version_match = pubspec_content.match(/^\s*version:\s*([^\s#]+)/)
+  UI.user_error!("pubspec.yaml에서 version 값을 찾을 수 없습니다.") unless version_match
+  version = version_match[1].strip
+  version_name = version.split('+', 2).first
+  
+  release_note_path = "../docs/releaseNotes/#{version_name}.md"
+  if File.exist?(release_note_path)
+    changelog = File.read(release_note_path).strip
+    UI.user_error!("릴리즈 노트가 비어 있습니다: #{release_note_path}") if changelog.empty?
+    UI.message("릴리즈 노트 로드: #{release_note_path}")
+  else
+    UI.user_error!("릴리즈 노트를 찾을 수 없습니다: #{release_note_path}")
+  end
+  
+  return version_name, changelog
+end
+
 platform :ios do
   desc "TestFlight에 업로드"
   lane :beta do
+    version_name, changelog = load_version_and_changelog
+    
     # App Store Connect API 인증
     api_key = app_store_connect_api_key(
       key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
@@ -43,13 +64,18 @@ platform :ios do
     )
 
     # TestFlight 업로드
-    upload_to_testflight(api_key: api_key)
+    upload_to_testflight(
+      api_key: api_key,
+      changelog: changelog
+    )
   end
 end
 
 platform :android do
   desc "Google Play Store에 업로드"
   lane :deploy do
+    version_name, changelog = load_version_and_changelog
+    
     # Google Play Store에 업로드 (internal 트랙)
     # AAB 파일은 워크플로우에서 이미 빌드됨
     upload_to_play_store(
@@ -59,7 +85,11 @@ platform :android do
       json_key_data: ENV["PLAY_STORE_CONFIG_JSON"],
       skip_upload_screenshots: true,
       skip_upload_images: true,
-      skip_upload_metadata: true,
+      skip_upload_metadata: false,
+      version_name: version_name,
+      release_notes: {
+        "ko-KR" => changelog
+      }
     )
   end
 end
