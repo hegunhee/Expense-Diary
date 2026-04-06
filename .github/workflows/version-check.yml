@@ -1,0 +1,83 @@
+name: 버전 변경 검증
+
+on:
+  push:
+    branches:
+      - "release/**"
+
+jobs:
+  version-check:
+    name: 버전 코드/네임 변경 검증
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 리포지토리 체크아웃
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 버전 변경 확인
+        run: |
+          CURRENT_VERSION=$(grep "^version:" pubspec.yaml | sed 's/version: //')
+          CURRENT_VERSION_NAME=$(echo $CURRENT_VERSION | cut -d'+' -f1)
+          CURRENT_VERSION_CODE=$(echo $CURRENT_VERSION | cut -d'+' -f2)
+
+          git fetch origin main
+          git checkout origin/main -- pubspec.yaml 2>/dev/null || exit 0
+
+          MAIN_VERSION=$(grep "^version:" pubspec.yaml | sed 's/version: //')
+          MAIN_VERSION_NAME=$(echo $MAIN_VERSION | cut -d'+' -f1)
+          MAIN_VERSION_CODE=$(echo $MAIN_VERSION | cut -d'+' -f2)
+
+          git checkout HEAD -- pubspec.yaml
+
+          if [ "$CURRENT_VERSION_NAME" = "$MAIN_VERSION_NAME" ]; then
+            echo "❌ 버전 네임이 main 브랜치와 동일합니다: $MAIN_VERSION_NAME"
+            exit 1
+          fi
+
+          if [ "$CURRENT_VERSION_CODE" = "$MAIN_VERSION_CODE" ]; then
+            echo "❌ 버전 코드가 main 브랜치와 동일합니다: $MAIN_VERSION_CODE"
+            exit 1
+          fi
+
+      - name: 릴리즈 노트 존재 확인
+        run: |
+          CURRENT_VERSION=$(grep "^version:" pubspec.yaml | sed 's/version: //')
+          VERSION_NAME=$(echo $CURRENT_VERSION | cut -d'+' -f1)
+          RELEASE_NOTE_PATH="docs/releaseNotes/${VERSION_NAME}.md"
+
+          if [ ! -f "$RELEASE_NOTE_PATH" ]; then
+            echo "❌ 릴리즈 노트 파일이 존재하지 않습니다: $RELEASE_NOTE_PATH"
+            exit 1
+          fi
+
+          if [ ! -s "$RELEASE_NOTE_PATH" ]; then
+            echo "❌ 릴리즈 노트 파일이 비어있습니다: $RELEASE_NOTE_PATH"
+            exit 1
+          fi
+
+      - name: 검증 결과 요약
+        if: success()
+        run: |
+          CURRENT_VERSION=$(grep "^version:" pubspec.yaml | sed 's/version: //')
+          VERSION_NAME=$(echo $CURRENT_VERSION | cut -d'+' -f1)
+
+          echo "## ✅ 버전 검증 통과" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ pubspec.yaml 버전 네임/코드 변경" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ 릴리즈 노트: \`docs/releaseNotes/${VERSION_NAME}.md\`" >> $GITHUB_STEP_SUMMARY
+
+      - name: 검증 실패 알림
+        if: failure()
+        run: |
+          CURRENT_VERSION=$(grep "^version:" pubspec.yaml | sed 's/version: //')
+          VERSION_NAME=$(echo $CURRENT_VERSION | cut -d'+' -f1)
+
+          echo "## ❌ 버전 검증 실패" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 필수 확인 사항" >> $GITHUB_STEP_SUMMARY
+          echo "1. **pubspec.yaml**: 버전 네임과 버전 코드 둘 다 변경 필요" >> $GITHUB_STEP_SUMMARY
+          echo "   - 형식: \`major.minor.patch+buildNumber\` (예: 0.2.0+5)" >> $GITHUB_STEP_SUMMARY
+          echo "2. **릴리즈 노트**: \`docs/releaseNotes/${VERSION_NAME}.md\`" >> $GITHUB_STEP_SUMMARY
+          exit 1
