@@ -64,6 +64,14 @@ platform :ios do
       output_directory: "build/ios",
     )
 
+    # App Store의 "새로운 기능" 설정
+    set_changelog(
+      api_key: api_key,
+      app_identifier: "com.gunhee.expensediary",
+      version: version_name,
+      changelog: changelog
+    )
+
     # TestFlight 업로드
     upload_to_testflight(
       api_key: api_key,
