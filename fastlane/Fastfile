@@ -8,6 +8,7 @@ def load_version_and_changelog
   UI.user_error!("pubspec.yaml에서 version 값을 찾을 수 없습니다.") unless version_match
   version = version_match[1].strip
   version_name = version.split('+', 2).first
+  version_code = version.split('+', 2).last
   
   release_note_path = "../docs/releaseNotes/#{version_name}.md"
   if File.exist?(release_note_path)
@@ -18,13 +19,13 @@ def load_version_and_changelog
     UI.user_error!("릴리즈 노트를 찾을 수 없습니다: #{release_note_path}")
   end
   
-  return version_name, changelog
+  return version_name, version_code, changelog
 end
 
 platform :ios do
   desc "TestFlight에 업로드"
   lane :beta do
-    version_name, changelog = load_version_and_changelog
+    version_name, version_code, changelog = load_version_and_changelog
     
     # App Store Connect API 인증
     api_key = app_store_connect_api_key(
@@ -74,7 +75,13 @@ end
 platform :android do
   desc "Google Play Store에 업로드"
   lane :deploy do
-    version_name, changelog = load_version_and_changelog
+    version_name, version_code, changelog = load_version_and_changelog
+    
+    # changelog 파일 생성
+    changelog_dir = "metadata/android/ko-KR/changelogs"
+    FileUtils.mkdir_p(changelog_dir)
+    File.write("#{changelog_dir}/#{version_code}.txt", changelog)
+    UI.message("Changelog 생성: #{changelog_dir}/#{version_code}.txt")
     
     # Google Play Store에 업로드 (internal 트랙)
     # AAB 파일은 워크플로우에서 이미 빌드됨
@@ -85,11 +92,8 @@ platform :android do
       json_key_data: ENV["PLAY_STORE_CONFIG_JSON"],
       skip_upload_screenshots: true,
       skip_upload_images: true,
-      skip_upload_metadata: false,
-      version_name: version_name,
-      release_notes: {
-        "ko-KR" => changelog
-      }
+      skip_upload_metadata: true,
+      skip_upload_changelogs: false
     )
   end
 end
